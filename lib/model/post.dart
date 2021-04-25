@@ -1,7 +1,7 @@
-import 'package:easy_rent/pages/detail_page.dart';
-import 'package:easy_rent/utils/contact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_rent/utils/contact.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 
 enum PostKind {
   Rent,
@@ -14,13 +14,15 @@ List<Post> allPosts = [
   HelpPost(
     "张三",
     "14434236932",
-    expectedAddr: "南京 鼓楼区",
+    "2020 年 4 月 22 日",
+    expectedAddr: "江苏 南京 鼓楼区",
     expectedPrice: 2400,
-    demands: "临近地铁，最好是南北通透类型的",
+    demands: "临近地铁，南北通透最好",
   ),
   HelpPost(
     "李四",
     "14534238912",
+    "2020 年 4 月 22 日",
     expectedAddr: "北京 朝阳区",
     expectedPrice: 5300,
     demands: "在学校附近，有电梯的优先",
@@ -28,8 +30,13 @@ List<Post> allPosts = [
   RentPost(
     "张杰",
     "19841814534",
-    pictures: ["assets/images/1/a.jpg"],
-    roomAddr: "安徽 芜湖",
+    "2020 年 4 月 22 日",
+    pictures: [
+      "assets/images/1/a.jpg",
+      "assets/images/1/b.jpg",
+      "assets/images/1/c.jpg"
+    ],
+    roomAddr: "安徽 芜湖 弋江区",
     description: "波尔卡精装修两房 家具电齐全 价格可谈",
     price: 1400,
     restriction: "押一付三",
@@ -43,8 +50,51 @@ List<Post> allPosts = [
 abstract class Post {
   String name;
   String phone;
+  String releaseTime;
 
-  Post(this.name, this.phone);
+  static const card_padding = EdgeInsets.all(7);
+  static const card_elevation = 5.0;
+  static const symmetric_horizontal_padding =
+      EdgeInsets.symmetric(horizontal: 25.0);
+  static const symmetric_vertical_margin = EdgeInsets.symmetric(vertical: 20.0);
+
+  static const headline_style = TextStyle(
+    color: Color.fromRGBO(48, 47, 48, 1.0),
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w700,
+    fontSize: 26.0,
+  );
+
+  static const min_body_style = TextStyle(
+    color: Color.fromRGBO(141, 141, 141, 1.0),
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+  );
+
+  static const subtitle_style = TextStyle(
+    color: Color.fromRGBO(48, 47, 48, 1.0),
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w700,
+    fontSize: 16.0,
+  );
+
+  static const body_style = TextStyle(
+    color: Color.fromRGBO(141, 141, 141, 1.0),
+    fontFamily: 'SourceHanSansCN',
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+    height: 1.5,
+  );
+
+  static const sub_headline_style = TextStyle(
+  color: Color.fromRGBO(48, 47, 48, 1.0),
+  fontFamily: 'Montserrat',
+  fontWeight: FontWeight.w700,
+  fontSize: 20.0,
+  );
+
+  Post(this.name, this.phone, this.releaseTime);
 
   Widget showPicture();
   String toString();
@@ -57,12 +107,12 @@ class HelpPost extends Post {
   int expectedPrice;
   String demands;
 
-  HelpPost(String name, String phone,
+  HelpPost(String name, String phone, String releaseTime,
       {String expectedAddr, int expectedPrice, String demands})
       : expectedAddr = expectedAddr,
         expectedPrice = expectedPrice,
         demands = demands,
-        super(name, phone);
+        super(name, phone, releaseTime);
 
   @override
   Widget showPicture() => Image.asset("assets/images/help.png");
@@ -81,75 +131,98 @@ class HelpPost extends Post {
     return GestureDetector(
       onTap: () => Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => buildDetail(context))),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30.0),
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(25.0),
-              child: showPicture(),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
+      child: Padding(
+        padding: Post.card_padding,
+        child: Card(
+          elevation: Post.card_elevation,
+          child: Container(
+            padding: Post.symmetric_horizontal_padding,
+            margin: Post.symmetric_vertical_margin,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "￥$expectedPrice",
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 26.0,
-                    fontFamily: "Montserrat",
-                  ),
-                  overflow: TextOverflow.ellipsis,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(25.0),
+                  child: showPicture(),
                 ),
                 SizedBox(
-                  width: 10,
+                  height: 15,
                 ),
-                Text(
-                  "$expectedAddr",
-                  style: TextStyle(
-                    color: Color.fromRGBO(141, 141, 141, 1.0),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    height: 1.5,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "$demands",
-                  style: TextStyle(
-                    color: Color.fromRGBO(48, 47, 48, 1.0),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12.0,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                TextButton(
-                  onPressed: () => makePhoneCall(phone),
-                  child: Text(
-                    "$name - $phone",
-                    style: TextStyle(
-                      color: Color.fromRGBO(48, 47, 48, 1.0),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12.0,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "￥$expectedPrice",
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 26.0,
+                        fontFamily: "Montserrat",
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "$expectedAddr",
+                          style: TextStyle(
+                            color: Color.fromRGBO(141, 141, 141, 1.0),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            height: 1.5,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.location_on_outlined),
+                      ],
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.fact_check_outlined),
+                        SizedBox(width: 5,),
+                        Text(
+                          demands,
+                          style: TextStyle(
+                            color: Color.fromRGBO(48, 47, 48, 1.0),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12.0,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          releaseTime,
+                          style: TextStyle(
+                            color: Color.fromRGBO(48, 47, 48, 1.0),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.access_time_outlined),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
-            Divider(
-              thickness: 2.0,
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -157,7 +230,98 @@ class HelpPost extends Post {
 
   @override
   Widget buildDetail(BuildContext context) {
-    throw UnimplementedError();
+    final Size size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          width: size.width,
+          height: size.height,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    showPicture(),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Padding(
+                      padding: Post.symmetric_horizontal_padding,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '￥$expectedPrice / 月',
+                            style: Post.headline_style,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            expectedAddr,
+                            style: Post.min_body_style,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Text(
+                        "需求",
+                        style: Post.subtitle_style,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Text(
+                        demands,
+                        textAlign: TextAlign.justify,
+                        style: Post.body_style,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                bottom: 20,
+                width: size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OptionButton(
+                      text: "发消息",
+                      icon: Icons.message,
+                      width: size.width * 0.35,
+                      onPressed: () => makeSMSMessage(phone),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    OptionButton(
+                      text: "打电话",
+                      icon: Icons.call,
+                      width: size.width * 0.35,
+                      onPressed: () => makePhoneCall(phone),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -172,7 +336,7 @@ class RentPost extends Post {
   int roomFloor;
   String roomOrientation;
 
-  RentPost(String name, String phone,
+  RentPost(String name, String phone, String releaseTime,
       {List<String> pictures,
       String roomAddr,
       String description,
@@ -191,7 +355,7 @@ class RentPost extends Post {
         roomArea = roomArea,
         roomFloor = roomFloor,
         roomOrientation = roomOrientation,
-        super(name, phone);
+        super(name, phone, releaseTime);
 
   @override
   Widget showPicture() => Image.asset(pictures[0]);
@@ -215,76 +379,98 @@ class RentPost extends Post {
     return GestureDetector(
       onTap: () => Navigator.of(context)
           .push(MaterialPageRoute(builder: (context) => buildDetail(context))),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30.0),
-        margin: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(25.0),
-              child: showPicture(),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
+      child: Padding(
+        padding: Post.card_padding,
+        child: Card(
+          elevation: Post.card_elevation,
+          child: Container(
+            padding: Post.symmetric_horizontal_padding,
+            margin: Post.symmetric_vertical_margin,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "￥$price",
-                  style: TextStyle(
-                    color: Color.fromRGBO(48, 47, 48, 1.0),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 26.0,
-                    fontFamily: "Montserrat",
-                  ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(25.0),
+                  child: showPicture(),
                 ),
                 SizedBox(
-                  width: 10,
+                  height: 15,
                 ),
-                Text(
-                  "$roomAddr",
-                  style: TextStyle(
-                    color: Color.fromRGBO(141, 141, 141, 1.0),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    height: 1.5,
-                  ),
-                )
-              ],
-            ),
-            // SizedBox(
-            //   height: 5,
-            // ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "朝$roomOrientation / $restriction / $roomType",
-                  style: TextStyle(
-                    color: Color.fromRGBO(48, 47, 48, 1.0),
-                    fontWeight: FontWeight.w700,
-                    fontSize: 12.0,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                TextButton(
-                  onPressed: () => makePhoneCall(phone),
-                  child: Text(
-                    "$name - $phone",
-                    style: TextStyle(
-                      color: Color.fromRGBO(48, 47, 48, 1.0),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 12.0,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "￥$price",
+                      style: TextStyle(
+                        color: Color.fromRGBO(48, 47, 48, 1.0),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 26.0,
+                        fontFamily: "Montserrat",
+                      ),
                     ),
-                  ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "$roomAddr",
+                          style: TextStyle(
+                            color: Color.fromRGBO(141, 141, 141, 1.0),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            height: 1.5,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.location_on_outlined),
+                      ],
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.fact_check_outlined),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "朝$roomOrientation / $restriction / $roomType",
+                          style: TextStyle(
+                            color: Color.fromRGBO(48, 47, 48, 1.0),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12.0,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          releaseTime,
+                          style: TextStyle(
+                            color: Color.fromRGBO(48, 47, 48, 1.0),
+                            fontWeight: FontWeight.w700,
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(Icons.access_time_outlined),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
-            Divider(
-              thickness: 2.0,
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -293,139 +479,137 @@ class RentPost extends Post {
   @override
   Widget buildDetail(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
-        width: size.width,
-        height: size.height,
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(pictures[0]),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '￥${price}',
-                          style: TextStyle(
-                            color: Color.fromRGBO(48, 47, 48, 1.0),
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 26.0,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          roomAddr,
-                          style: TextStyle(
-                            color: Color.fromRGBO(141, 141, 141, 1.0),
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Text(
-                      "简介",
-                      style: TextStyle(
-                        color: Color.fromRGBO(48, 47, 48, 1.0),
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16.0,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Container(
+          width: size.width,
+          height: size.height,
+          child: Stack(
+            children: [
+              SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 250,
+                      child: Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          return Image.asset(
+                            pictures[index],
+                            fit: BoxFit.fill,
+                          );
+                        },
+                        autoplay: true,
+                        itemCount: pictures.length,
+                        pagination:
+                            SwiperPagination(builder: SwiperPagination.fraction),
+                        control: SwiperControl(),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
-                    child: Row(
-                      children: [
-                        InfoTile(
-                          name: '室型',
-                          content: roomType,
-                        ),
-                        InfoTile(
-                          name: '面积',
-                          content: '${roomArea}m²',
-                        ),
-                        InfoTile(
-                          name: '楼层',
-                          content: roomFloor.toString(),
-                        ),
-                        InfoTile(
-                          name: '朝向',
-                          content: roomOrientation,
-                        ),
-                      ],
+                    SizedBox(
+                      height: 25,
                     ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25),
-                    child: Text(
-                      description,
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(
-                        color: Color.fromRGBO(141, 141, 141, 1.0),
-                        fontFamily: 'SourceHanSansCN',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        height: 1.5,
+                    Padding(
+                      padding: Post.symmetric_horizontal_padding,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '￥$price / 月',
+                            style: Post.headline_style,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            roomAddr,
+                            style: Post.min_body_style,
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                  )
-                ],
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Text(
+                        "简介",
+                        style: Post.subtitle_style,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      physics: BouncingScrollPhysics(),
+                      child: Row(
+                        children: [
+                          InfoTile(
+                            name: '室型',
+                            content: roomType,
+                          ),
+                          InfoTile(
+                            name: '面积',
+                            content: '${roomArea}m²',
+                          ),
+                          InfoTile(
+                            name: '楼层',
+                            content: roomFloor.toString(),
+                          ),
+                          InfoTile(
+                            name: '朝向',
+                            content: roomOrientation,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      child: Text(
+                        description,
+                        textAlign: TextAlign.justify,
+                        style: Post.body_style,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              bottom: 20,
-              width: size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  OptionButton(
-                    text: "发消息",
-                    icon: Icons.message,
-                    width: size.width * 0.35,
-                    onPressed: () => makeSMSMessage(phone),
-                  ),
-                  SizedBox(width: 10,),
-                  OptionButton(
-                    text: "打电话",
-                    icon: Icons.call,
-                    width: size.width * 0.35,
-                    onPressed: () => makePhoneCall(phone),
-                  )
-                ],
+              Positioned(
+                bottom: 20,
+                width: size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OptionButton(
+                      text: "发消息",
+                      icon: Icons.message,
+                      width: size.width * 0.35,
+                      onPressed: () => makeSMSMessage(phone),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    OptionButton(
+                      text: "打电话",
+                      icon: Icons.call,
+                      width: size.width * 0.35,
+                      onPressed: () => makePhoneCall(phone),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -452,12 +636,7 @@ class InfoTile extends StatelessWidget {
             height: tileSize,
             child: Text(
               content,
-              style: TextStyle(
-                color: Color.fromRGBO(48, 47, 48, 1.0),
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w700,
-                fontSize: 20.0,
-              ),
+              style: Post.sub_headline_style,
             ),
           ),
           SizedBox(
@@ -465,12 +644,7 @@ class InfoTile extends StatelessWidget {
           ),
           Text(
             name,
-            style: TextStyle(
-              color: Color.fromRGBO(48, 47, 48, 1.0),
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w700,
-              fontSize: 12.0,
-            ),
+            style: Post.min_body_style,
           ),
         ],
       ),
@@ -512,7 +686,11 @@ class OptionButton extends StatelessWidget {
   final double width;
   final void Function() onPressed;
   const OptionButton(
-      {Key key, @required this.text, @required this.icon, @required this.width, this.onPressed})
+      {Key key,
+      @required this.text,
+      @required this.icon,
+      @required this.width,
+      this.onPressed})
       : super(key: key);
 
   @override

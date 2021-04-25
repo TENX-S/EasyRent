@@ -28,11 +28,13 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 247, 238, 213),
         body: WillPopScope(
           onWillPop: _onWillPop,
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
+                backgroundColor: Color.fromARGB(255, 145, 180, 147),
                 floating: true,
                 snap: true,
                 title: Text(
@@ -62,14 +64,15 @@ class _MainPageState extends State<MainPage> {
             ],
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: Container(
-          height: 60.0,
-          width: 60.0,
+          height: 65.0,
+          width: 65.0,
           child: FloatingActionButton(
             onPressed: () {},
             backgroundColor: Color(0xFF3A3B3C).withOpacity(0.7),
             tooltip: "发布帖子",
-            child: Icon(Icons.edit_outlined),
+            child: Icon(Icons.post_add_outlined, size: 40.0,),
           ),
         ),
       ),
