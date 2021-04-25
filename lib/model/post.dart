@@ -88,10 +88,10 @@ abstract class Post {
   );
 
   static const sub_headline_style = TextStyle(
-  color: Color.fromRGBO(48, 47, 48, 1.0),
-  fontFamily: 'Montserrat',
-  fontWeight: FontWeight.w700,
-  fontSize: 20.0,
+    color: Color.fromRGBO(48, 47, 48, 1.0),
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w700,
+    fontSize: 20.0,
   );
 
   Post(this.name, this.phone, this.releaseTime);
@@ -187,36 +187,59 @@ class HelpPost extends Post {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(Icons.fact_check_outlined),
-                        SizedBox(width: 5,),
-                        Text(
-                          demands,
-                          style: TextStyle(
-                            color: Color.fromRGBO(48, 47, 48, 1.0),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12.0,
+                    Flexible(
+                      flex: 4,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            child: Icon(Icons.fact_check_outlined),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Flexible(
+                            flex: 5,
+                            child: Text(
+                              demands,
+                              style: TextStyle(
+                                color: Color.fromRGBO(48, 47, 48, 1.0),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12.0,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          releaseTime,
-                          style: TextStyle(
-                            color: Color.fromRGBO(48, 47, 48, 1.0),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12.0,
+                    SizedBox(
+                      width: 22,
+                    ),
+                    Flexible(
+                      flex: 3,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            flex: 5,
+                            child: Text(
+                              releaseTime,
+                              style: TextStyle(
+                                color: Color.fromRGBO(48, 47, 48, 1.0),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12.0,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(Icons.access_time_outlined),
-                      ],
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Flexible(
+                            flex: 1,
+                            child: Icon(Icons.access_time_outlined),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -313,7 +336,7 @@ class HelpPost extends Post {
                       icon: Icons.call,
                       width: size.width * 0.35,
                       onPressed: () => makePhoneCall(phone),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -503,8 +526,8 @@ class RentPost extends Post {
                         },
                         autoplay: true,
                         itemCount: pictures.length,
-                        pagination:
-                            SwiperPagination(builder: SwiperPagination.fraction),
+                        pagination: SwiperPagination(
+                            builder: SwiperPagination.fraction),
                         control: SwiperControl(),
                       ),
                     ),

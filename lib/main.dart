@@ -35,6 +35,8 @@ class App extends StatelessWidget {
             AppPage(pageType: PageType.Main).page,
         AppRoutes.submitPage: (context) =>
             AppPage(pageType: PageType.Submit).page,
+        AppRoutes.selectPage: (context) =>
+            AppPage(pageType: PageType.Select).page,
       },
     );
   }

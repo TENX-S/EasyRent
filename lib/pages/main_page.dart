@@ -1,3 +1,4 @@
+import 'package:easy_rent/model/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   DateTime currentBackPressTime;
 
   Future<bool> _onWillPop() {
@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                backgroundColor: Color.fromARGB(255, 145, 180, 147),
+                backgroundColor: Color.fromARGB(255, 251, 150, 110),
                 floating: true,
                 snap: true,
                 title: Text(
@@ -69,10 +69,14 @@ class _MainPageState extends State<MainPage> {
           height: 65.0,
           width: 65.0,
           child: FloatingActionButton(
-            onPressed: () {},
-            backgroundColor: Color(0xFF3A3B3C).withOpacity(0.7),
+            elevation: 10.0,
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.selectPage),
+            backgroundColor: Color.fromARGB(255, 120, 194, 196).withOpacity(0.9),
             tooltip: "发布帖子",
-            child: Icon(Icons.post_add_outlined, size: 40.0,),
+            child: Icon(
+              Icons.post_add_outlined,
+              size: 40.0,
+            ),
           ),
         ),
       ),
@@ -116,15 +120,39 @@ class CustomSearchDelegate extends SearchDelegate {
     searchResult = allPosts
         .where((element) => element.toString().contains(query))
         .toList();
-    return Container(
-      child: ListView(
-          padding: EdgeInsets.only(top: 8, bottom: 8),
-          scrollDirection: Axis.vertical,
-          children: List.generate(
-            searchResult.length,
-            (idx) => searchResult[idx].buildCard(context),
-          )),
-    );
+    if (searchResult.isEmpty) {
+      return Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/not_found.png',
+              ),
+              Text(
+                '非常抱歉，没有找到符合条件的帖子呢。',
+                style: TextStyle(
+                  color: Color.fromRGBO(141, 141, 141, 1.0),
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                ),
+              )
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        child: ListView(
+            padding: EdgeInsets.only(top: 8, bottom: 8),
+            scrollDirection: Axis.vertical,
+            children: List.generate(
+              searchResult.length,
+              (idx) => searchResult[idx].buildCard(context),
+            )),
+      );
+    }
   }
 
   @override

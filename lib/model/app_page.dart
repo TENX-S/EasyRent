@@ -3,12 +3,14 @@ import 'package:easy_rent/pages/login_page.dart';
 import 'package:easy_rent/pages/main_page.dart';
 import 'package:easy_rent/pages/register_page.dart';
 import 'package:easy_rent/pages/submit_page.dart';
+import 'package:easy_rent/pages/select_page.dart';
 
 enum PageType {
   Login,
   Register,
   Main,
   Submit,
+  Select,
 }
 
 class AppPage {
@@ -26,6 +28,8 @@ class AppPage {
         return MainPage();
       case PageType.Submit:
         return SubmitPage();
+      case PageType.Select:
+        return SelectPage();
     }
   }
 
