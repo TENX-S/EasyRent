@@ -72,3 +72,11 @@ flutter:
         - asset: assets/fonts/Montserrat-Regular.ttf
         - asset: assets/fonts/Montserrat-Medium.ttf
         - asset: assets/fonts/Montserrat-Bold.ttf
+
+    - family: Vladimir
+      fonts:
+        - asset: assets/fonts/Vladimir.ttf
+
+    - family: NLXJT
+      fonts:
+        - asset: assets/fonts/NLXJT.ttf

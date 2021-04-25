@@ -188,11 +188,10 @@ class HelpPost extends Post {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
-                      flex: 4,
                       child: Row(
                         children: [
                           Flexible(
-                            flex: 1,
+                            // flex: 1,
                             child: Icon(Icons.fact_check_outlined),
                           ),
                           SizedBox(
@@ -214,10 +213,9 @@ class HelpPost extends Post {
                       ),
                     ),
                     SizedBox(
-                      width: 22,
+                      width: MediaQuery.of(context).size.width / 10,
                     ),
                     Flexible(
-                      flex: 3,
                       child: Row(
                         children: [
                           Flexible(
@@ -235,7 +233,7 @@ class HelpPost extends Post {
                             width: 5,
                           ),
                           Flexible(
-                            flex: 1,
+                            // flex: 1,
                             child: Icon(Icons.access_time_outlined),
                           ),
                         ],
@@ -282,9 +280,17 @@ class HelpPost extends Post {
                           SizedBox(
                             width: 20,
                           ),
-                          Text(
-                            expectedAddr,
-                            style: Post.min_body_style,
+                          Column(
+                            children: [
+                              Text(
+                                name,
+                                style: Post.subtitle_style,
+                              ),
+                              Text(
+                                expectedAddr,
+                                style: Post.min_body_style,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -546,9 +552,17 @@ class RentPost extends Post {
                           SizedBox(
                             width: 20,
                           ),
-                          Text(
-                            roomAddr,
-                            style: Post.min_body_style,
+                          Column(
+                            children: [
+                              Text(
+                                name,
+                                style: Post.subtitle_style,
+                              ),
+                              Text(
+                                roomAddr,
+                                style: Post.min_body_style,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -576,8 +590,8 @@ class RentPost extends Post {
                             content: roomType,
                           ),
                           InfoTile(
-                            name: '面积',
-                            content: '${roomArea}m²',
+                            name: '面积(m²)',
+                            content: '${roomArea}',
                           ),
                           InfoTile(
                             name: '楼层',
