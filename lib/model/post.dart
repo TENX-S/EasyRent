@@ -102,6 +102,7 @@ abstract class Post {
   Widget buildCard(BuildContext context);
   Widget buildDetail(BuildContext context);
 
+
   Widget showHead(BuildContext context) {
     return Stack(
       children: [
@@ -136,7 +137,9 @@ class HelpPost extends Post {
   String demands;
 
   HelpPost(String name, String phone, String releaseTime,
-      {String expectedAddr, int expectedPrice, String demands})
+      {@required String expectedAddr,
+      @required int expectedPrice,
+      @required String demands,})
       : expectedAddr = expectedAddr,
         expectedPrice = expectedPrice,
         demands = demands,
@@ -382,6 +385,7 @@ class HelpPost extends Post {
       ),
     );
   }
+
 }
 
 class RentPost extends Post {
@@ -396,15 +400,15 @@ class RentPost extends Post {
   String roomOrientation;
 
   RentPost(String name, String phone, String releaseTime,
-      {List<String> pictures,
-      String roomAddr,
-      String description,
-      int price,
-      String restriction,
-      String roomType,
-      int roomArea,
-      int roomFloor,
-      String roomOrientation})
+      {@required List<String> pictures,
+      @required String roomAddr,
+      @required String description,
+      @required int price,
+      @required String restriction,
+      @required String roomType,
+      @required int roomArea,
+      @required int roomFloor,
+      @required String roomOrientation})
       : pictures = pictures,
         roomAddr = roomAddr,
         description = description,
@@ -431,8 +435,8 @@ class RentPost extends Post {
         itemCount: pictures.length,
         pagination: SwiperPagination(builder: SwiperPagination.fraction),
         control: SwiperControl(
-          iconPrevious: null,
           iconNext: null,
+          iconPrevious: null,
         ),
       ),
     );
@@ -704,6 +708,7 @@ class RentPost extends Post {
       ),
     );
   }
+
 }
 
 class InfoTile extends StatelessWidget {
@@ -746,7 +751,11 @@ class BorderIcon extends StatelessWidget {
   final Widget child;
   final double width, height;
 
-  const BorderIcon({Key key, @required this.child, this.width, this.height})
+  const BorderIcon(
+      {Key key,
+      @required this.child,
+      @required this.width,
+      @required this.height})
       : super(key: key);
 
   @override
@@ -775,13 +784,13 @@ class OptionButton extends StatelessWidget {
   final IconData icon;
   final double width;
   final void Function() onPressed;
-  const OptionButton(
-      {Key key,
-      @required this.text,
-      @required this.icon,
-      @required this.width,
-      this.onPressed})
-      : super(key: key);
+  const OptionButton({
+    Key key,
+    @required this.text,
+    @required this.icon,
+    @required this.width,
+    @required this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

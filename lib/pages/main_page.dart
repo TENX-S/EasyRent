@@ -18,7 +18,11 @@ class _MainPageState extends State<MainPage> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Fluttertoast.showToast(msg: '再按一次返回键退出');
+      Fluttertoast.showToast(
+        msg: '再按一次返回键退出',
+        backgroundColor: Color.fromARGB(255, 240, 235, 213),
+        textColor: Color.fromRGBO(141, 141, 141, 1.0),
+      );
       return Future.value(false);
     }
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');

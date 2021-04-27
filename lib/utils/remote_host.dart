@@ -24,7 +24,7 @@ mixin RemoteHost {
   Future<String> getRegisterResponse() async {
     var registerRespGuard = registerResp.length;
     while (registerRespGuard == registerResp.length) {
-      await Future.delayed(Duration(milliseconds: 200));
+      await Future.delayed(Duration(milliseconds: 50));
     }
     return Future.value(registerResp.last);
   }

@@ -23,10 +23,12 @@ class App extends StatelessWidget {
         primaryColor: Color(0xFF3A3B3C),
       ),
       routes: {
+        // AppRoutes.loginPage: (context) =>
+        //     AppPage(pageType: PageType.Login).page,
+        // AppRoutes.registerPage: (context) =>
+        //     AppPage(pageType: PageType.Register).page,
         AppRoutes.loginPage: (context) =>
             AppPage(pageType: PageType.Login).page,
-        AppRoutes.registerPage: (context) =>
-            AppPage(pageType: PageType.Register).page,
         AppRoutes.mainPage: (context) =>
             AppPage(pageType: PageType.Main).page,
         AppRoutes.submitPage: (context) =>

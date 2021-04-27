@@ -1,3 +1,4 @@
+import 'package:easy_rent/model/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
 
@@ -23,7 +24,10 @@ class SelectPage extends StatelessWidget {
               child: Container(
                 color: Color.fromARGB(255, 247, 238, 213),
                 child: TextButton(
-                  onPressed: () => submitPageType = PostKind.Help,
+                  onPressed: () {
+                    submitPageType = PostKind.Help;
+                    Navigator.pushNamed(context, AppRoutes.submitPage);
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +52,10 @@ class SelectPage extends StatelessWidget {
               child: Container(
                 color: Color.fromARGB(255, 251, 150, 110),
                 child: TextButton(
-                  onPressed: () => submitPageType = PostKind.Rent,
+                  onPressed: () {
+                    submitPageType = PostKind.Rent;
+                    Navigator.pushNamed(context, AppRoutes.submitPage);
+                  },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
