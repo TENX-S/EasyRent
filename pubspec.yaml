@@ -22,6 +22,7 @@ dependencies:
   url_launcher: ^6.0.3
   fluttertoast: ^8.0.6
   flutter_swiper_null_safety: ^1.0.1
+  font_awesome_flutter: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -30,11 +31,7 @@ dev_dependencies:
 flutter_icons:
   ios: true
   android: true
-  windows: true
-  macos: true
-  linux: true
-  image_path_ios: "assets/images/icon.png"
-  image_path_android: "assets/images/icon.png"
+  image_path: "assets/images/icon.png"
 
 flutter:
 

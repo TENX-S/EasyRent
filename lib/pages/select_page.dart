@@ -5,7 +5,7 @@ class SelectPage extends StatelessWidget {
   static const headline_style = TextStyle(
     color: Color.fromRGBO(48, 47, 48, 1.0),
     fontFamily: 'Montserrat',
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w500,
     fontSize: 84.0,
   );
 

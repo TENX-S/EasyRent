@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/utils/contact.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 enum PostKind {
   Rent,
@@ -14,7 +15,7 @@ List<Post> allPosts = [
   HelpPost(
     "张三",
     "14434236932",
-    "2020 年 4 月 22 日",
+    "2020/4/22",
     expectedAddr: "江苏 南京 鼓楼区",
     expectedPrice: 2400,
     demands: "临近地铁，南北通透最好",
@@ -22,7 +23,7 @@ List<Post> allPosts = [
   HelpPost(
     "李四",
     "14534238912",
-    "2020 年 4 月 22 日",
+    "2020/12/31",
     expectedAddr: "北京 朝阳区",
     expectedPrice: 5300,
     demands: "在学校附近，有电梯的优先",
@@ -30,7 +31,7 @@ List<Post> allPosts = [
   RentPost(
     "张杰",
     "19841814534",
-    "2020 年 4 月 22 日",
+    "2020/4/22",
     pictures: [
       "assets/images/1/a.jpg",
       "assets/images/1/b.jpg",
@@ -100,6 +101,33 @@ abstract class Post {
   String toString();
   Widget buildCard(BuildContext context);
   Widget buildDetail(BuildContext context);
+
+  Widget showHead(BuildContext context) {
+    return Stack(
+      children: [
+        showPicture(),
+        Positioned(
+          top: 5,
+          child: Padding(
+            padding: EdgeInsets.only(left: 5),
+            child: Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    color: Colors.white,
+                    icon: FaIcon(FontAwesomeIcons.chevronLeft),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class HelpPost extends Post {
@@ -185,20 +213,23 @@ class HelpPost extends Post {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Flexible(
+                      flex: 5,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Flexible(
-                            // flex: 1,
+                            flex: 3,
                             child: Icon(Icons.fact_check_outlined),
                           ),
-                          SizedBox(
-                            width: 5,
+                          Spacer(
+                            flex: 1,
                           ),
                           Flexible(
-                            flex: 5,
+                            flex: 16,
+                            // fit: FlexFit.tight,
                             child: Text(
                               demands,
                               style: TextStyle(
@@ -212,14 +243,13 @@ class HelpPost extends Post {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 10,
-                    ),
                     Flexible(
+                      flex: 3,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Flexible(
-                            flex: 5,
+                            flex: 9,
                             child: Text(
                               releaseTime,
                               style: TextStyle(
@@ -229,11 +259,11 @@ class HelpPost extends Post {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 5,
+                          Spacer(
+                            flex: 1,
                           ),
                           Flexible(
-                            // flex: 1,
+                            flex: 3,
                             child: Icon(Icons.access_time_outlined),
                           ),
                         ],
@@ -264,7 +294,7 @@ class HelpPost extends Post {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    showPicture(),
+                    showHead(context),
                     SizedBox(
                       height: 25,
                     ),
@@ -387,7 +417,26 @@ class RentPost extends Post {
         super(name, phone, releaseTime);
 
   @override
-  Widget showPicture() => Image.asset(pictures[0]);
+  Widget showPicture() {
+    return Container(
+      height: 220,
+      child: Swiper(
+        itemBuilder: (BuildContext context, int index) {
+          return Image.asset(
+            pictures[index],
+            fit: BoxFit.fill,
+          );
+        },
+        autoplay: true,
+        itemCount: pictures.length,
+        pagination: SwiperPagination(builder: SwiperPagination.fraction),
+        control: SwiperControl(
+          iconPrevious: null,
+          iconNext: null,
+        ),
+      ),
+    );
+  }
 
   @override
   String toString() => [
@@ -460,40 +509,59 @@ class RentPost extends Post {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(Icons.fact_check_outlined),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "朝$roomOrientation / $restriction / $roomType",
-                          style: TextStyle(
-                            color: Color.fromRGBO(48, 47, 48, 1.0),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12.0,
+                    Flexible(
+                      flex: 5,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            flex: 3,
+                            child: Icon(Icons.fact_check_outlined),
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                          Spacer(
+                            flex: 1,
+                          ),
+                          Flexible(
+                            flex: 16,
+                            child: Text(
+                              "朝$roomOrientation / $restriction / $roomType",
+                              style: TextStyle(
+                                color: Color.fromRGBO(48, 47, 48, 1.0),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12.0,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Text(
-                          releaseTime,
-                          style: TextStyle(
-                            color: Color.fromRGBO(48, 47, 48, 1.0),
-                            fontWeight: FontWeight.w700,
-                            fontSize: 12.0,
+                    Flexible(
+                      flex: 3,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Flexible(
+                            flex: 9,
+                            child: Text(
+                              releaseTime,
+                              style: TextStyle(
+                                color: Color.fromRGBO(48, 47, 48, 1.0),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12.0,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Icon(Icons.access_time_outlined),
-                      ],
+                          Spacer(
+                            flex: 1,
+                          ),
+                          Flexible(
+                            flex: 3,
+                            child: Icon(Icons.access_time_outlined),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -521,22 +589,7 @@ class RentPost extends Post {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 250,
-                      child: Swiper(
-                        itemBuilder: (BuildContext context, int index) {
-                          return Image.asset(
-                            pictures[index],
-                            fit: BoxFit.fill,
-                          );
-                        },
-                        autoplay: true,
-                        itemCount: pictures.length,
-                        pagination: SwiperPagination(
-                            builder: SwiperPagination.fraction),
-                        control: SwiperControl(),
-                      ),
-                    ),
+                    showHead(context),
                     SizedBox(
                       height: 25,
                     ),
@@ -591,7 +644,7 @@ class RentPost extends Post {
                           ),
                           InfoTile(
                             name: '面积(m²)',
-                            content: '${roomArea}',
+                            content: '$roomArea',
                           ),
                           InfoTile(
                             name: '楼层',

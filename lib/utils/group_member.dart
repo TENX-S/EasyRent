@@ -44,7 +44,7 @@ Widget groupMember({
               color: Color.fromRGBO(48, 47, 48, 1.0),
               fontFamily: nickNameFontFamily ?? 'Vladimir',
               fontWeight: FontWeight.w300,
-              fontSize: nickNameFontSize ?? 26.0,
+              fontSize: nickNameFontSize ?? 24.0,
             ),
           ),
         ],
