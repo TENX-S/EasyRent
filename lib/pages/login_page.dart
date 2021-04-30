@@ -79,8 +79,7 @@ class _LoginPageState extends State<LoginPage> with RemoteHost {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: WillPopScope(
+    return WillPopScope(
         onWillPop: _onWillPop,
         child: FlutterLogin(
           title: 'Easy Rent',
@@ -131,7 +130,7 @@ class _LoginPageState extends State<LoginPage> with RemoteHost {
             return null;
           },
         ),
-      ),
+      // ),
     );
   }
 }

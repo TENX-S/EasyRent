@@ -21,6 +21,11 @@ class App extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'SourceHanSansCN',
         primaryColor: Color(0xFF3A3B3C),
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          }
+        ),
       ),
       routes: {
         // AppRoutes.loginPage: (context) =>

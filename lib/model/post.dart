@@ -31,7 +31,7 @@ List<Post> allPosts = [
   RentPost(
     "张杰",
     "19841814534",
-    "2020/4/22",
+    "2020/12/31",
     pictures: [
       "assets/images/1/a.jpg",
       "assets/images/1/b.jpg",
@@ -102,13 +102,11 @@ abstract class Post {
   Widget buildCard(BuildContext context);
   Widget buildDetail(BuildContext context);
 
-
   Widget showHead(BuildContext context) {
     return Stack(
       children: [
         showPicture(),
-        Positioned(
-          top: 5,
+        SafeArea(
           child: Padding(
             padding: EdgeInsets.only(left: 5),
             child: Padding(
@@ -136,11 +134,14 @@ class HelpPost extends Post {
   int expectedPrice;
   String demands;
 
-  HelpPost(String name, String phone, String releaseTime,
-      {@required String expectedAddr,
-      @required int expectedPrice,
-      @required String demands,})
-      : expectedAddr = expectedAddr,
+  HelpPost(
+    String name,
+    String phone,
+    String releaseTime, {
+    @required String expectedAddr,
+    @required int expectedPrice,
+    @required String demands,
+  })  : expectedAddr = expectedAddr,
         expectedPrice = expectedPrice,
         demands = demands,
         super(name, phone, releaseTime);
@@ -285,107 +286,104 @@ class HelpPost extends Post {
   @override
   Widget buildDetail(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          width: size.width,
-          height: size.height,
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    showHead(context),
-                    SizedBox(
-                      height: 25,
+    return Scaffold(
+      body: Container(
+        width: size.width,
+        height: size.height,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  showHead(context),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: Post.symmetric_horizontal_padding,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '￥$expectedPrice / 月',
+                          style: Post.headline_style,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              name,
+                              style: Post.subtitle_style,
+                            ),
+                            Text(
+                              expectedAddr,
+                              style: Post.min_body_style,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: Post.symmetric_horizontal_padding,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '￥$expectedPrice / 月',
-                            style: Post.headline_style,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                name,
-                                style: Post.subtitle_style,
-                              ),
-                              Text(
-                                expectedAddr,
-                                style: Post.min_body_style,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Text(
+                      "需求",
+                      style: Post.subtitle_style,
                     ),
-                    SizedBox(
-                      height: 25,
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Text(
+                      demands,
+                      textAlign: TextAlign.justify,
+                      style: Post.body_style,
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: Text(
-                        "需求",
-                        style: Post.subtitle_style,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: Text(
-                        demands,
-                        textAlign: TextAlign.justify,
-                        style: Post.body_style,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                ],
               ),
-              Positioned(
-                bottom: 20,
-                width: size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OptionButton(
-                      text: "发消息",
-                      icon: Icons.message,
-                      width: size.width * 0.35,
-                      onPressed: () => makeSMSMessage(phone),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    OptionButton(
-                      text: "打电话",
-                      icon: Icons.call,
-                      width: size.width * 0.35,
-                      onPressed: () => makePhoneCall(phone),
-                    ),
-                  ],
-                ),
+            ),
+            Positioned(
+              bottom: 20,
+              width: size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OptionButton(
+                    text: "发消息",
+                    icon: Icons.message,
+                    width: size.width * 0.35,
+                    onPressed: () => makeSMSMessage(phone),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  OptionButton(
+                    text: "打电话",
+                    icon: Icons.call,
+                    width: size.width * 0.35,
+                    onPressed: () => makePhoneCall(phone),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
-
 }
 
 class RentPost extends Post {
@@ -580,135 +578,132 @@ class RentPost extends Post {
   @override
   Widget buildDetail(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          width: size.width,
-          height: size.height,
-          child: Stack(
-            children: [
-              SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    showHead(context),
-                    SizedBox(
-                      height: 25,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        width: size.width,
+        height: size.height,
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  showHead(context),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: Post.symmetric_horizontal_padding,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '￥$price / 月',
+                          style: Post.headline_style,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              name,
+                              style: Post.subtitle_style,
+                            ),
+                            Text(
+                              roomAddr,
+                              style: Post.min_body_style,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: Post.symmetric_horizontal_padding,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '￥$price / 月',
-                            style: Post.headline_style,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                name,
-                                style: Post.subtitle_style,
-                              ),
-                              Text(
-                                roomAddr,
-                                style: Post.min_body_style,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Text(
+                      "简介",
+                      style: Post.subtitle_style,
                     ),
-                    SizedBox(
-                      height: 25,
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    child: Row(
+                      children: [
+                        InfoTile(
+                          name: '室型',
+                          content: roomType,
+                        ),
+                        InfoTile(
+                          name: '面积(m²)',
+                          content: '$roomArea',
+                        ),
+                        InfoTile(
+                          name: '楼层',
+                          content: roomFloor.toString(),
+                        ),
+                        InfoTile(
+                          name: '朝向',
+                          content: roomOrientation,
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: Text(
-                        "简介",
-                        style: Post.subtitle_style,
-                      ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: Text(
+                      description,
+                      textAlign: TextAlign.justify,
+                      style: Post.body_style,
                     ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      physics: BouncingScrollPhysics(),
-                      child: Row(
-                        children: [
-                          InfoTile(
-                            name: '室型',
-                            content: roomType,
-                          ),
-                          InfoTile(
-                            name: '面积(m²)',
-                            content: '$roomArea',
-                          ),
-                          InfoTile(
-                            name: '楼层',
-                            content: roomFloor.toString(),
-                          ),
-                          InfoTile(
-                            name: '朝向',
-                            content: roomOrientation,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 25),
-                      child: Text(
-                        description,
-                        textAlign: TextAlign.justify,
-                        style: Post.body_style,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                  ],
-                ),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                ],
               ),
-              Positioned(
-                bottom: 20,
-                width: size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    OptionButton(
-                      text: "发消息",
-                      icon: Icons.message,
-                      width: size.width * 0.35,
-                      onPressed: () => makeSMSMessage(phone),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    OptionButton(
-                      text: "打电话",
-                      icon: Icons.call,
-                      width: size.width * 0.35,
-                      onPressed: () => makePhoneCall(phone),
-                    )
-                  ],
-                ),
+            ),
+            Positioned(
+              bottom: 20,
+              width: size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OptionButton(
+                    text: "发消息",
+                    icon: Icons.message,
+                    width: size.width * 0.35,
+                    onPressed: () => makeSMSMessage(phone),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  OptionButton(
+                    text: "打电话",
+                    icon: Icons.call,
+                    width: size.width * 0.35,
+                    onPressed: () => makePhoneCall(phone),
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
-
 }
 
 class InfoTile extends StatelessWidget {

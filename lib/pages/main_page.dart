@@ -20,7 +20,7 @@ class _MainPageState extends State<MainPage> {
       currentBackPressTime = now;
       Fluttertoast.showToast(
         msg: '再按一次返回键退出',
-        backgroundColor: Color.fromARGB(255, 240, 235, 213),
+        backgroundColor: Color.fromARGB(255, 247, 238, 213),
         textColor: Color.fromRGBO(141, 141, 141, 1.0),
       );
       return Future.value(false);
@@ -31,21 +31,20 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
         backgroundColor: Color.fromARGB(255, 247, 238, 213),
         body: WillPopScope(
           onWillPop: _onWillPop,
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                leadingWidth: MediaQuery.of(context).size.width / 4.23,
+                leadingWidth: MediaQuery.of(context).size.width,
                 leading: MaterialButton(
                   onPressed: () => showAbout(context),
                   child: Text(
                     "Easy",
                     style: TextStyle(
-                      color: Color.fromARGB(255, 240, 235, 213),
+                      color: Color.fromARGB(255, 247, 238, 213),
                       fontFamily: 'Vladimir',
                       fontWeight: FontWeight.w600,
                       fontSize: 32.0,
@@ -71,8 +70,8 @@ class _MainPageState extends State<MainPage> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int idx) =>
-                      allPosts[idx].buildCard(context),
+                  (BuildContext context, int index) =>
+                      allPosts[index].buildCard(context),
                   childCount: allPosts.length,
                 ),
               ),
@@ -95,7 +94,7 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
         ),
-      ),
+      // ),
     );
   }
 }
@@ -154,7 +153,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 'assets/images/not_found.png',
               ),
               Text(
-                '非常抱歉，没有找到符合条件的帖子呢。',
+                '非常抱歉，没有找到符合条件的帖子呢',
                 style: TextStyle(
                   color: Color.fromRGBO(141, 141, 141, 1.0),
                   fontFamily: 'Montserrat',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SubmitPage extends StatefulWidget {
   @override
@@ -7,7 +8,6 @@ class SubmitPage extends StatefulWidget {
 }
 
 class _SubmitPageState extends State<SubmitPage> {
-
   Widget _actionButton(
     BuildContext context,
     Color color,
@@ -44,23 +44,41 @@ class _SubmitPageState extends State<SubmitPage> {
     );
   }
 
-  Widget _formBase({@required Widget body}) => SafeArea(
-        child: WillPopScope(
-          onWillPop: _onWillPop,
-          child: Scaffold(body: body),
+  Widget _formBase({@required BuildContext context, @required Widget child}) {
+    final size = MediaQuery.of(context).size;
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('发布帖子'),
+          leading: IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: FaIcon(FontAwesomeIcons.chevronLeft),
+          ),
+          backgroundColor: Color.fromARGB(255, 251, 150, 110),
         ),
-      );
+        body: Container(
+          width: size.width,
+          height: size.height,
+          color: Color.fromARGB(255, 247, 238, 213),
+          child: child,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     switch (submitPageType) {
       case PostKind.Rent:
         return _formBase(
-          body: Container(),
+          context: context,
+          child: Container(),
         );
       case PostKind.Help:
         return _formBase(
-          body: Container(),
+          context: context,
+          child: Container(),
         );
     }
   }
