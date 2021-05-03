@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 Widget groupMember({
-  @required String realName,
-  @required String nickName,
-  @required String workContent,
-  String realNameFontFamily,
-  String nickNameFontFamily,
-  double nickNameFontSize,
+  required String realName,
+  required String nickName,
+  required String workContent,
+  String? realNameFontFamily,
+  String? nickNameFontFamily,
+  double? nickNameFontSize,
 }) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,

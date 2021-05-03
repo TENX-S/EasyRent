@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+
 
 enum MessageKind {
   Login,
@@ -6,14 +6,14 @@ enum MessageKind {
 }
 
 class User {
-  String email;
-  String password;
-  MessageKind kind;
+  String? email;
+  String? password;
+  MessageKind? kind;
 
   User({
-    @required this.kind,
-    @required this.email,
-    @required this.password,
+    required this.kind,
+    required this.email,
+    required this.password,
   });
 
   User.fromJson(Map<String, dynamic> json)

@@ -138,9 +138,9 @@ class HelpPost extends Post {
     String name,
     String phone,
     String releaseTime, {
-    @required String expectedAddr,
-    @required int expectedPrice,
-    @required String demands,
+    required String expectedAddr,
+    required int expectedPrice,
+    required String demands,
   })  : expectedAddr = expectedAddr,
         expectedPrice = expectedPrice,
         demands = demands,
@@ -398,15 +398,15 @@ class RentPost extends Post {
   String roomOrientation;
 
   RentPost(String name, String phone, String releaseTime,
-      {@required List<String> pictures,
-      @required String roomAddr,
-      @required String description,
-      @required int price,
-      @required String restriction,
-      @required String roomType,
-      @required int roomArea,
-      @required int roomFloor,
-      @required String roomOrientation})
+      {required List<String> pictures,
+      required String roomAddr,
+      required String description,
+      required int price,
+      required String restriction,
+      required String roomType,
+      required int roomArea,
+      required int roomFloor,
+      required String roomOrientation})
       : pictures = pictures,
         roomAddr = roomAddr,
         description = description,
@@ -432,10 +432,7 @@ class RentPost extends Post {
         autoplay: true,
         itemCount: pictures.length,
         pagination: SwiperPagination(builder: SwiperPagination.fraction),
-        control: SwiperControl(
-          iconNext: null,
-          iconPrevious: null,
-        ),
+        control: SwiperControl(),
       ),
     );
   }
@@ -710,7 +707,7 @@ class InfoTile extends StatelessWidget {
   final String content;
   final String name;
 
-  const InfoTile({Key key, @required this.content, @required this.name})
+  const InfoTile({Key? key, required this.content, required this.name})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -747,10 +744,10 @@ class BorderIcon extends StatelessWidget {
   final double width, height;
 
   const BorderIcon(
-      {Key key,
-      @required this.child,
-      @required this.width,
-      @required this.height})
+      {Key? key,
+      required this.child,
+      required this.width,
+      required this.height})
       : super(key: key);
 
   @override
@@ -780,11 +777,11 @@ class OptionButton extends StatelessWidget {
   final double width;
   final void Function() onPressed;
   const OptionButton({
-    Key key,
-    @required this.text,
-    @required this.icon,
-    @required this.width,
-    @required this.onPressed,
+    Key? key,
+    required this.text,
+    required this.icon,
+    required this.width,
+    required this.onPressed,
   }) : super(key: key);
 
   @override

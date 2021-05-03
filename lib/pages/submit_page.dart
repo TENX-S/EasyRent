@@ -28,7 +28,7 @@ class _SubmitPageState extends State<SubmitPage> {
         ),
       );
 
-  Future<bool> _onWillPop() {
+  Future<bool?> _onWillPop() {
     return showDialog(
       context: context,
       builder: (BuildContext context) =>
@@ -39,15 +39,14 @@ class _SubmitPageState extends State<SubmitPage> {
               _actionButton(context, Colors.black, '取消', false),
               _actionButton(context, Colors.red, '确定', true),
             ],
-          ) ??
-          false,
+          ),
     );
   }
 
-  Widget _formBase({@required BuildContext context, @required Widget child}) {
+  Widget _formBase({required BuildContext context, required Widget child}) {
     final size = MediaQuery.of(context).size;
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: _onWillPop as Future<bool> Function()?,
       child: Scaffold(
         appBar: AppBar(
           title: Text('发布帖子'),

@@ -14,7 +14,7 @@ enum PageType {
 class AppPage {
   final PageType pageType;
 
-  AppPage({Key key, @required this.pageType});
+  AppPage({Key? key, required this.pageType});
 
   Widget get page {
     switch (pageType) {

@@ -11,12 +11,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  DateTime currentBackPressTime;
+  DateTime? currentBackPressTime;
 
   Future<bool> _onWillPop() {
     DateTime now = DateTime.now();
     if (currentBackPressTime == null ||
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
       Fluttertoast.showToast(
         msg: '再按一次返回键退出',
@@ -100,7 +100,7 @@ class _MainPageState extends State<MainPage> {
 }
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<Post> searchResult;
+  List<Post>? searchResult;
 
   @override
   String get searchFieldLabel => '你想找...';
@@ -138,12 +138,12 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     if (searchResult != null) {
-      searchResult.clear();
+      searchResult!.clear();
     }
     searchResult = allPosts
         .where((element) => element.toString().contains(query))
         .toList();
-    if (searchResult.isEmpty) {
+    if (searchResult!.isEmpty) {
       return Container(
         child: Center(
           child: Column(
@@ -172,8 +172,8 @@ class CustomSearchDelegate extends SearchDelegate {
           padding: EdgeInsets.only(top: 8, bottom: 8),
           scrollDirection: Axis.vertical,
           children: List.generate(
-            searchResult.length,
-            (index) => searchResult[index].buildCard(context),
+            searchResult!.length,
+            (index) => searchResult![index].buildCard(context),
           ),
         ),
       );
