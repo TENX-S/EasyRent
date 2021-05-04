@@ -19,7 +19,9 @@ lazy_static!{
 }
 
 #[derive(Debug, Default)]
-pub struct Authenticator {}
+pub struct Authenticator {
+    
+}
 
 #[tonic::async_trait]
 impl Authenticate for Authenticator {
@@ -86,6 +88,8 @@ impl Authenticate for Authenticator {
 
 #[tokio::main]
 async fn main() -> Result<()> {
+
+
     Server::builder()
         .add_service(AuthenticateServer::new(Authenticator::default()))
         .serve("127.0.0.1:8080".parse().unwrap())
