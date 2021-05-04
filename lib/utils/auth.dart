@@ -8,9 +8,10 @@ ClientChannel clientChannel = ClientChannel(
   port: 8081,
   options: ChannelOptions(
     credentials: ChannelCredentials.insecure(),
-    codecRegistry: CodecRegistry(codecs: const [
-      GzipCodec(),
-      IdentityCodec(),
+    codecRegistry: CodecRegistry(
+      codecs: const [
+        GzipCodec(),
+        IdentityCodec(),
       ],
     ),
   ),
@@ -24,7 +25,14 @@ class AuthClient {
     await channel.shutdown();
   }
 
-  Future<LoginReply> onLogin(User user) async => await stub.onLogin(AuthRequest(name: user.email, password: user.password,));
+  Future<LoginReply> onLogin(User user) async => await stub.onLogin(AuthRequest(
+        name: user.email,
+        password: user.password,
+      ));
 
-  Future<RegisterReply> onRegister(User user) async => await stub.onRegister(AuthRequest(name: user.email, password: user.password,));
+  Future<RegisterReply> onRegister(User user) async =>
+      await stub.onRegister(AuthRequest(
+        name: user.email,
+        password: user.password,
+      ));
 }

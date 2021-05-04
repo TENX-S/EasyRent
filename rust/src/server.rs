@@ -4,6 +4,7 @@ use dashmap::DashMap;
 use tonic::{transport::Server, Request, Response, Status};
 use easy_rent::authenticate_server::{Authenticate, AuthenticateServer};
 use easy_rent::{AuthRequest, LoginReply, RegisterReply, LoginFailedReason, RegisterFailedReason};
+use tower::timeout::Timeout;
 
 pub mod easy_rent {
     tonic::include_proto!("easyrent");
