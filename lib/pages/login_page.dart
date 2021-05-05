@@ -71,19 +71,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-
-    // listenServer();
-  }
-
-  @override
-  void dispose() {
-    disposeRemoteHost();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onWillPop,
