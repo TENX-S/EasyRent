@@ -1,18 +1,15 @@
 [package]
-name = "easy_rent_grpc"
+name = "easy_rent_sdk"
 version = "0.1.0"
 edition = "2018"
-
-[[bin]]
-name = "server"
-path = "src/bin/server.rs"
 
 [dependencies]
 tonic = "0.4"
 prost = "0.7"
 anyhow = "1"
-lazy_static = "1.4.0"
-dashmap = "4"
+chrono = "0.4"
+dotenv = "0.15"
+thiserror = "1"
 
 [dependencies.tokio]
 version = "1.0"
@@ -20,7 +17,7 @@ features = ["macros", "rt-multi-thread"]
 
 [dependencies.sqlx]
 version = "0.5"
-features = [ "runtime-tokio-rustls", "decimal"]
+features = ["postgres", "offline", "runtime-tokio-rustls"]
 
 [build-dependencies]
 tonic-build = "0.4"
