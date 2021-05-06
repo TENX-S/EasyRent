@@ -6,7 +6,7 @@ use std::{
     fs::{canonicalize, File},
     io::Read,
 };
-use tracing::{info, trace};
+use tracing::*;
 use tracing_subscriber;
 
 #[derive(Debug, Serialize, Deserialize)]
