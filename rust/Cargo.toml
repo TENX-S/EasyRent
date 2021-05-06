@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
+rayon = "1"
+anyhow = "1"
 tonic = "0.4"
 prost = "0.7"
 anyhow = "1"
@@ -21,4 +23,4 @@ features = ["postgres", "offline", "runtime-tokio-rustls"]
 
 [build-dependencies]
 tonic-build = "0.4"
-prost-build = "0.7.0"
+prost-build = "0.7"

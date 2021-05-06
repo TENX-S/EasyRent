@@ -1,0 +1,34 @@
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.clippy]
+install_crate = "clippy"
+command = "cargo"
+args = ["clippy"]
+
+[tasks.format]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--", "--emit=files"]
+dependencies = ["clippy"]
+
+[tasks.test]
+command = "cargo"
+args = ["test"]
+dependencies = ["clean"]
+
+[tasks.build-rpc-server]
+command = "cargo"
+args = ["build", "--release", "--bin", "server"]
+dependencies = ["init-db-posts"]
+
+[tasks.init-db-posts]
+command = "cargo"
+args = ["run", "--release", "--bin", "json2db"]
+dependencies = ["test", "format"]
+
+[tasks.launch-rpc-server]
+command = "cargo"
+args = ["run", "--release", "--bin", "server"]
+dependencies = ["build-rpc-server"]
