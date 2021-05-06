@@ -1,5 +1,5 @@
 use chrono::Local;
-use sqlx::{FromRow, PgPool, Error};
+use sqlx::{FromRow, PgPool,};
 use crate::error::{EasyRentAuthError,Result,};
 use crate::Auth;
 use tonic::Request;
@@ -13,7 +13,6 @@ pub struct User {
     create_time: String,
     online: bool,
 }
-
 
 impl From<Request<AuthRequest>> for User {
     fn from(auth_request: Request<AuthRequest>) -> User {
@@ -63,9 +62,9 @@ impl Auth for User {
             VALUES ( $1, $2, $3, FALSE );
             "#
         )
-            .bind(self.name.clone())
-            .bind(self.password.clone())
-            .bind(self.create_time.clone())
+            .bind(&self.name)
+            .bind(&self.password)
+            .bind(&self.create_time)
             .execute(pool)
             .await {
             if let Some(error) = e.as_database_error() {
@@ -90,16 +89,32 @@ impl Auth for User {
             SELECT * FROM users WHERE name = $1;
             "#
         )
-            .bind(self.name.clone())
-            .fetch_one(&pool)
+            .bind(&self.name)
+            .fetch_one(pool)
             .await {
             Ok(user) => {
                 if user.password != self.password {
                     return Err(EasyRentAuthError::MismatchedPassword);
                 }
+                if let Err(_) = sqlx::query(
+                    r#"
+                    UPDATE users
+                    SET online = TRUE
+                    WHERE name = $1;
+                    "#
+                )
+                    .bind(&user.name)
+                    .execute(pool)
+                    .await {
+                    return Err(EasyRentAuthError::Unknown);
+                }
             }
             Err(error) => {
-                println!("{:?}", error);
+                return if matches!(error, sqlx::error::Error::RowNotFound) {
+                    Err(EasyRentAuthError::NonexistentUser)
+                } else {
+                    Err(EasyRentAuthError::Unknown)
+                }
             }
         }
 
