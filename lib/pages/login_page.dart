@@ -1,5 +1,6 @@
 import 'package:easy_rent/grpc/easyrent.pb.dart';
 import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
+import 'package:easy_rent/grpc/easyrent.pbjson.dart';
 import 'package:easy_rent/utils/auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +27,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     if (!resp.success) {
-      switch (resp.failedReason) {
-        case LoginFailedReason.INEXISTENT_USER:
+      switch (resp.error) {
+        case AuthError.NONEXISTENT_USER:
           return '用户名不存在';
-        case LoginFailedReason.WRONG_PASSWORD:
+        case AuthError.MISMATCHED_PASSWORD:
           return '密码错误';
       }
     }
@@ -44,8 +45,8 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     if (!resp.success) {
-      switch (resp.failedReason) {
-        case RegisterFailedReason.DUPLICATED_USER:
+      switch (resp.error) {
+        case AuthError.DUPLICATED_NAME:
           return '用户名已存在，请直接登录';
       }
     }

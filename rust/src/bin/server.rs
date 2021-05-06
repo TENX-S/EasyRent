@@ -37,7 +37,6 @@ async fn main() -> Result<()> {
     )?;
 
     trace!("Start to serve at ");
-
     Server::builder()
         .add_service(AuthenticateServer::new(Authenticator::init().await?))
         .serve("127.0.0.1:8080".parse().unwrap())

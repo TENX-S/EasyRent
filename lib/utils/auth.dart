@@ -18,12 +18,12 @@ ClientChannel clientChannel = ClientChannel(
 );
 
 class AuthClient {
-  final channel = clientChannel;
+  // final channel = clientChannel;
   final stub = AuthenticateClient(clientChannel);
 
-  Future<void> shutdown() async {
-    await channel.shutdown();
-  }
+  // Future<void> shutdown() async {
+  //   await channel.shutdown();
+  // }
 
   Future<LoginReply> onLogin(User user) async => await stub.onLogin(AuthRequest(
         name: user.email,
