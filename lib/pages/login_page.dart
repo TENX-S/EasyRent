@@ -1,6 +1,8 @@
-import 'package:easy_rent/easyrent.pb.dart';
-import 'package:easy_rent/easyrent.pbgrpc.dart';
+import 'package:easy_rent/grpc/easyrent.pb.dart';
+import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
+import 'package:easy_rent/model/app_page.dart';
 import 'package:easy_rent/utils/auth.dart';
+import 'package:easy_rent/utils/fade_page_route.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -81,8 +83,7 @@ class _LoginPageState extends State<LoginPage> {
         onLogin: _onLogin,
         onSignup: _onRegister,
         onRecoverPassword: _onRecover,
-        onSubmitAnimationCompleted: () =>
-            Navigator.pushNamed(context, AppRoutes.mainPage),
+        onSubmitAnimationCompleted: () => Navigator.of(context).pushReplacementNamed(AppRoutes.mainPage),
         messages: LoginMessages(
           usernameHint: '用户名',
           passwordHint: '密码',

@@ -28,30 +28,29 @@ class _SubmitPageState extends State<SubmitPage> {
         ),
       );
 
-  Future<bool?> _onWillPop() {
-    return showDialog(
+  Future<bool> _onWillPop() async {
+    return await showDialog(
       context: context,
-      builder: (BuildContext context) =>
-          AlertDialog(
-            backgroundColor: Color.fromARGB(255, 247, 238, 213),
-            content: Text('您确定要返回吗，所有已填写的信息都将丢失'),
-            actions: <Widget>[
-              _actionButton(context, Colors.black, '取消', false),
-              _actionButton(context, Colors.red, '确定', true),
-            ],
-          ),
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: Color.fromARGB(255, 247, 238, 213),
+        content: Text('您确定要返回吗，所有已填写的信息都将丢失'),
+        actions: <Widget>[
+          _actionButton(context, Colors.black, '取消', false),
+          _actionButton(context, Colors.red, '确定', true),
+        ],
+      ),
     );
   }
 
   Widget _formBase({required BuildContext context, required Widget child}) {
     final size = MediaQuery.of(context).size;
     return WillPopScope(
-      onWillPop: _onWillPop as Future<bool> Function()?,
+      onWillPop: _onWillPop,
       child: Scaffold(
         appBar: AppBar(
           title: Text('发布帖子'),
           leading: IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () { _onWillPop().then((value) => value ? Navigator.pop(context) : null); },
             icon: FaIcon(FontAwesomeIcons.chevronLeft),
           ),
           backgroundColor: Color.fromARGB(255, 251, 150, 110),

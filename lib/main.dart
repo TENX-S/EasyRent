@@ -1,3 +1,4 @@
+import 'package:easy_rent/utils/fade_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_rent/model/app_page.dart';
@@ -21,11 +22,9 @@ class App extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'SourceHanSansCN',
         primaryColor: Color(0xFF3A3B3C),
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: {
-            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          }
-        ),
+        pageTransitionsTheme: PageTransitionsTheme(builders: {
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        }),
       ),
       routes: {
         // AppRoutes.loginPage: (context) =>
@@ -41,6 +40,10 @@ class App extends StatelessWidget {
         AppRoutes.selectPage: (context) =>
             AppPage(pageType: PageType.Select).page,
       },
+      onGenerateRoute: (settings) => FadePageRoute(
+          settings: settings,
+          builder: (BuildContext context) =>
+              AppPage(pageType: PageType.Main).page),
     );
   }
 }

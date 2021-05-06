@@ -1,0 +1,601 @@
+[
+    {
+        "publisher": "贝壳",
+        "houseId": 1,
+        "province": "安徽",
+        "city": "芜湖",
+        "description": "波尔卡精装修两房 家具电齐全 价格可谈",
+        "backroundPath": ["./house/1/a.jpg", "./house/1/b.jpg", "./house/1/c.jpg"],
+        "monthlyRent": 1400,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室2厅1卫",
+        "roomArea": 87,
+        "roomFloor": 6,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 2,
+        "province": "北京",
+        "city": "北京",
+        "description": "临近13号线5号线地铁站 龙德广场 户型阳光通透 随时看房",
+        "backroundPath": ["./house/2/a.png", "./house/2/b.png", "./house/2/c.png"],
+        "monthlyRent": 1900,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室1厅",
+        "roomArea": 20,
+        "roomFloor": 5,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 3,
+        "province": "天津",
+        "city": "天津",
+        "description": "托斯卡纳 精装修电梯房 随时看房",
+        "backroundPath": ["./house/3/a.png", "./house/3/b.png", "./house/3/c.png"],
+        "monthlyRent": 1800,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 40,
+        "roomFloor": 3,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 4,
+        "province": "河北",
+        "city": "廊坊",
+        "description": "碧桂园 碧桂园 谁住谁迷糊",
+        "backroundPath": ["./house/4/a.png", "./house/4/b.png", "./house/4/c.png"],
+        "monthlyRent": 2200,
+        "paymentRestrictions": "押一付三",
+        "roomType": "4室2厅",
+        "roomArea": 60,
+        "roomFloor": 4,
+        "orientation": "南"
+    },
+
+    {
+        "publisher":"贝壳",
+        "houseId": 5,
+        "province": "河北",
+        "city": "石家庄",
+        "description": "海吉雅乐都市 两室一厅 便宜出组 随时看房",
+        "backroundPath": ["./house/5/a.jpg", "./house/5/b.jpg", "./house/5/c.jpg"],
+        "monthlyRent": 1400,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 46,
+        "roomFloor": 12,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 6,
+        "province": "黑龙江",
+        "city": "哈尔滨",
+        "description": "100米大平层一楼带花园可商可住",
+        "backroundPath": ["./house/6/a.jpg", "./house/6/b.jpg", "./house/6/c.jpg"],
+        "monthlyRent": 3000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室2厅",
+        "roomArea": 100,
+        "roomFloor": 1,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 7,
+        "province": "新疆",
+        "city": "乌鲁木齐",
+        "description": "两室一厅一厨一卫精装修邻地铁 多条公交",
+        "backroundPath": ["./house/7/a.jpg", "./house/7/b.jpg", "./house/7/c.jpg"],
+        "monthlyRent": 1650,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 60,
+        "roomFloor": 7,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 8,
+        "province": "内蒙古",
+        "city": "呼和浩特",
+        "description": "呼和浩特 大草原小区 精装修电梯房 随时看房",
+        "backroundPath": ["./house/8/a.jpg", "./house/8/b.jpg", "./house/8/c.jpg"],
+        "monthlyRent": 1200,
+        "paymentRestrictions": "押一付三",
+        "roomType": "单间",
+        "roomArea": 20,
+        "roomFloor": 5,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 9,
+        "province": "四川",
+        "city": "成都",
+        "description": "香榭丽舍 两室一厅一厨一卫 精装修 随时看房",
+        "backroundPath": ["./house/9/a.jpg", "./house/9/b.jpg", "./house/9/c.jpg"],
+        "monthlyRent": 2300,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 60,
+        "roomFloor": 9,
+        "orientation": "北"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 10,
+        "province": "四川",
+        "city": "绵阳",
+        "description": "一楼带花园 两室一厅拎包入住 邻公交",
+        "backroundPath": ["./house/10/a.jpg", "./house/10/b.jpg", "./house/10/c.jpg"],
+        "monthlyRent": 2000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 68,
+        "roomFloor": 1,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "贝壳",
+        "houseId": 11,
+        "province": "四川",
+        "city": "泸州",
+        "description": "江北新区恒大房产 五楼三室一厅一厨一卫 精装修 随时看房",
+        "backroundPath": ["./house/11/a.jpg", "./house/11/b.jpg", "./house/11/c.jpg"],
+        "monthlyRent": 2300,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室1厅",
+        "roomArea": 89,
+        "roomFloor": 5,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 12,
+        "province": "四川",
+        "city": "南充",
+        "description": "洪波港湾 一室一厅一卫 主卧 南",
+        "backroundPath": ["./house/12/a.jpg", "./house/12/b.jpg", "./house/12/c.jpg"],
+        "monthlyRent": 1400,
+        "paymentRestrictions": "押一付三",
+        "roomType": "1室1厅",
+        "roomArea": 46,
+        "roomFloor": 2,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 13,
+        "province": "四川",
+        "city": "宜宾",
+        "description": "富景花苑 整体出租 三室一厅一厨一卫 大阳台 随时看房",
+        "backroundPath": ["./house/13/a.jpg", "./house/13/b.jpg", "./house/13/c.jpg"],
+        "monthlyRent": 3000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室2厅",
+        "roomArea": 102,
+        "roomFloor": 4,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 14,
+        "province": "广东",
+        "city": "广州",
+        "description": "覃塘一路 独居室 ",
+        "backroundPath": ["./house/14/a.jpg", "./house/14/b.jpg", "./house/14/c.jpg"],
+        "monthlyRent": 1900,
+        "paymentRestrictions": "押一付三",
+        "roomType": "单间",
+        "roomArea": 20,
+        "roomFloor": 6,
+        "orientation": "北"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 15,
+        "province": "广东",
+        "city": "深圳",
+        "description": "地下室 阴暗潮湿 有梦你就来",
+        "backroundPath": ["./house/15/a.jpg", "./house/15/b.jpg", "./house/15/c.jpg"],
+        "monthlyRent": 1200,
+        "paymentRestrictions": "押一付三",
+        "roomType": "单间",
+        "roomArea": 14,
+        "roomFloor": 0,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 16,
+        "province": "广东",
+        "city": "珠海",
+        "description": "米兰花园 二室二厅一卫  ",
+        "backroundPath": ["./house/16/a.jpg", "./house/16/b.jpg", "./house/16/c.jpg"],
+        "monthlyRent": 200,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室2厅",
+        "roomArea": 56,
+        "roomFloor": 4,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 17,
+        "province": "广东",
+        "city": "汕头",
+        "description": "超大海景房 交通便利 整体出租 ",
+        "backroundPath": ["./house/17/a.jpg", "./house/17/b.jpg", "./house/17/c.jpg"],
+        "monthlyRent": 5000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "大别也",
+        "roomArea": 130,
+        "roomFloor": 1,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 18,
+        "province": "广东",
+        "city": "佛山",
+        "description": "香榭丽舍 丽园 奥体中心 三室两厅两卫 ",
+        "backroundPath": ["./house/18/a.jpg", "./house/18/b.jpg", "./house/18/c.jpg"],
+        "monthlyRent": 3000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室2厅",
+        "roomArea": 93,
+        "roomFloor": 13,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 19,
+        "province": "广西",
+        "city": "南宁",
+        "description": "靠近原始广西精神小伙群落 慎重选择",
+        "backroundPath": ["./house/19/a.jpg", "./house/19/b.jpg", "./house/19/c.jpg"],
+        "monthlyRent": 888,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 53,
+        "roomFloor": 1,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 20,
+        "province": "陕西",
+        "city": "西安",
+        "description": "东方华府 三室一厅一厨一卫 整体出租 ",
+        "backroundPath": ["./house/20/a.jpg", "./house/20/b.jpg", "./house/20/c.jpg"],
+        "monthlyRent": 3900,
+        "paymentRestrictions": "押一付三",
+        "roomType": "三室一厅",
+        "roomArea": 88,
+        "roomFloor": 2,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 21,
+        "province": "安徽",
+        "city": "合肥",
+        "description": "靠近安徽医科大学 两室一厅 随时看房 ",
+        "backroundPath": ["./house/21/a.jpg", "./house/21/b.jpg", "./house/21/c.jpg"],
+        "monthlyRent": 1400,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 64,
+        "roomFloor": 3,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "安居客",
+        "houseId": 22,
+        "province": "安徽",
+        "city": "安庆",
+        "description": "迎春颐和城 七街 二室二厅一厨一卫",
+        "backroundPath": ["./house/22/a.jpg", "./house/22/b.jpg", "./house/22/c.jpg"],
+        "monthlyRent": 1800,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室2厅",
+        "roomArea": 87,
+        "roomFloor": 7,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 23,
+        "province": "安徽",
+        "city": "马鞍山",
+        "description": "安徽工业大学学区房 可供大学生出租 随时看房 ",
+        "backroundPath": ["./house/23/a.jpg", "./house/23/b.jpg", "./house/23/c.jpg"],
+        "monthlyRent": 1200,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea":56,
+        "roomFloor": 9,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 24,
+        "province": "江苏",
+        "city": "南京",
+        "description": "雨花台区 三室一厅 整体出租 六楼电梯房 学区房",
+        "backroundPath": ["./house/24/a.jpg", "./house/24/b.jpg", "./house/24/c.jpg"],
+        "monthlyRent": 2800,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室1厅",
+        "roomArea": 78,
+        "roomFloor": 6,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 25,
+        "province": "湖南",
+        "city": "长沙",
+        "description": "金三角商城 三室两厅 ",
+        "backroundPath": ["./house/25/a.jpg", "./house/25/b.jpg", "./house/25/c.jpg"],
+        "monthlyRent": 2800,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室2厅",
+        "roomArea": 102,
+        "roomFloor": 5,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 26,
+        "province": "湖北",
+        "city": "武汉",
+        "description": "武汉碧桂园 第一个月免租 长期出租 非诚勿扰",
+        "backroundPath": ["./house/26/a.jpg", "./house/26/b.jpg", "./house/26/c.jpg"],
+        "monthlyRent": 2000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 76,
+        "roomFloor": 8,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 27,
+        "province": "河南",
+        "city": "郑州",
+        "description": "仁和家园 精装修 一楼店铺 ",
+        "backroundPath": ["./house/27/a.jpg", "./house/27/b.jpg", "./house/27/c.jpg"],
+        "monthlyRent": 300,
+        "paymentRestrictions": "押一付三",
+        "roomType": "单间",
+        "roomArea": 70,
+        "roomFloor": 1,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 28,
+        "province": "河北",
+        "city": "石家庄",
+        "description": "精装修居家两房 河畔 长期出租",
+        "backroundPath": ["./house/28/a.jpg", "./house/28/b.jpg", "./house/28/c.jpg"],
+        "monthlyRent": 2900,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 77,
+        "roomFloor": 4,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 29,
+        "province": "江苏",
+        "city": "南京",
+        "description": "免租一个月 新开铺 丽水家园 ",
+        "backroundPath": ["./house/29/a.jpg", "./house/29/b.jpg", "./house/29/c.jpg"],
+        "monthlyRent": 1900,
+        "paymentRestrictions": "押一付三",
+        "roomType": "单间",
+        "roomArea": 30,
+        "roomFloor": 1,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 30,
+        "province": "浙江",
+        "city": "杭州",
+        "description": "整体出租|万达新世界 四室两厅两卫 ",
+        "backroundPath": ["./house/30/a.jpg", "./house/30/b.jpg", "./house/30/c.jpg"],
+        "monthlyRent": 5400,
+        "paymentRestrictions": "押一付三",
+        "roomType": "4室2厅",
+        "roomArea":140,
+        "roomFloor": 3,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 31,
+        "province": "山西",
+        "city": "临汾",
+        "description": "何庄 龙湖新一城 地铁口 ",
+        "backroundPath": ["./house/31/a.jpg", "./house/31/b.jpg", "./house/31/c.jpg"],
+        "monthlyRent": 2000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 66,
+        "roomFloor": 9,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 32,
+        "province": "山东",
+        "city": "青岛",
+        "description": "光谷广场地铁口 主卧28 两室一厅  ",
+        "backroundPath": ["./house/32/a.jpg", "./house/32/b.jpg", "./house/32/c.jpg"],
+        "monthlyRent": 1800,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 58,
+        "roomFloor": 9,
+        "orientation": "东"
+    },
+
+    {
+        "publisher": "58",
+        "houseId": 33,
+        "province": "福建",
+        "city": "福州",
+        "description": "光荣街道 三室一厅 整体出租 随时看房 ",
+        "backroundPath": ["./house/33/a.jpg", "./house/33/b.jpg", "./house/33/c.jpg"],
+        "monthlyRent": 2200,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室1厅",
+        "roomArea": 80,
+        "roomFloor": 4,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "链家",
+        "houseId": 34,
+        "province": "辽宁",
+        "city": "沈阳",
+        "description": "荣光街道 三室两厅 长期出租 首月免租 ",
+        "backroundPath": ["./house/34/a.jpg", "./house/34/b.jpg", "./house/34/c.jpg"],
+        "monthlyRent": 2300,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室2厅",
+        "roomArea": 97,
+        "roomFloor": 7,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "链家",
+        "houseId": 35,
+        "province": "上海",
+        "city": "上海",
+        "description": "汤臣一品 套房出租 ",
+        "backroundPath": ["./house/35/a.jpg", "./house/35/b.jpg", "./house/35/c.jpg"],
+        "monthlyRent": 100000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "5室2厅",
+        "roomArea": 180,
+        "roomFloor": 23,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "链家",
+        "houseId": 36,
+        "province": "青海",
+        "city": "西宁",
+        "description": "魅力青海湖 三室一厅 套房出租 长期出租",
+        "backroundPath": ["./house/36/a.jpg", "./house/36/b.jpg", "./house/36/c.jpg"],
+        "monthlyRent": 1000,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室1厅",
+        "roomArea": 70,
+        "roomFloor": 2,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "链家",
+        "houseId": 37,
+        "province": "西藏",
+        "city": "拉萨",
+        "description": "伟岸小区 两室一厅 可短租 ",
+        "backroundPath": ["./house/37/a.jpg", "./house/37/b.jpg", "./house/37/c.jpg"],
+        "monthlyRent": 1100,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 90,
+        "roomFloor": 4,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "链家",
+        "houseId": 38,
+        "province": "宁夏",
+        "city": "银川",
+        "description": "荣光街道 三室两厅 长期出租 首月免租 ",
+        "backroundPath": ["./house/38/a.jpg", "./house/38/b.jpg", "./house/38/c.jpg"],
+        "monthlyRent": 1300,
+        "paymentRestrictions": "押一付三",
+        "roomType": "3室2厅",
+        "roomArea": 102,
+        "roomFloor": 6,
+        "orientation": "南"
+    },
+
+    {
+        "publisher": "链家",
+        "houseId": 39,
+        "province": "安徽",
+        "city": "蚌埠",
+        "description": "整体出租|万达新世界 四室两厅两卫 ",
+        "backroundPath": ["./house/39/a.jpg", "./house/39/b.jpg", "./house/39/c.jpg"],
+        "monthlyRent": 2900,
+        "paymentRestrictions": "押一付三",
+        "roomType": "4室2厅",
+        "roomArea": 120,
+        "roomFloor": 3,
+        "orientation": "北"
+    },
+
+    {
+        "publisher": "链家",
+        "houseId": 40,
+        "province": "安徽",
+        "city": "阜阳",
+        "description": "光谷广场 地铁口 主卧28 两室一厅 ",
+        "backroundPath": ["./house/40/a.jpg", "./house/40/b.jpg", "./house/40/c.jpg"],
+        "monthlyRent": 1500,
+        "paymentRestrictions": "押一付三",
+        "roomType": "2室1厅",
+        "roomArea": 90,
+        "roomFloor": 3,
+        "orientation": "东"
+    }
+]
