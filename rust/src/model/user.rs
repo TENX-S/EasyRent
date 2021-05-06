@@ -59,13 +59,13 @@ impl Auth for User {
         if let Err(e) = sqlx::query(
             r#"
             INSERT INTO users ( email, password, create_time, online )
-            VALUES ( '?', '?', '?', FALSE );
+            VALUES ( $1, $2, $3, FALSE );
             "#
         )
             .bind(self.name.clone())
             .bind(self.password.clone())
             .bind(self.create_time.clone())
-            .fetch_one(pool)
+            .execute(pool)
             .await {
             if let Some(error) = e.as_database_error() {
                 if let Some(code) = error.code() {

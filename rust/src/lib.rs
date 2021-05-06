@@ -1,12 +1,9 @@
 pub mod model;
 pub mod error;
+pub mod grpc;
 
 use error::{EasyRentAuthError, Result};
 use sqlx::PgPool;
-
-pub mod grpc {
-    tonic::include_proto!("easyrent");
-}
 
 #[tonic::async_trait]
 pub trait Auth {
