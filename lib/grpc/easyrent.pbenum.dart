@@ -9,31 +9,22 @@
 import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class LoginFailedReason extends $pb.ProtobufEnum {
-  static const LoginFailedReason WRONG_PASSWORD = LoginFailedReason._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'WRONG_PASSWORD');
-  static const LoginFailedReason INEXISTENT_USER = LoginFailedReason._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'INEXISTENT_USER');
+class AuthError extends $pb.ProtobufEnum {
+  static const AuthError MISMATCHED_PASSWORD = AuthError._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MISMATCHED_PASSWORD');
+  static const AuthError NONEXISTENT_USER = AuthError._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'NONEXISTENT_USER');
+  static const AuthError DUPLICATED_NAME = AuthError._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'DUPLICATED_NAME');
+  static const AuthError UNKNOWN = AuthError._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
 
-  static const $core.List<LoginFailedReason> values = <LoginFailedReason> [
-    WRONG_PASSWORD,
-    INEXISTENT_USER,
+  static const $core.List<AuthError> values = <AuthError> [
+    MISMATCHED_PASSWORD,
+    NONEXISTENT_USER,
+    DUPLICATED_NAME,
+    UNKNOWN,
   ];
 
-  static final $core.Map<$core.int, LoginFailedReason> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static LoginFailedReason? valueOf($core.int value) => _byValue[value];
+  static final $core.Map<$core.int, AuthError> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static AuthError? valueOf($core.int value) => _byValue[value];
 
-  const LoginFailedReason._($core.int v, $core.String n) : super(v, n);
-}
-
-class RegisterFailedReason extends $pb.ProtobufEnum {
-  static const RegisterFailedReason DUPLICATED_USER = RegisterFailedReason._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'DUPLICATED_USER');
-
-  static const $core.List<RegisterFailedReason> values = <RegisterFailedReason> [
-    DUPLICATED_USER,
-  ];
-
-  static final $core.Map<$core.int, RegisterFailedReason> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static RegisterFailedReason? valueOf($core.int value) => _byValue[value];
-
-  const RegisterFailedReason._($core.int v, $core.String n) : super(v, n);
+  const AuthError._($core.int v, $core.String n) : super(v, n);
 }
 

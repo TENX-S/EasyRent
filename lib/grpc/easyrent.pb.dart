@@ -77,21 +77,21 @@ class AuthRequest extends $pb.GeneratedMessage {
 class LoginReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoginReply', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent'), createEmptyInstance: create)
     ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'success')
-    ..e<LoginFailedReason>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'failedReason', $pb.PbFieldType.OE, defaultOrMaker: LoginFailedReason.WRONG_PASSWORD, valueOf: LoginFailedReason.valueOf, enumValues: LoginFailedReason.values)
+    ..e<AuthError>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: AuthError.MISMATCHED_PASSWORD, valueOf: AuthError.valueOf, enumValues: AuthError.values)
     ..hasRequiredFields = false
   ;
 
   LoginReply._() : super();
   factory LoginReply({
     $core.bool? success,
-    LoginFailedReason? failedReason,
+    AuthError? error,
   }) {
     final _result = create();
     if (success != null) {
       _result.success = success;
     }
-    if (failedReason != null) {
-      _result.failedReason = failedReason;
+    if (error != null) {
+      _result.error = error;
     }
     return _result;
   }
@@ -126,33 +126,33 @@ class LoginReply extends $pb.GeneratedMessage {
   void clearSuccess() => clearField(1);
 
   @$pb.TagNumber(2)
-  LoginFailedReason get failedReason => $_getN(1);
+  AuthError get error => $_getN(1);
   @$pb.TagNumber(2)
-  set failedReason(LoginFailedReason v) { setField(2, v); }
+  set error(AuthError v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasFailedReason() => $_has(1);
+  $core.bool hasError() => $_has(1);
   @$pb.TagNumber(2)
-  void clearFailedReason() => clearField(2);
+  void clearError() => clearField(2);
 }
 
 class RegisterReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RegisterReply', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent'), createEmptyInstance: create)
     ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'success')
-    ..e<RegisterFailedReason>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'failedReason', $pb.PbFieldType.OE, defaultOrMaker: RegisterFailedReason.DUPLICATED_USER, valueOf: RegisterFailedReason.valueOf, enumValues: RegisterFailedReason.values)
+    ..e<AuthError>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'error', $pb.PbFieldType.OE, defaultOrMaker: AuthError.MISMATCHED_PASSWORD, valueOf: AuthError.valueOf, enumValues: AuthError.values)
     ..hasRequiredFields = false
   ;
 
   RegisterReply._() : super();
   factory RegisterReply({
     $core.bool? success,
-    RegisterFailedReason? failedReason,
+    AuthError? error,
   }) {
     final _result = create();
     if (success != null) {
       _result.success = success;
     }
-    if (failedReason != null) {
-      _result.failedReason = failedReason;
+    if (error != null) {
+      _result.error = error;
     }
     return _result;
   }
@@ -187,12 +187,12 @@ class RegisterReply extends $pb.GeneratedMessage {
   void clearSuccess() => clearField(1);
 
   @$pb.TagNumber(2)
-  RegisterFailedReason get failedReason => $_getN(1);
+  AuthError get error => $_getN(1);
   @$pb.TagNumber(2)
-  set failedReason(RegisterFailedReason v) { setField(2, v); }
+  set error(AuthError v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasFailedReason() => $_has(1);
+  $core.bool hasError() => $_has(1);
   @$pb.TagNumber(2)
-  void clearFailedReason() => clearField(2);
+  void clearError() => clearField(2);
 }
 
