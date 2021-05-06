@@ -1,6 +1,7 @@
 pub mod model;
 pub mod error;
 pub mod grpc;
+pub mod utils;
 
 use error::{EasyRentAuthError, Result};
 use sqlx::PgPool;

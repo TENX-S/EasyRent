@@ -1,8 +1,6 @@
 import 'package:easy_rent/grpc/easyrent.pb.dart';
 import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
-import 'package:easy_rent/model/app_page.dart';
 import 'package:easy_rent/utils/auth.dart';
-import 'package:easy_rent/utils/fade_page_route.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';

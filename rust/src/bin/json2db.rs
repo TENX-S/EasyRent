@@ -1,4 +1,6 @@
 use anyhow::Result;
+use dirs_next::data_local_dir;
+use easy_rent_sdk::utils::set_panic_hook;
 use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -7,7 +9,7 @@ use std::{
     io::Read,
 };
 use tracing::*;
-use tracing_subscriber;
+use tracing_subscriber::{self, fmt, subscribe::CollectExt, EnvFilter};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Post {
@@ -40,11 +42,32 @@ struct Post {
 }
 
 fn main() -> Result<()> {
-    tracing_subscriber::fmt()
-        .pretty()
-        .with_thread_names(true)
-        .with_max_level(tracing::Level::TRACE)
-        .init();
+    set_panic_hook();
+    let (non_blocking, _guard) = tracing_appender::non_blocking(tracing_appender::rolling::hourly(
+        data_local_dir()
+            .expect("Unable to locate local data path")
+            .join("EasyRent"),
+        "EasyRentJsonToDB.log",
+    ));
+
+    tracing::collect::set_global_default(
+        tracing_subscriber::registry()
+            .with(EnvFilter::from_default_env().add_directive(tracing::Level::TRACE.into()))
+            .with(
+                fmt::Subscriber::new()
+                    .pretty()
+                    .with_thread_ids(true)
+                    .with_thread_names(true)
+                    .with_writer(std::io::stdout),
+            )
+            .with(
+                fmt::Subscriber::new()
+                    .with_ansi(false)
+                    .with_thread_ids(true)
+                    .with_thread_names(true)
+                    .with_writer(non_blocking),
+            ),
+    )?;
 
     trace!("Open the assets/info.json.");
     let mut info = File::open("assets/info.json")?;
@@ -54,16 +77,16 @@ fn main() -> Result<()> {
     let mut posts: Vec<Post> = serde_json::from_str(&info_content)?;
     trace!("Serialized the assets/info.json: {} posts", posts.len());
 
-    trace!("Start to transform the relative path to absolute one.");
+    trace!("Start to transform the relative path to absolute path.");
     posts.par_iter_mut().for_each(|i| {
         i.backround_path = i
             .backround_path
             .par_iter()
             .map(|p| {
                 let path = PathBuf::from(p);
-                let mut segements = path.iter().collect::<Vec<_>>();
-                segements.insert(1, "assets".as_ref());
-                canonicalize(segements.iter().collect::<PathBuf>())
+                let mut segments = path.iter().collect::<Vec<_>>();
+                segments.insert(1, "assets".as_ref());
+                canonicalize(segments.iter().collect::<PathBuf>())
                     .unwrap()
                     .to_str()
                     .unwrap()

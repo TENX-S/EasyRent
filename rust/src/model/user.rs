@@ -1,5 +1,5 @@
 use chrono::Local;
-use sqlx::{FromRow, PgPool,};
+use sqlx::{FromRow, PgPool, Error};
 use crate::error::{EasyRentAuthError,Result,};
 use crate::Auth;
 use tonic::Request;
@@ -11,8 +11,9 @@ pub struct User {
     name: String,
     password: String,
     create_time: String,
-    is_online: bool,
+    online: bool,
 }
+
 
 impl From<Request<AuthRequest>> for User {
     fn from(auth_request: Request<AuthRequest>) -> User {
@@ -31,7 +32,7 @@ impl Default for User {
             name: "".to_string(),
             password: "".to_string(),
             create_time: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
-            is_online: false,
+            online: false,
         }
     }
 }
@@ -48,7 +49,7 @@ impl User {
     }
 
     pub fn online(mut self, status: bool) -> Self {
-        self.is_online = status;
+        self.online = status;
         self
     }
 }
@@ -84,6 +85,24 @@ impl Auth for User {
     }
 
     async fn login(&self, pool: &PgPool) -> Result<(), EasyRentAuthError> {
+        match sqlx::query_as::<_, User>(
+            r#"
+            SELECT * FROM users WHERE name = $1;
+            "#
+        )
+            .bind(self.name.clone())
+            .fetch_one(&pool)
+            .await {
+            Ok(user) => {
+                if user.password != self.password {
+                    return Err(EasyRentAuthError::MismatchedPassword);
+                }
+            }
+            Err(error) => {
+                println!("{:?}", error);
+            }
+        }
+
         Ok(())
     }
 }
