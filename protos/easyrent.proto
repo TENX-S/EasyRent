@@ -12,21 +12,19 @@ message AuthRequest {
   string password = 2;
 }
 
-enum LoginFailedReason {
-  WRONG_PASSWORD = 0;
-  INEXISTENT_USER = 1;
+enum AuthError {
+  MISMATCHED_PASSWORD = 0;
+  NONEXISTENT_USER = 1;
+  DUPLICATED_NAME = 2;
+  UNKNOWN = 3;
 }
 
 message LoginReply {
   bool success = 1;
-  optional LoginFailedReason failed_reason = 2;
-}
-
-enum RegisterFailedReason {
-  DUPLICATED_USER = 0;
+  optional AuthError error = 2;
 }
 
 message RegisterReply {
   bool success = 1;
-  optional RegisterFailedReason failed_reason = 2;
+  optional AuthError error = 2;
 }
