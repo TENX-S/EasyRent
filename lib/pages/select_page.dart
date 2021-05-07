@@ -11,67 +11,65 @@ class SelectPage extends StatelessWidget {
     fontSize: 84.0,
   );
 
+  Widget buildPanel(
+    BuildContext context, {
+    required String top,
+    required String bottom,
+    VoidCallback? onPressed,
+    Color? color,
+  }) {
+    return Expanded(
+      child: Container(
+        color: color,
+        child: TextButton(
+          onPressed: onPressed,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                top,
+                style: headline_style,
+              ),
+              Text(
+                bottom,
+                style: headline_style,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
           Container(
-            width: size.width,
-            height: size.height,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(
-                  child: Container(
-                    color: Color.fromARGB(255, 247, 238, 213),
-                    child: TextButton(
-                      onPressed: () {
-                        submitPageType = PostKind.Help;
-                        Navigator.pushNamed(context, AppRoutes.submitPage);
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '求',
-                            style: headline_style,
-                          ),
-                          Text(
-                            '租',
-                            style: headline_style,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                buildPanel(
+                  context,
+                  top: '出',
+                  bottom: '租',
+                  color: Color.fromARGB(255, 251, 150, 110),
+                  onPressed: () {
+                    submitPageType = PostKind.Rent;
+                    Navigator.pushNamed(context, AppRoutes.submitPage);
+                  },
                 ),
-                Expanded(
-                  child: Container(
-                    color: Color.fromARGB(255, 251, 150, 110),
-                    child: TextButton(
-                      onPressed: () {
-                        submitPageType = PostKind.Rent;
-                        Navigator.pushNamed(context, AppRoutes.submitPage);
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '出',
-                            style: headline_style,
-                          ),
-                          Text(
-                            '租',
-                            style: headline_style,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                buildPanel(
+                  context,
+                  top: '求',
+                  bottom: '租',
+                  color: Color.fromARGB(255, 247, 238, 213),
+                  onPressed: () {
+                    submitPageType = PostKind.Help;
+                    Navigator.pushNamed(context, AppRoutes.submitPage);
+                  },
                 ),
               ],
             ),

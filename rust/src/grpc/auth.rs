@@ -5,7 +5,7 @@ use crate::grpc::{AuthRequest, LoginReply, RegisterReply, AuthError};
 use crate::{Auth, error::EasyRentAuthError};
 use crate::model::user::User;
 use sqlx::PgPool;
-
+use tracing::*;
 
 #[derive(Debug)]
 pub struct Authenticator {
@@ -64,9 +64,9 @@ impl Authenticator {
 #[tonic::async_trait]
 impl Authenticate for Authenticator {
     async fn on_login(&self, request: Request<AuthRequest>) -> Result<Response<LoginReply>, Status> {
-        println!("Got a login request from {:?}", request.remote_addr());
-
+        let user_addr = request.remote_addr();
         let user: User = request.into();
+        info!("Get a login request from {:?}\n\t{:#?}", user_addr, user);
         match user.login(&self.db_pool).await {
             Ok(_) => Ok(Response::new(LoginReply::success())),
             Err(e) => match e {
@@ -78,10 +78,9 @@ impl Authenticate for Authenticator {
     }
 
     async fn on_register(&self, request: Request<AuthRequest>) -> Result<Response<RegisterReply>, Status> {
-        println!("Got a register request from {:?}", request.remote_addr());
-
+        let user_addr = request.remote_addr();
         let user: User = request.into();
-
+        info!("Got a register request from {:?}\n{:#?}", user_addr, user);
         match user.register(&self.db_pool).await {
             Ok(_) => Ok(Response::new(RegisterReply::success())),
             Err(e) => match e {

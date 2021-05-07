@@ -1,6 +1,5 @@
 import 'package:easy_rent/grpc/easyrent.pb.dart';
 import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
-import 'package:easy_rent/grpc/easyrent.pbjson.dart';
 import 'package:easy_rent/utils/auth.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -9,38 +8,41 @@ import 'package:easy_rent/model/app_routes.dart';
 import 'package:easy_rent/model/user.dart';
 import 'package:flutter_login/flutter_login.dart';
 
-class LoginPage extends StatefulWidget {
+class AuthPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _AuthPageState createState() => _AuthPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AuthPageState extends State<AuthPage> {
   DateTime? currentBackPressTime;
-  AuthClient _authClient = AuthClient();
+  AuthClient _authClient = AuthClient(
+    serverAddr: '1.116.216.141',
+    serverPort: 8081,
+  );
 
   Future<String?> _onLogin(LoginData input) async {
-    final resp = await _authClient.onLogin(
-      User(
-        kind: MessageKind.Login,
-        email: input.name,
-        password: input.password,
-      ),
+    final user = User(
+      name: input.name,
+      password: input.password,
     );
+    final resp = await _authClient.onLogin(user);
     if (!resp.success) {
       switch (resp.error) {
         case AuthError.NONEXISTENT_USER:
           return '用户名不存在';
         case AuthError.MISMATCHED_PASSWORD:
           return '密码错误';
+        case AuthError.UNKNOWN:
+          return '未知的错误';
       }
     }
+    currentUser = user;
   }
 
   Future<String?> _onRegister(LoginData input) async {
     final resp = await _authClient.onRegister(
       User(
-        kind: MessageKind.Register,
-        email: input.name,
+        name: input.name,
         password: input.password,
       ),
     );
@@ -48,6 +50,8 @@ class _LoginPageState extends State<LoginPage> {
       switch (resp.error) {
         case AuthError.DUPLICATED_NAME:
           return '用户名已存在，请直接登录';
+        case AuthError.UNKNOWN:
+          return '未知的错误';
       }
     }
   }
@@ -82,7 +86,8 @@ class _LoginPageState extends State<LoginPage> {
         onLogin: _onLogin,
         onSignup: _onRegister,
         onRecoverPassword: _onRecover,
-        onSubmitAnimationCompleted: () => Navigator.of(context).pushReplacementNamed(AppRoutes.mainPage),
+        onSubmitAnimationCompleted: () =>
+            Navigator.of(context).pushReplacementNamed(AppRoutes.mainPage),
         messages: LoginMessages(
           usernameHint: '用户名',
           passwordHint: '密码',

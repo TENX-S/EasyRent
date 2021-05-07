@@ -1,4 +1,4 @@
-import 'package:easy_rent/pages/login_page.dart';
+import 'package:easy_rent/pages/auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/pages/main_page.dart';
 import 'package:easy_rent/pages/submit_page.dart';
@@ -23,7 +23,7 @@ class AppPage {
       // case PageType.Register:
       //   return RegisterPage();
       case PageType.Login:
-        return LoginPage();
+        return AuthPage();
       case PageType.Main:
         return MainPage();
       case PageType.Submit:

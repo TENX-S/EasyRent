@@ -1,7 +1,8 @@
-import 'package:easy_rent/model/app_routes.dart';
-import 'package:easy_rent/utils/about.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:easy_rent/pages/about_page.dart';
+import 'package:easy_rent/pages/home_page.dart';
+import 'package:easy_rent/pages/profile_page.dart';
 import 'package:flutter/material.dart';
-import 'package:easy_rent/model/post.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -11,6 +12,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  int _currentIndex = 0;
+  late PageController _pageController;
   DateTime? currentBackPressTime;
 
   Future<bool> _onWillPop() {
@@ -30,158 +33,72 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 247, 238, 213),
-        body: WillPopScope(
-          onWillPop: _onWillPop,
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                leadingWidth: MediaQuery.of(context).size.width,
-                leading: MaterialButton(
-                  onPressed: () => showAbout(context),
-                  child: Text(
-                    "Easy",
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 247, 238, 213),
-                      fontFamily: 'Vladimir',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 32.0,
-                    ),
-                  ),
-                ),
-                backgroundColor: Color.fromARGB(255, 251, 150, 110),
-                floating: true,
-                snap: true,
-                actions: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.search_outlined,
-                    ),
-                    onPressed: () {
-                      showSearch(
-                        context: context,
-                        delegate: CustomSearchDelegate(),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) =>
-                      allPosts[index].buildCard(context),
-                  childCount: allPosts.length,
-                ),
-              ),
-            ],
-          ),
+      backgroundColor: Color.fromARGB(255, 247, 238, 213),
+      body: WillPopScope(
+        onWillPop: _onWillPop,
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() => _currentIndex = index);
+          },
+          children: <Widget>[
+            HomePage(),
+            ProfilePage(),
+            AboutPage(),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-        floatingActionButton: Container(
-          height: 65.0,
-          width: 65.0,
-          child: FloatingActionButton(
-            elevation: 10.0,
-            onPressed: () => Navigator.pushNamed(context, AppRoutes.selectPage),
-            backgroundColor:
-                Color.fromARGB(255, 251, 150, 110).withOpacity(0.9),
-            tooltip: "发布帖子",
-            child: Icon(
-              Icons.post_add_outlined,
-              size: 40.0,
-            ),
-          ),
-        ),
-      // ),
-    );
-  }
-}
-
-class CustomSearchDelegate extends SearchDelegate {
-  List<Post>? searchResult;
-
-  @override
-  String get searchFieldLabel => '你想找...';
-
-  @override
-  ThemeData appBarTheme(BuildContext context) {
-    return ThemeData(
-      textTheme: TextTheme(),
-      primaryColor: Color.fromARGB(255, 251, 150, 110),
-    );
-  }
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
       ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
+      bottomNavigationBar: BottomNavyBar(
+        showElevation: false,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        backgroundColor: Color.fromARGB(255, 247, 238, 213),
+        selectedIndex: _currentIndex,
+        onItemSelected: (index) {
+          setState(() => _currentIndex = index);
+          _pageController.animateToPage(
+            index,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.ease,
+          );
+        },
+        items: [
+          BottomNavyBarItem(
+            title: Text('首页'),
+            icon: Icon(Icons.home_outlined),
+            textAlign: TextAlign.center,
+            activeColor: Color.fromARGB(255, 251, 150, 110),
+            inactiveColor: Colors.grey,
+          ),
+          BottomNavyBarItem(
+            title: Text('我的'),
+            icon: Icon(Icons.people_outlined),
+            textAlign: TextAlign.center,
+            activeColor: Color.fromARGB(255, 251, 150, 110),
+            inactiveColor: Colors.grey,
+          ),
+          BottomNavyBarItem(
+            title: Text('关于'),
+            icon: Icon(Icons.info_outline),
+            textAlign: TextAlign.center,
+            activeColor: Color.fromARGB(255, 251, 150, 110),
+            inactiveColor: Colors.grey,
+          ),
+        ],
+      ),
     );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    if (searchResult != null) {
-      searchResult!.clear();
-    }
-    searchResult = allPosts
-        .where((element) => element.toString().contains(query))
-        .toList();
-    if (searchResult!.isEmpty) {
-      return Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/not_found.png',
-              ),
-              Text(
-                '非常抱歉，没有找到符合条件的帖子呢',
-                style: TextStyle(
-                  color: Color.fromRGBO(141, 141, 141, 1.0),
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return Container(
-        color: Color.fromARGB(255, 247, 238, 213),
-        child: ListView(
-          padding: EdgeInsets.only(top: 8, bottom: 8),
-          scrollDirection: Axis.vertical,
-          children: List.generate(
-            searchResult!.length,
-            (index) => searchResult![index].buildCard(context),
-          ),
-        ),
-      );
-    }
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return Container();
   }
 }

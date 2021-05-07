@@ -4,6 +4,7 @@ use crate::error::{EasyRentAuthError,Result,};
 use crate::Auth;
 use tonic::Request;
 use crate::grpc::AuthRequest;
+use tracing::*;
 
 #[derive(Debug, FromRow)]
 pub struct User {
@@ -58,7 +59,7 @@ impl Auth for User {
     async fn register(&self, pool: &PgPool) -> Result<(), EasyRentAuthError> {
         if let Err(e) = sqlx::query(
             r#"
-            INSERT INTO users ( email, password, create_time, online )
+            INSERT INTO users ( name, password, create_time, online )
             VALUES ( $1, $2, $3, FALSE );
             "#
         )
@@ -70,15 +71,19 @@ impl Auth for User {
             if let Some(error) = e.as_database_error() {
                 if let Some(code) = error.code() {
                     if code.as_ref() == "23505" {
+                        error!("Duplicate user: {}", self.name);
                         return Err(EasyRentAuthError::DuplicateName)
                     }
                 } else {
+                    error!("Unable to get the error code of {:?}", error);
                     return Err(EasyRentAuthError::Unknown);
                 }
             } else {
+                error!("{:?}", e);
                 return Err(EasyRentAuthError::Unknown);
             }
         }
+        trace!("Register successfully: {}", self.name);
 
         Ok(())
     }
@@ -94,6 +99,7 @@ impl Auth for User {
             .await {
             Ok(user) => {
                 if user.password != self.password {
+                    error!("Incorrect password of user: {}", user.name);
                     return Err(EasyRentAuthError::MismatchedPassword);
                 }
                 if let Err(_) = sqlx::query(
@@ -106,17 +112,21 @@ impl Auth for User {
                     .bind(&user.name)
                     .execute(pool)
                     .await {
+                    error!("Unable to transform the status of user: {}", user.name);
                     return Err(EasyRentAuthError::Unknown);
                 }
             }
             Err(error) => {
                 return if matches!(error, sqlx::error::Error::RowNotFound) {
+                    error!("User {} doesn't exist", self.name);
                     Err(EasyRentAuthError::NonexistentUser)
                 } else {
+                    error!("{:?}", error);
                     Err(EasyRentAuthError::Unknown)
                 }
             }
         }
+        trace!("Login successfully: {}", self.name);
 
         Ok(())
     }

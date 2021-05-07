@@ -54,7 +54,7 @@ abstract class Post {
   String releaseTime;
 
   static const card_padding = EdgeInsets.all(7);
-  static const card_elevation = 5.0;
+  static const card_elevation = 0.0;
   static const symmetric_horizontal_padding =
       EdgeInsets.symmetric(horizontal: 25.0);
   static const symmetric_vertical_margin = EdgeInsets.symmetric(vertical: 20.0);

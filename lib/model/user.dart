@@ -1,28 +1,22 @@
 
-
-enum MessageKind {
-  Login,
-  Register,
-}
+late User currentUser;
 
 class User {
-  String? email;
+  String? name;
   String? password;
-  MessageKind? kind;
 
   User({
-    required this.kind,
-    required this.email,
+    required this.name,
     required this.password,
   });
 
-  User.fromJson(Map<String, dynamic> json)
-      : email = json['email'],
-        password = json['password'];
-
-  Map<String, dynamic> toJson() => {
-        'kind': kind.toString(),
-        'email': email,
-        'password': password,
-      };
+  // User.fromJson(Map<String, dynamic> json)
+  //     : email = json['email'],
+  //       password = json['password'];
+  //
+  // Map<String, dynamic> toJson() => {
+  //       'kind': kind.toString(),
+  //       'email': email,
+  //       'password': password,
+  //     };
 }
