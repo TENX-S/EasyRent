@@ -1,8 +1,8 @@
-import 'package:easy_rent/utils/fade_page_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_rent/model/app_page.dart';
 import 'package:easy_rent/model/app_routes.dart';
+import 'package:easy_rent/utils/fade_page_route.dart';
 
 void main() {
   // Disable landscape mode

@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:easy_rent/grpc/easyrent.pb.dart';
 import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
 import 'package:easy_rent/utils/auth.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:easy_rent/model/app_routes.dart';
 import 'package:easy_rent/model/user.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_login/flutter_login.dart';
 
 class AuthPage extends StatefulWidget {

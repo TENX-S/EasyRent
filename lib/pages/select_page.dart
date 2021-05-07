@@ -1,6 +1,6 @@
-import 'package:easy_rent/model/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
+import 'package:easy_rent/model/app_routes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SelectPage extends StatelessWidget {

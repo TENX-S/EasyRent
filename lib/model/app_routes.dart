@@ -1,6 +1,6 @@
 class AppRoutes {
-  static final loginPage = '/';
-  static final mainPage = '/main';
-  static final submitPage = '/submit';
-  static final selectPage = '/select';
+  static const loginPage = '/';
+  static const mainPage = '/main';
+  static const submitPage = '/submit';
+  static const selectPage = '/select';
 }

@@ -1,5 +1,5 @@
-import 'package:easy_rent/model/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_rent/model/app_routes.dart';
 
 class FadePageRoute<T> extends MaterialPageRoute<T> {
   FadePageRoute({

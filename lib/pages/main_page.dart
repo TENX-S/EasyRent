@@ -1,10 +1,10 @@
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
-import 'package:easy_rent/pages/about_page.dart';
-import 'package:easy_rent/pages/home_page.dart';
-import 'package:easy_rent/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:easy_rent/pages/home_page.dart';
+import 'package:easy_rent/pages/about_page.dart';
+import 'package:easy_rent/pages/profile_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 class MainPage extends StatefulWidget {
   @override

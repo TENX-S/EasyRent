@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:easy_rent/model/app_routes.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

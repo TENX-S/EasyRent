@@ -1,4 +1,3 @@
-
 late User currentUser;
 
 class User {

@@ -1,5 +1,5 @@
-import 'package:easy_rent/model/user.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_rent/model/user.dart';
 import 'package:easy_rent/utils/list_item.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 

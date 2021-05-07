@@ -1,5 +1,5 @@
-import 'package:easy_rent/model/user.dart';
 import 'package:grpc/grpc.dart';
+import 'package:easy_rent/model/user.dart';
 import 'package:easy_rent/grpc/easyrent.pb.dart';
 import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
 
