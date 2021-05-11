@@ -27,10 +27,6 @@ class App extends StatelessWidget {
         }),
       ),
       routes: {
-        // AppRoutes.loginPage: (context) =>
-        //     AppPage(pageType: PageType.Login).page,
-        // AppRoutes.registerPage: (context) =>
-        //     AppPage(pageType: PageType.Register).page,
         AppRoutes.loginPage: (context) =>
             AppPage(pageType: PageType.Login).page,
         AppRoutes.mainPage: (context) =>

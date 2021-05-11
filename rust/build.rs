@@ -1,10 +1,20 @@
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut config = prost_build::Config::new();
-    config.protoc_arg("--experimental_allow_proto3_optional");
-    tonic_build::configure().compile_with_config(
-        config,
-        &["../protos/easyrent.proto"],
-        &["../protos"],
-    )?;
+
+    let iface_files = &[
+        "../proto/easyrent.proto"
+    ];
+
+    let dirs = &["../proto"];
+
+    tonic_build::configure()
+        .build_client(false)
+        .build_server(true)
+        .protoc_arg("--experimental_allow_proto3_optional")
+        .compile(iface_files, dirs)?;
+
+    for file in iface_files {
+        println!("cargo:rerun-if-changed={}", file);
+    }
+
     Ok(())
 }

@@ -323,7 +323,6 @@ dependencies = [
  "dirs-next",
  "dotenv",
  "prost",
- "prost-build",
  "rayon",
  "serde",
  "serde_json",
