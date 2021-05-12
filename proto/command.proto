@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package easyrent.command;
+
+service command {
+    rpc OnRefresh(RefreshRequest) returns (RefreshReply) {}
+    rpc OnFetch(FetchRequest) returns (FetchReply) {}
+    rpc OnLogout(LogoutRequest) returns (LogoutReply) {}
+}
+
+message RefreshRequest {
+
+}
+
+message RefreshReply {
+
+}
+
+message FetchRequest {
+
+}
+
+message FetchReply {
+
+}
+
+message LogoutRequest {
+
+}
+
+message LogoutReply {
+
+}

@@ -2,15 +2,16 @@ pub mod model;
 pub mod error;
 pub mod grpc;
 pub mod utils;
+pub mod sql;
 
 use error::{EasyRentAuthError, Result};
-use sqlx::PgPool;
+use model::user::User;
 
 #[tonic::async_trait]
 pub trait Auth {
     /// Register an user
-    async fn register(&self, pool: &PgPool) -> Result<(), EasyRentAuthError>;
+    async fn register(&self, user: &User) -> Result<(), EasyRentAuthError>;
 
     /// Login an user
-    async fn login(&self, pool: &PgPool) -> Result<(), EasyRentAuthError>;
+    async fn login(&self, user: &User) -> Result<(), EasyRentAuthError>;
 }

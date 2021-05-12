@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package easyrent;
+package easyrent.auth;
 
 service Authenticate {
   rpc OnLogin(AuthRequest) returns (LoginReply) {}

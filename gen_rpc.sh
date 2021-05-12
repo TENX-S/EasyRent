@@ -1,1 +1,2 @@
-protoc --dart_out=grpc:lib/grpc -Iprotos proto/easyrent.proto
+#! /bin/sh
+protoc --dart_out=grpc:lib/grpc -Iproto proto/*.proto

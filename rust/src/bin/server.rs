@@ -1,7 +1,7 @@
 use anyhow::Result;
 use tonic::transport::Server;
 use dirs_next::data_local_dir;
-use easy_rent_sdk::grpc::authenticate_server::AuthenticateServer;
+use easy_rent_sdk::grpc::auth::authenticate_server::AuthenticateServer;
 use easy_rent_sdk::grpc::auth::Authenticator;
 use easy_rent_sdk::utils::set_panic_hook;
 use tracing::*;

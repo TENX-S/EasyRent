@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:easy_rent/grpc/easyrent.pb.dart';
-import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
+import 'package:easy_rent/grpc/auth.pb.dart';
+import 'package:easy_rent/grpc/auth.pbgrpc.dart';
 import 'package:easy_rent/utils/auth.dart';
 import 'package:easy_rent/model/app_routes.dart';
 import 'package:easy_rent/model/user.dart';

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package easyrent.post;
+
+service post {
+    rpc OnSubmit(SubmitRequest) returns (SubmitReply) {}
+}
+
+message SubmitRequest {
+
+}
+
+message SubmitReply {
+
+}

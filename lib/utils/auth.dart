@@ -1,18 +1,13 @@
 import 'package:grpc/grpc.dart';
 import 'package:easy_rent/model/user.dart';
-import 'package:easy_rent/grpc/easyrent.pb.dart';
-import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
+import 'package:easy_rent/grpc/auth.pb.dart';
+import 'package:easy_rent/grpc/auth.pbgrpc.dart';
 
 class AuthClient {
-
   late String serverAddr;
   late int serverPort;
   late ClientChannel channel;
   late AuthenticateClient stub;
-
-  // Future<void> shutdown() async {
-  //   await channel.shutdown();
-  // }
 
   AuthClient({
     required this.serverAddr,

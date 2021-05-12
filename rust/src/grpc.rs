@@ -1,3 +1,3 @@
-tonic::include_proto!("easyrent");
-
 pub mod auth;
+pub mod post;
+pub mod command;

@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: easyrent.proto
+//  source: auth.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields,deprecated_member_use_from_same_package
@@ -37,7 +37,7 @@ const LoginReply$json = const {
   '1': 'LoginReply',
   '2': const [
     const {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.easyrent.AuthError', '9': 0, '10': 'error', '17': true},
+    const {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.easyrent.auth.AuthError', '9': 0, '10': 'error', '17': true},
   ],
   '8': const [
     const {'1': '_error'},
@@ -45,13 +45,13 @@ const LoginReply$json = const {
 };
 
 /// Descriptor for `LoginReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List loginReplyDescriptor = $convert.base64Decode('CgpMb2dpblJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSLgoFZXJyb3IYAiABKA4yEy5lYXN5cmVudC5BdXRoRXJyb3JIAFIFZXJyb3KIAQFCCAoGX2Vycm9y');
+final $typed_data.Uint8List loginReplyDescriptor = $convert.base64Decode('CgpMb2dpblJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSMwoFZXJyb3IYAiABKA4yGC5lYXN5cmVudC5hdXRoLkF1dGhFcnJvckgAUgVlcnJvcogBAUIICgZfZXJyb3I=');
 @$core.Deprecated('Use registerReplyDescriptor instead')
 const RegisterReply$json = const {
   '1': 'RegisterReply',
   '2': const [
     const {'1': 'success', '3': 1, '4': 1, '5': 8, '10': 'success'},
-    const {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.easyrent.AuthError', '9': 0, '10': 'error', '17': true},
+    const {'1': 'error', '3': 2, '4': 1, '5': 14, '6': '.easyrent.auth.AuthError', '9': 0, '10': 'error', '17': true},
   ],
   '8': const [
     const {'1': '_error'},
@@ -59,4 +59,4 @@ const RegisterReply$json = const {
 };
 
 /// Descriptor for `RegisterReply`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List registerReplyDescriptor = $convert.base64Decode('Cg1SZWdpc3RlclJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSLgoFZXJyb3IYAiABKA4yEy5lYXN5cmVudC5BdXRoRXJyb3JIAFIFZXJyb3KIAQFCCAoGX2Vycm9y');
+final $typed_data.Uint8List registerReplyDescriptor = $convert.base64Decode('Cg1SZWdpc3RlclJlcGx5EhgKB3N1Y2Nlc3MYASABKAhSB3N1Y2Nlc3MSMwoFZXJyb3IYAiABKA4yGC5lYXN5cmVudC5hdXRoLkF1dGhFcnJvckgAUgVlcnJvcogBAUIICgZfZXJyb3I=');

@@ -1,8 +1,8 @@
-import 'package:test/test.dart';
 import 'dart:math';
+import 'package:test/test.dart';
 import 'package:easy_rent/model/user.dart';
 import 'package:easy_rent/utils/auth.dart';
-import 'package:easy_rent/grpc/easyrent.pbgrpc.dart';
+import 'package:easy_rent/grpc/auth.pbgrpc.dart';
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
 Random _rnd = Random();
@@ -30,7 +30,7 @@ void loginTest({User? user}) {
   test('Test user login', () async {
     final testUser = user ?? getRandomUser();
     final result = await _authClient.onLogin(testUser);
-    // expect(result.error, AuthError.NONEXISTENT_USER);
+    expect(result.error, AuthError.NONEXISTENT_USER);
   });
 }
 

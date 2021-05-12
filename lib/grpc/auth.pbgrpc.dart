@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: easyrent.proto
+//  source: auth.proto
 //
 // @dart = 2.12
 // ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
@@ -10,17 +10,17 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import 'easyrent.pb.dart' as $0;
-export 'easyrent.pb.dart';
+import 'auth.pb.dart' as $0;
+export 'auth.pb.dart';
 
 class AuthenticateClient extends $grpc.Client {
   static final _$onLogin = $grpc.ClientMethod<$0.AuthRequest, $0.LoginReply>(
-      '/easyrent.Authenticate/OnLogin',
+      '/easyrent.auth.Authenticate/OnLogin',
       ($0.AuthRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.LoginReply.fromBuffer(value));
   static final _$onRegister =
       $grpc.ClientMethod<$0.AuthRequest, $0.RegisterReply>(
-          '/easyrent.Authenticate/OnRegister',
+          '/easyrent.auth.Authenticate/OnRegister',
           ($0.AuthRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.RegisterReply.fromBuffer(value));
 
@@ -41,7 +41,7 @@ class AuthenticateClient extends $grpc.Client {
 }
 
 abstract class AuthenticateServiceBase extends $grpc.Service {
-  $core.String get $name => 'easyrent.Authenticate';
+  $core.String get $name => 'easyrent.auth.Authenticate';
 
   AuthenticateServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.AuthRequest, $0.LoginReply>(
