@@ -1,4 +1,4 @@
-pub use anyhow::{Result};
+pub use anyhow::Result;
 use thiserror::Error;
 
 #[derive(Error, Debug)]
@@ -14,4 +14,13 @@ pub enum EasyRentAuthError {
 
     #[error("Unknown error")]
     Unknown,
+}
+
+#[derive(Error, Debug)]
+pub enum EasyRentPostError {
+
+}
+#[derive(Error, Debug)]
+pub enum EasyRentCommandError {
+
 }

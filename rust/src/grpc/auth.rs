@@ -6,6 +6,7 @@ use authenticate_server::Authenticate;
 use crate::{Auth, error::EasyRentAuthError};
 use crate::model::user::User;
 use crate::sql::*;
+use super::RpcResult;
 use sqlx::PgPool;
 use tracing::*;
 
@@ -14,14 +15,8 @@ pub struct Authenticator {
     db_pool: PgPool,
 }
 
-trait RpcResult {
-    type Reply;
-    fn success() -> Self::Reply;
-    fn failure(e: AuthError) -> Self::Reply;
-}
-
 impl RpcResult for LoginReply {
-    type Reply = LoginReply;
+    type Error = AuthError;
 
     fn success() -> Self {
         LoginReply {
@@ -30,16 +25,17 @@ impl RpcResult for LoginReply {
         }
     }
 
-    fn failure(e: AuthError) -> Self {
+    fn failure(error: AuthError) -> Self {
         LoginReply {
             success: false,
-            error: Some(e.into()),
+            error: Some(error.into()),
         }
     }
 }
 
 impl RpcResult for RegisterReply {
-    type Reply = RegisterReply;
+    type Error = AuthError;
+
     fn success() -> Self {
         RegisterReply {
             success: true,
@@ -47,19 +43,20 @@ impl RpcResult for RegisterReply {
         }
     }
 
-    fn failure(e: AuthError) -> Self {
+    fn failure(error: Self::Error) -> Self {
         RegisterReply {
             success: false,
-            error: Some(e.into()),
+            error: Some(error.into()),
         }
     }
 }
 
+
 impl Authenticator {
-    pub async fn init() -> Result<Self> {
-        Ok(Authenticator {
-            db_pool: PgPool::connect(&dotenv::var("DATABASE_URL")?).await?
-        })
+    pub fn new(db_pool: PgPool) -> Self {
+        Authenticator {
+            db_pool
+        }
     }
 }
 

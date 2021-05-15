@@ -1,8 +1,12 @@
 use anyhow::Result;
 use tonic::transport::Server;
 use dirs_next::data_local_dir;
-use easy_rent_sdk::grpc::auth::authenticate_server::AuthenticateServer;
 use easy_rent_sdk::grpc::auth::Authenticator;
+use easy_rent_sdk::grpc::auth::authenticate_server::AuthenticateServer;
+use easy_rent_sdk::grpc::command::Commander;
+use easy_rent_sdk::grpc::command::command_server::CommandServer;
+use easy_rent_sdk::grpc::post::PostManager;
+use easy_rent_sdk::grpc::post::post_server::PostServer;
 use easy_rent_sdk::utils::set_panic_hook;
 use tracing::*;
 use tracing_subscriber::{self, fmt, subscribe::CollectExt, EnvFilter};
@@ -36,10 +40,14 @@ async fn main() -> Result<()> {
             ),
     )?;
 
+    let db_pool = sqlx::PgPool::connect(&dotenv::var("DATABASE_URL")?).await?;
+
     trace!("Start to serve at ");
     Server::builder()
-        .add_service(AuthenticateServer::new(Authenticator::init().await?))
-        .serve("127.0.0.1:8080".parse().unwrap())
+        .add_service(AuthenticateServer::new(Authenticator::new(db_pool.clone())))
+        .add_service(PostServer::new(PostManager::new(db_pool.clone())))
+        .add_service(CommandServer::new(Commander::new(db_pool.clone())))
+        .serve(dotenv::var("LISTEN_ADDR")?.parse()?)
         .await?;
 
     Ok(())
