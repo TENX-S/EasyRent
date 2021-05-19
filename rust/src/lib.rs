@@ -1,8 +1,8 @@
-pub mod model;
 pub mod error;
 pub mod grpc;
-pub mod utils;
+pub mod model;
 pub mod sql;
+pub mod utils;
 
 use error::{EasyRentAuthError, Result};
 use model::user::User;

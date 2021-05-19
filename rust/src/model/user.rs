@@ -1,7 +1,7 @@
+use crate::grpc::auth::AuthRequest;
 use chrono::Local;
 use sqlx::FromRow;
 use tonic::Request;
-use crate::grpc::auth::AuthRequest;
 
 #[derive(Debug, FromRow)]
 pub struct User {

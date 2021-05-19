@@ -1,7 +1,7 @@
 tonic::include_proto!("easyrent.post");
 
-use post_server::Post;
 use crate::error::EasyRentPostError;
+use post_server::Post;
 use sqlx::PgPool;
 
 use super::RpcResult;
@@ -12,9 +12,7 @@ pub struct PostManager {
 
 impl PostManager {
     pub fn new(db_pool: PgPool) -> Self {
-        PostManager {
-            db_pool
-        }
+        PostManager { db_pool }
     }
 }
 
@@ -32,7 +30,10 @@ impl RpcResult for SubmitReply {
 
 #[tonic::async_trait]
 impl Post for PostManager {
-    async fn on_submit(&self, request: tonic::Request<SubmitRequest>) -> Result<tonic::Response<SubmitReply>, tonic::Status> {
+    async fn on_submit(
+        &self,
+        request: tonic::Request<SubmitRequest>,
+    ) -> Result<tonic::Response<SubmitReply>, tonic::Status> {
         unimplemented!()
     }
 }

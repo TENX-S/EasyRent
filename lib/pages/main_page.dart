@@ -4,6 +4,7 @@ import 'package:easy_rent/pages/home_page.dart';
 import 'package:easy_rent/pages/about_page.dart';
 import 'package:easy_rent/pages/profile_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:easy_rent/utils/tip.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 
 class MainPage extends StatefulWidget {
@@ -21,11 +22,7 @@ class _MainPageState extends State<MainPage> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Fluttertoast.showToast(
-        msg: '再按一次返回键退出',
-        backgroundColor: Color.fromARGB(255, 247, 238, 213),
-        textColor: Color.fromRGBO(141, 141, 141, 1.0),
-      );
+      showTip(msg: '再按一次返回键退出');
       return Future.value(false);
     }
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');

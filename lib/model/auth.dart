@@ -29,7 +29,8 @@ class AuthClient {
     stub = AuthenticateClient(channel);
   }
 
-  Future<LoginReply> onLogin(User user) async => await stub.onLogin(AuthRequest(
+  Future<LoginReply> onLogin(User user) async =>
+      await stub.onLogin(AuthRequest(
         name: user.name,
         password: user.password,
       ));

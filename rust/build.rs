@@ -1,5 +1,4 @@
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-
     let iface_files = &[
         "../proto/auth.proto",
         "../proto/post.proto",

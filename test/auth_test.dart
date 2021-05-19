@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:test/test.dart';
 import 'package:easy_rent/model/user.dart';
-import 'package:easy_rent/utils/auth.dart';
+import 'package:easy_rent/model/auth.dart';
 import 'package:easy_rent/grpc/auth.pbgrpc.dart';
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -22,7 +22,7 @@ User getRandomUser() => User(
 AuthClient _authClient = AuthClient(serverAddr: '1.116.216.141', serverPort: 8081);
 
 void main() {
-  loginTest(user: User(name: "test-Oc2T1kWcreoz", password: "test-uheus3cZ"));
+  // loginTest(user: User(name: "test-Oc2T1kWcreoz", password: "test-uheus3cZ"));
   // registerTest();
 }
 

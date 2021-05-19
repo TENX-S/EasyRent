@@ -130,21 +130,23 @@ abstract class Post {
 }
 
 class HelpPost extends Post {
-  String expectedAddr;
-  int expectedPrice;
-  String demands;
+  String? expectedAddr;
+  int? expectedPrice;
+  String? demands;
 
   HelpPost(
     String name,
     String phone,
     String releaseTime, {
-    required String expectedAddr,
-    required int expectedPrice,
-    required String demands,
+    String? expectedAddr,
+    int? expectedPrice,
+    String? demands,
   })  : expectedAddr = expectedAddr,
         expectedPrice = expectedPrice,
         demands = demands,
         super(name, phone, releaseTime);
+
+
 
   @override
   Widget showPicture() => Image.asset("assets/images/help.png");
@@ -235,7 +237,7 @@ class HelpPost extends Post {
                             flex: 16,
                             // fit: FlexFit.tight,
                             child: Text(
-                              demands,
+                              demands!,
                               style: TextStyle(
                                 color: Color.fromRGBO(48, 47, 48, 1.0),
                                 fontWeight: FontWeight.w700,
@@ -320,7 +322,7 @@ class HelpPost extends Post {
                               style: Post.subtitle_style,
                             ),
                             Text(
-                              expectedAddr,
+                              expectedAddr!,
                               style: Post.min_body_style,
                             ),
                           ],
@@ -344,7 +346,7 @@ class HelpPost extends Post {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
                     child: Text(
-                      demands,
+                      demands!,
                       textAlign: TextAlign.justify,
                       style: Post.body_style,
                     ),
@@ -387,26 +389,26 @@ class HelpPost extends Post {
 }
 
 class RentPost extends Post {
-  List<String> pictures;
-  String roomAddr;
-  String description;
-  int price;
-  String restriction;
-  String roomType;
-  int roomArea;
-  int roomFloor;
-  String roomOrientation;
+  List<String>? pictures;
+  String? roomAddr;
+  String? description;
+  int? price;
+  String? restriction;
+  String? roomType;
+  int? roomArea;
+  int? roomFloor;
+  String? roomOrientation;
 
   RentPost(String name, String phone, String releaseTime,
-      {required List<String> pictures,
-      required String roomAddr,
-      required String description,
-      required int price,
-      required String restriction,
-      required String roomType,
-      required int roomArea,
-      required int roomFloor,
-      required String roomOrientation})
+      {List<String>? pictures,
+      String? roomAddr,
+      String? description,
+      int? price,
+      String? restriction,
+      String? roomType,
+      int? roomArea,
+      int? roomFloor,
+      String? roomOrientation})
       : pictures = pictures,
         roomAddr = roomAddr,
         description = description,
@@ -425,12 +427,12 @@ class RentPost extends Post {
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
           return Image.asset(
-            pictures[index],
+            pictures![index],
             fit: BoxFit.fill,
           );
         },
         autoplay: true,
-        itemCount: pictures.length,
+        itemCount: pictures!.length,
         pagination: SwiperPagination(builder: SwiperPagination.fraction),
         control: SwiperControl(),
       ),
@@ -610,7 +612,7 @@ class RentPost extends Post {
                               style: Post.subtitle_style,
                             ),
                             Text(
-                              roomAddr,
+                              roomAddr!,
                               style: Post.min_body_style,
                             ),
                           ],
@@ -638,7 +640,7 @@ class RentPost extends Post {
                       children: [
                         InfoTile(
                           name: '室型',
-                          content: roomType,
+                          content: roomType!,
                         ),
                         InfoTile(
                           name: '面积(m²)',
@@ -650,7 +652,7 @@ class RentPost extends Post {
                         ),
                         InfoTile(
                           name: '朝向',
-                          content: roomOrientation,
+                          content: roomOrientation!,
                         ),
                       ],
                     ),
@@ -661,7 +663,7 @@ class RentPost extends Post {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25),
                     child: Text(
-                      description,
+                      description!,
                       textAlign: TextAlign.justify,
                       style: Post.body_style,
                     ),

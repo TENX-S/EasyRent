@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:easy_rent/grpc/auth.pb.dart';
 import 'package:easy_rent/grpc/auth.pbgrpc.dart';
-import 'package:easy_rent/utils/auth.dart';
+import 'package:easy_rent/model/auth.dart';
 import 'package:easy_rent/model/app_routes.dart';
 import 'package:easy_rent/model/user.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:easy_rent/utils/tip.dart';
 import 'package:flutter_login/flutter_login.dart';
 
 class AuthPage extends StatefulWidget {
@@ -25,7 +25,13 @@ class _AuthPageState extends State<AuthPage> {
       name: input.name,
       password: input.password,
     );
-    final resp = await _authClient.onLogin(user);
+    late final resp;
+    try {
+      resp = await _authClient.onLogin(user);
+    } catch (e) {
+      showTip(msg: e.toString());
+    }
+
     if (!resp.success) {
       switch (resp.error) {
         case AuthError.NONEXISTENT_USER:
@@ -40,12 +46,17 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<String?> _onRegister(LoginData input) async {
-    final resp = await _authClient.onRegister(
-      User(
-        name: input.name,
-        password: input.password,
-      ),
+    final user = User(
+      name: input.name,
+      password: input.password,
     );
+    late final resp;
+    try {
+      resp = await _authClient.onRegister(user);
+    } catch (e) {
+      showTip(msg: e.toString());
+    }
+
     if (!resp.success) {
       switch (resp.error) {
         case AuthError.DUPLICATED_NAME:
@@ -65,11 +76,7 @@ class _AuthPageState extends State<AuthPage> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      Fluttertoast.showToast(
-        msg: '再按一次返回键退出',
-        backgroundColor: Color.fromARGB(255, 240, 235, 213),
-        textColor: Color.fromRGBO(141, 141, 141, 1.0),
-      );
+      showTip(msg: '再按一次返回键退出');
       return Future.value(false);
     }
     return Future.value(true);

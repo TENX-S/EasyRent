@@ -17,10 +17,6 @@ pub enum EasyRentAuthError {
 }
 
 #[derive(Error, Debug)]
-pub enum EasyRentPostError {
-
-}
+pub enum EasyRentPostError {}
 #[derive(Error, Debug)]
-pub enum EasyRentCommandError {
-
-}
+pub enum EasyRentCommandError {}
