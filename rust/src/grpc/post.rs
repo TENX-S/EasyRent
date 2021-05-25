@@ -3,6 +3,8 @@ tonic::include_proto!("easyrent.post");
 use crate::error::EasyRentPostError;
 use post_server::Post;
 use sqlx::PgPool;
+use tonic::Response;
+use tracing::*;
 
 use super::RpcResult;
 #[derive(Debug)]
@@ -30,9 +32,19 @@ impl RpcResult for SubmitReply {
 
 #[tonic::async_trait]
 impl Post for PostManager {
-    async fn on_submit(
+    async fn on_rent(
         &self,
-        request: tonic::Request<SubmitRequest>,
+        request: tonic::Request<SubmitRentRequest>,
+    ) -> Result<tonic::Response<SubmitReply>, tonic::Status> {
+        trace!("{:#?}", request.into_inner());
+        Ok(Response::new(SubmitReply {
+            success: true
+        }))
+    }
+
+    async fn on_help(
+        &self,
+        request: tonic::Request<SubmitHelpRequest>,
     ) -> Result<tonic::Response<SubmitReply>, tonic::Status> {
         unimplemented!()
     }

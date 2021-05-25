@@ -2,14 +2,30 @@ syntax = "proto3";
 
 package easyrent.post;
 
-service post {
-    rpc OnSubmit(SubmitRequest) returns (SubmitReply) {}
+service Post {
+    rpc OnRent(SubmitRentRequest) returns (SubmitReply) {}
+    rpc OnHelp(SubmitHelpRequest) returns (SubmitReply) {}
 }
 
-message SubmitRequest {
+message SubmitRentRequest {
+    string name = 1;
+    string phone = 2;
+    string room_addr = 3;
+    int32 room_area = 4;
+    string room_type = 5;
+    string room_orientation = 6;
+    int32 room_floor = 7;
+    int32 price = 8;
+}
 
+message SubmitHelpRequest {
+    string name = 1;
+    string phone = 2;
+    string expected_addr = 3;
+    int32 expected_price = 4;
+    string demands = 5;
 }
 
 message SubmitReply {
-
+    bool success = 1;
 }

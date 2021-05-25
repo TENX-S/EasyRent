@@ -13,42 +13,66 @@ import 'package:grpc/service_api.dart' as $grpc;
 import 'post.pb.dart' as $2;
 export 'post.pb.dart';
 
-class postClient extends $grpc.Client {
-  static final _$onSubmit =
-      $grpc.ClientMethod<$2.SubmitRequest, $2.SubmitReply>(
-          '/easyrent.post.post/OnSubmit',
-          ($2.SubmitRequest value) => value.writeToBuffer(),
+class PostClient extends $grpc.Client {
+  static final _$onRent =
+      $grpc.ClientMethod<$2.SubmitRentRequest, $2.SubmitReply>(
+          '/easyrent.post.Post/OnRent',
+          ($2.SubmitRentRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $2.SubmitReply.fromBuffer(value));
+  static final _$onHelp =
+      $grpc.ClientMethod<$2.SubmitHelpRequest, $2.SubmitReply>(
+          '/easyrent.post.Post/OnHelp',
+          ($2.SubmitHelpRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $2.SubmitReply.fromBuffer(value));
 
-  postClient($grpc.ClientChannel channel,
+  PostClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
 
-  $grpc.ResponseFuture<$2.SubmitReply> onSubmit($2.SubmitRequest request,
+  $grpc.ResponseFuture<$2.SubmitReply> onRent($2.SubmitRentRequest request,
       {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$onSubmit, request, options: options);
+    return $createUnaryCall(_$onRent, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$2.SubmitReply> onHelp($2.SubmitHelpRequest request,
+      {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$onHelp, request, options: options);
   }
 }
 
-abstract class postServiceBase extends $grpc.Service {
-  $core.String get $name => 'easyrent.post.post';
+abstract class PostServiceBase extends $grpc.Service {
+  $core.String get $name => 'easyrent.post.Post';
 
-  postServiceBase() {
-    $addMethod($grpc.ServiceMethod<$2.SubmitRequest, $2.SubmitReply>(
-        'OnSubmit',
-        onSubmit_Pre,
+  PostServiceBase() {
+    $addMethod($grpc.ServiceMethod<$2.SubmitRentRequest, $2.SubmitReply>(
+        'OnRent',
+        onRent_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $2.SubmitRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => $2.SubmitRentRequest.fromBuffer(value),
+        ($2.SubmitReply value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$2.SubmitHelpRequest, $2.SubmitReply>(
+        'OnHelp',
+        onHelp_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $2.SubmitHelpRequest.fromBuffer(value),
         ($2.SubmitReply value) => value.writeToBuffer()));
   }
 
-  $async.Future<$2.SubmitReply> onSubmit_Pre(
-      $grpc.ServiceCall call, $async.Future<$2.SubmitRequest> request) async {
-    return onSubmit(call, await request);
+  $async.Future<$2.SubmitReply> onRent_Pre($grpc.ServiceCall call,
+      $async.Future<$2.SubmitRentRequest> request) async {
+    return onRent(call, await request);
   }
 
-  $async.Future<$2.SubmitReply> onSubmit(
-      $grpc.ServiceCall call, $2.SubmitRequest request);
+  $async.Future<$2.SubmitReply> onHelp_Pre($grpc.ServiceCall call,
+      $async.Future<$2.SubmitHelpRequest> request) async {
+    return onHelp(call, await request);
+  }
+
+  $async.Future<$2.SubmitReply> onRent(
+      $grpc.ServiceCall call, $2.SubmitRentRequest request);
+  $async.Future<$2.SubmitReply> onHelp(
+      $grpc.ServiceCall call, $2.SubmitHelpRequest request);
 }
