@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package js.post;
+
+service post {
+  rpc FetchPost(FetchRequest) returns (FetchReply) {}
+  rpc ReviewPost(ReviewRequest) returns (ReviewReply) {}
+}
+
+message Post {
+
+}
+
+message FetchRequest {
+
+}
+
+message FetchReply {
+  repeated Post post = 1;
+}
+
+message ReviewRequest {
+
+}
+
+message ReviewReply {
+
+}
