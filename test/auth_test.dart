@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:test/test.dart';
 import 'package:easy_rent/model/user.dart';
-import 'package:easy_rent/model/auth.dart';
+import 'package:easy_rent/model/client.dart';
 import 'package:easy_rent/grpc/auth.pbgrpc.dart';
 
 const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';

@@ -1,7 +1,11 @@
 import 'dart:ui';
+import 'package:easy_rent/utils/pending.dart';
+import 'package:easy_rent/utils/tip.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
+import 'package:easy_rent/model/client.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -16,8 +20,21 @@ class SubmitPage extends StatefulWidget {
 }
 
 class _SubmitPageState extends State<SubmitPage> {
-  late Post post;
+  late RentPost rentPost;
+  Map<int, String> _roomType = {1: '', 2: '', 3: ''};
+  List<String> _orientations = [
+    '东',
+    '南',
+    '西',
+    '北',
+    '东南',
+    '东北',
+    '西南',
+    '西北',
+  ];
+  late HelpPost helpPost;
   final _formKey = GlobalKey<FormBuilderState>();
+  final _posterClient = PosterClient();
   bool _formChanged = false;
 
   Widget _actionButton(
@@ -87,7 +104,8 @@ class _SubmitPageState extends State<SubmitPage> {
     );
   }
 
-  Widget _bottomSheetBase({required Widget child}) {
+  Widget _bottomSheetBase(
+      {required Widget child, required void Function()? onDone}) {
     return Stack(
       children: [
         child,
@@ -99,15 +117,11 @@ class _SubmitPageState extends State<SubmitPage> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
                 child: Text('取消'),
               ),
               MaterialButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: onDone,
                 child: Text('确定'),
               ),
             ],
@@ -121,7 +135,7 @@ class _SubmitPageState extends State<SubmitPage> {
   Widget build(BuildContext context) {
     switch (submitPageType) {
       case PostKind.Rent:
-        post = RentPost('', '', '');
+        rentPost = RentPost('', '', '');
         return _formBase(
           context: context,
           child: Column(
@@ -250,127 +264,133 @@ class _SubmitPageState extends State<SubmitPage> {
                               Padding(
                                 padding: EdgeInsets.only(top: 13),
                                 child: GestureDetector(
-                                    child: Text(
-                                      '请选择',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 19,
-                                        color: Colors.grey.shade700,
-                                      ),
+                                  child: Text(
+                                    '请选择',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 19,
+                                      color: Colors.grey.shade700,
                                     ),
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return _bottomSheetBase(
-                                              child: Container(
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      2.4,
-                                                  color: Colors.white,
-                                                  child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Expanded(
-                                                          child:
-                                                              CupertinoPicker(
-                                                            scrollController:
-                                                                FixedExtentScrollController(
-                                                              initialItem: 0,
+                                  ),
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return _bottomSheetBase(
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  2.4,
+                                              color: Colors.white,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: CupertinoPicker(
+                                                      scrollController:
+                                                          FixedExtentScrollController(
+                                                        initialItem: 0,
+                                                      ),
+                                                      itemExtent: 35,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      onSelectedItemChanged: (int
+                                                              index) =>
+                                                          setState(() =>
+                                                              _roomType[1] =
+                                                                  '${index + 1}室'),
+                                                      children: 1
+                                                          .to(15)
+                                                          .map(
+                                                            (val) => Center(
+                                                              child: Text(
+                                                                '$val 室',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
                                                             ),
-                                                            itemExtent: 35,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            onSelectedItemChanged:
-                                                                (int index) {},
-                                                            children: 1
-                                                                .to(15)
-                                                                .map(
-                                                                  (val) =>
-                                                                      Center(
-                                                                    child: Text(
-                                                                      '$val 室',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        // fontWeight:FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                                .toList(),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child:
-                                                              CupertinoPicker(
-                                                            scrollController:
-                                                                FixedExtentScrollController(
-                                                              initialItem: 0,
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: CupertinoPicker(
+                                                      scrollController:
+                                                          FixedExtentScrollController(
+                                                        initialItem: 0,
+                                                      ),
+                                                      itemExtent: 35,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      onSelectedItemChanged: (int
+                                                              index) =>
+                                                          setState(() =>
+                                                              _roomType[1] =
+                                                                  '${index + 1}厅'),
+                                                      children: 0
+                                                          .to(15)
+                                                          .map(
+                                                            (val) => Center(
+                                                              child: Text(
+                                                                '$val 厅',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
                                                             ),
-                                                            itemExtent: 35,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            onSelectedItemChanged:
-                                                                (int index) {},
-                                                            children: 0
-                                                                .to(15)
-                                                                .map(
-                                                                  (val) =>
-                                                                      Center(
-                                                                    child: Text(
-                                                                      '$val 厅',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        // fontWeight:FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                                .toList(),
-                                                          ),
-                                                        ),
-                                                        Expanded(
-                                                          child:
-                                                              CupertinoPicker(
-                                                            scrollController:
-                                                                FixedExtentScrollController(
-                                                              initialItem: 0,
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: CupertinoPicker(
+                                                      scrollController:
+                                                          FixedExtentScrollController(
+                                                        initialItem: 0,
+                                                      ),
+                                                      itemExtent: 35,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      onSelectedItemChanged: (int
+                                                              index) =>
+                                                          setState(() =>
+                                                              _roomType[1] =
+                                                                  '${index + 1}卫'),
+                                                      children: 0
+                                                          .to(15)
+                                                          .map(
+                                                            (val) => Center(
+                                                              child: Text(
+                                                                '$val 卫',
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
                                                             ),
-                                                            itemExtent: 35,
-                                                            backgroundColor:
-                                                                Colors.white,
-                                                            onSelectedItemChanged:
-                                                                (int index) {},
-                                                            children: 0
-                                                                .to(15)
-                                                                .map(
-                                                                  (val) =>
-                                                                      Center(
-                                                                    child: Text(
-                                                                      '$val 卫',
-                                                                      style:
-                                                                          TextStyle(
-                                                                        fontSize:
-                                                                            20,
-                                                                        // fontWeight:FontWeight.bold,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                                .toList(),
-                                                          ),
-                                                        ),
-                                                      ])),
-                                            );
-                                          });
-                                    }),
+                                                          )
+                                                          .toList(),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            onDone: () {
+                                              rentPost.roomType =
+                                                  _roomType.values.join();
+                                              setState(
+                                                  () => _formChanged = true);
+                                              Navigator.pop(context);
+                                            });
+                                      },
+                                    );
+                                  },
+                                ),
                               )
                             ],
                           ),
@@ -419,17 +439,10 @@ class _SubmitPageState extends State<SubmitPage> {
                                               itemExtent: 35,
                                               backgroundColor: Colors.white,
                                               onSelectedItemChanged:
-                                                  (int index) {},
-                                              children: [
-                                                '东',
-                                                '南',
-                                                '西',
-                                                '北',
-                                                '东南',
-                                                '东北',
-                                                '西南',
-                                                '西北',
-                                              ]
+                                                  (int index) => setState(() =>
+                                                      rentPost.roomOrientation =
+                                                          _orientations[index]),
+                                              children: _orientations
                                                   .map(
                                                     (val) => Text(
                                                       val,
@@ -441,6 +454,10 @@ class _SubmitPageState extends State<SubmitPage> {
                                                   .toList(),
                                             ),
                                           ),
+                                          onDone: () {
+                                            setState(() => _formChanged = true);
+                                            Navigator.pop(context);
+                                          },
                                         );
                                       },
                                     );
@@ -494,7 +511,9 @@ class _SubmitPageState extends State<SubmitPage> {
                                               itemExtent: 35,
                                               backgroundColor: Colors.white,
                                               onSelectedItemChanged:
-                                                  (int index) {},
+                                                  (int index) => setState(() =>
+                                                      rentPost.roomFloor =
+                                                          index + 1),
                                               children: (-2)
                                                   .to(99)
                                                   .where((value) => value != 0)
@@ -509,6 +528,10 @@ class _SubmitPageState extends State<SubmitPage> {
                                                   .toList(),
                                             ),
                                           ),
+                                          onDone: () {
+                                            setState(() => _formChanged = true);
+                                            Navigator.pop(context);
+                                          },
                                         );
                                       },
                                     );
@@ -553,7 +576,7 @@ class _SubmitPageState extends State<SubmitPage> {
                           cursorColor: Colors.black,
                           textAlign: TextAlign.center,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          name: 'monthlyRent',
+                          name: 'price',
                           keyboardType:
                               TextInputType.numberWithOptions(signed: false),
                           textInputAction: TextInputAction.next,
@@ -736,8 +759,24 @@ class _SubmitPageState extends State<SubmitPage> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 child: MaterialButton(
-                  onPressed: () {
+                  onPressed: () async {
                     _formKey.currentState?.saveAndValidate();
+                    final value = _formKey.currentState?.value;
+                    rentPost
+                      ..roomAddr = value!['roomAddr']
+                      ..roomArea = value['roomArea']
+                      ..price = value['price']
+                      ..restriction = value['restriction']
+                      ..name = value['name']
+                      ..phone = value['phone'];
+                    showPendingDialog(context);
+                    final result = await _posterClient.onRent(rentPost);
+                    Navigator.pop(context);
+                    if (result.success) {
+                      showTip(msg: '提交成功', gravity: ToastGravity.CENTER);
+                    } else {
+                      showTip(msg: '提交失败', gravity: ToastGravity.CENTER);
+                    }
                   },
                   color: Color.fromARGB(255, 251, 150, 110),
                   shape: RoundedRectangleBorder(
@@ -762,7 +801,7 @@ class _SubmitPageState extends State<SubmitPage> {
           ),
         );
       case PostKind.Help:
-        post = HelpPost('', '', '');
+        helpPost = HelpPost('', '', '');
         return _formBase(
           context: context,
           child: Container(),

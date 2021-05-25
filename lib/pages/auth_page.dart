@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_rent/grpc/auth.pb.dart';
 import 'package:easy_rent/grpc/auth.pbgrpc.dart';
-import 'package:easy_rent/model/auth.dart';
+import 'package:easy_rent/model/client.dart';
 import 'package:easy_rent/model/app_routes.dart';
 import 'package:easy_rent/model/user.dart';
 import 'package:email_validator/email_validator.dart';
@@ -15,10 +15,7 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   DateTime? currentBackPressTime;
-  AuthClient _authClient = AuthClient(
-    serverAddr: '1.116.216.141',
-    serverPort: 8081,
-  );
+  final _authClient = AuthClient();
 
   Future<String?> _onLogin(LoginData input) async {
     final user = User(

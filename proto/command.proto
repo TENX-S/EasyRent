@@ -2,32 +2,38 @@ syntax = "proto3";
 
 package easyrent.command;
 
-service command {
+service Command {
     rpc OnRefresh(RefreshRequest) returns (RefreshReply) {}
-    rpc OnFetch(FetchRequest) returns (FetchReply) {}
     rpc OnLogout(LogoutRequest) returns (LogoutReply) {}
 }
 
-message RefreshRequest {
-
+message FetchedRentPost {
+    string name = 1;
+    string phone = 2;
+    string room_addr = 3;
+    int32 room_area = 4;
+    string room_type = 5;
+    string room_orientation = 6;
+    int32 room_floor = 7;
+    int32 price = 8;
 }
+
+message FetchedHelpPost {
+    string name = 1;
+    string phone = 2;
+    string expected_addr = 3;
+    int32 expected_price = 4;
+    string demands = 5;
+}
+
+message RefreshRequest {}
 
 message RefreshReply {
-
-}
-
-message FetchRequest {
-
-}
-
-message FetchReply {
-
+    repeated FetchedRentPost rent_post = 1;
+    repeated FetchedHelpPost help_post = 2;
 }
 
 message LogoutRequest {
-
+    string name = 1;
 }
-
-message LogoutReply {
-
-}
+message LogoutReply {}

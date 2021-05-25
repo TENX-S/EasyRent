@@ -1,8 +1,11 @@
 tonic::include_proto!("easyrent.command");
 
 use crate::error::EasyRentCommandError;
+use crate::sql::LOGOUT_USER;
 use command_server::Command;
 use sqlx::PgPool;
+use tonic::Response;
+use tracing::*;
 
 use super::RpcResult;
 #[derive(Debug)]
@@ -37,17 +40,17 @@ impl Command for Commander {
         unimplemented!()
     }
 
-    async fn on_fetch(
-        &self,
-        request: tonic::Request<FetchRequest>,
-    ) -> Result<tonic::Response<FetchReply>, tonic::Status> {
-        unimplemented!()
-    }
-
     async fn on_logout(
         &self,
         request: tonic::Request<LogoutRequest>,
     ) -> Result<tonic::Response<LogoutReply>, tonic::Status> {
-        unimplemented!()
+        if let Err(e) = sqlx::query(LOGOUT_USER)
+            .bind(&request.into_inner().name)
+            .execute(&self.db_pool)
+            .await
+        {
+            error!("{:?}", e);
+        }
+        Ok(Response::new(LogoutReply {}))
     }
 }
