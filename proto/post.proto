@@ -16,6 +16,8 @@ message SubmitRentRequest {
     string room_orientation = 6;
     int32 room_floor = 7;
     int32 price = 8;
+    string restriction = 9;
+    string create_by = 10;
 }
 
 message SubmitHelpRequest {

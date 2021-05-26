@@ -19,6 +19,8 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomOrientation')
     ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomFloor', $pb.PbFieldType.O3)
     ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.O3)
+    ..aOS(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restriction')
+    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createBy')
     ..hasRequiredFields = false
   ;
 
@@ -32,6 +34,8 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     $core.String? roomOrientation,
     $core.int? roomFloor,
     $core.int? price,
+    $core.String? restriction,
+    $core.String? createBy,
   }) {
     final _result = create();
     if (name != null) {
@@ -57,6 +61,12 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     }
     if (price != null) {
       _result.price = price;
+    }
+    if (restriction != null) {
+      _result.restriction = restriction;
+    }
+    if (createBy != null) {
+      _result.createBy = createBy;
     }
     return _result;
   }
@@ -152,6 +162,24 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
   $core.bool hasPrice() => $_has(7);
   @$pb.TagNumber(8)
   void clearPrice() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.String get restriction => $_getSZ(8);
+  @$pb.TagNumber(9)
+  set restriction($core.String v) { $_setString(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasRestriction() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearRestriction() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get createBy => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set createBy($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasCreateBy() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearCreateBy() => clearField(10);
 }
 
 class SubmitHelpRequest extends $pb.GeneratedMessage {

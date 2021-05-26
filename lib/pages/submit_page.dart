@@ -628,7 +628,7 @@ class _SubmitPageState extends State<SubmitPage> {
                           style: TextStyle(fontSize: 11),
                         ),
                         FormBuilderChoiceChip(
-                          name: 'paymentRestrictions',
+                          name: 'restriction',
                           alignment: WrapAlignment.center,
                           selectedColor: Color.fromARGB(255, 251, 150, 110),
                           backgroundColor: Colors.grey.withOpacity(0.4),

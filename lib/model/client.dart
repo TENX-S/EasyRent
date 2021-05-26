@@ -93,6 +93,8 @@ class PosterClient extends Client {
     roomType: post.roomType,
     roomOrientation: post.roomOrientation,
     roomFloor: post.roomFloor,
+    restriction: post.restriction,
+    createBy: currentUser.name,
   ));
 
   Future<SubmitReply> onHelp(HelpPost post) async => await stub.onHelp(SubmitHelpRequest(

@@ -20,11 +20,13 @@ const SubmitRentRequest$json = const {
     const {'1': 'room_orientation', '3': 6, '4': 1, '5': 9, '10': 'roomOrientation'},
     const {'1': 'room_floor', '3': 7, '4': 1, '5': 5, '10': 'roomFloor'},
     const {'1': 'price', '3': 8, '4': 1, '5': 5, '10': 'price'},
+    const {'1': 'restriction', '3': 9, '4': 1, '5': 9, '10': 'restriction'},
+    const {'1': 'create_by', '3': 10, '4': 1, '5': 9, '10': 'createBy'},
   ],
 };
 
 /// Descriptor for `SubmitRentRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List submitRentRequestDescriptor = $convert.base64Decode('ChFTdWJtaXRSZW50UmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEhQKBXBob25lGAIgASgJUgVwaG9uZRIbCglyb29tX2FkZHIYAyABKAlSCHJvb21BZGRyEhsKCXJvb21fYXJlYRgEIAEoBVIIcm9vbUFyZWESGwoJcm9vbV90eXBlGAUgASgJUghyb29tVHlwZRIpChByb29tX29yaWVudGF0aW9uGAYgASgJUg9yb29tT3JpZW50YXRpb24SHQoKcm9vbV9mbG9vchgHIAEoBVIJcm9vbUZsb29yEhQKBXByaWNlGAggASgFUgVwcmljZQ==');
+final $typed_data.Uint8List submitRentRequestDescriptor = $convert.base64Decode('ChFTdWJtaXRSZW50UmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEhQKBXBob25lGAIgASgJUgVwaG9uZRIbCglyb29tX2FkZHIYAyABKAlSCHJvb21BZGRyEhsKCXJvb21fYXJlYRgEIAEoBVIIcm9vbUFyZWESGwoJcm9vbV90eXBlGAUgASgJUghyb29tVHlwZRIpChByb29tX29yaWVudGF0aW9uGAYgASgJUg9yb29tT3JpZW50YXRpb24SHQoKcm9vbV9mbG9vchgHIAEoBVIJcm9vbUZsb29yEhQKBXByaWNlGAggASgFUgVwcmljZRIgCgtyZXN0cmljdGlvbhgJIAEoCVILcmVzdHJpY3Rpb24SGwoJY3JlYXRlX2J5GAogASgJUghjcmVhdGVCeQ==');
 @$core.Deprecated('Use submitHelpRequestDescriptor instead')
 const SubmitHelpRequest$json = const {
   '1': 'SubmitHelpRequest',
