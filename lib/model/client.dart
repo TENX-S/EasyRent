@@ -1,5 +1,6 @@
-import 'package:easy_rent/model/post.dart';
 import 'package:grpc/grpc.dart';
+import 'package:uuid/uuid.dart';
+import 'package:easy_rent/model/post.dart';
 import 'package:easy_rent/model/user.dart';
 import 'package:easy_rent/grpc/auth.pb.dart';
 import 'package:easy_rent/grpc/auth.pbgrpc.dart';
@@ -7,6 +8,7 @@ import 'package:easy_rent/grpc/post.pb.dart';
 import 'package:easy_rent/grpc/post.pbgrpc.dart';
 import 'package:easy_rent/grpc/command.pb.dart';
 import 'package:easy_rent/grpc/command.pbgrpc.dart';
+
 
 abstract class Client {
   String? serverAddr = '1.116.216.141';
@@ -87,14 +89,17 @@ class PosterClient extends Client {
   Future<SubmitReply> onRent(RentPost post) async => await stub.onRent(SubmitRentRequest(
     name: post.name,
     phone: post.phone,
-    price: post.price,
     roomAddr: post.roomAddr,
     roomArea: post.roomArea,
     roomType: post.roomType,
     roomOrientation: post.roomOrientation,
     roomFloor: post.roomFloor,
+    description: post.description,
+    price: post.price,
     restriction: post.restriction,
     createBy: currentUser.name,
+    uuid: Uuid().v4(),
+    releaseTime: DateTime.now().toString().substring(0, 19),
   ));
 
   Future<SubmitReply> onHelp(HelpPost post) async => await stub.onHelp(SubmitHelpRequest(
@@ -103,6 +108,9 @@ class PosterClient extends Client {
     expectedAddr: post.expectedAddr,
     expectedPrice: post.expectedPrice,
     demands: post.demands,
+    createBy: currentUser.name,
+    uuid: Uuid().v4(),
+    releaseTime: DateTime.now().toString().substring(0, 19),
   ));
 
 }

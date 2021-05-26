@@ -18,9 +18,12 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomType')
     ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomOrientation')
     ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomFloor', $pb.PbFieldType.O3)
-    ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.O3)
-    ..aOS(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restriction')
-    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createBy')
+    ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'description')
+    ..a<$core.int>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.O3)
+    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restriction')
+    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createBy')
+    ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOS(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
     ..hasRequiredFields = false
   ;
 
@@ -33,9 +36,12 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     $core.String? roomType,
     $core.String? roomOrientation,
     $core.int? roomFloor,
+    $core.String? description,
     $core.int? price,
     $core.String? restriction,
     $core.String? createBy,
+    $core.String? uuid,
+    $core.String? releaseTime,
   }) {
     final _result = create();
     if (name != null) {
@@ -59,6 +65,9 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     if (roomFloor != null) {
       _result.roomFloor = roomFloor;
     }
+    if (description != null) {
+      _result.description = description;
+    }
     if (price != null) {
       _result.price = price;
     }
@@ -67,6 +76,12 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     }
     if (createBy != null) {
       _result.createBy = createBy;
+    }
+    if (uuid != null) {
+      _result.uuid = uuid;
+    }
+    if (releaseTime != null) {
+      _result.releaseTime = releaseTime;
     }
     return _result;
   }
@@ -155,31 +170,58 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
   void clearRoomFloor() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.int get price => $_getIZ(7);
+  $core.String get description => $_getSZ(7);
   @$pb.TagNumber(8)
-  set price($core.int v) { $_setSignedInt32(7, v); }
+  set description($core.String v) { $_setString(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasPrice() => $_has(7);
+  $core.bool hasDescription() => $_has(7);
   @$pb.TagNumber(8)
-  void clearPrice() => clearField(8);
+  void clearDescription() => clearField(8);
 
   @$pb.TagNumber(9)
-  $core.String get restriction => $_getSZ(8);
+  $core.int get price => $_getIZ(8);
   @$pb.TagNumber(9)
-  set restriction($core.String v) { $_setString(8, v); }
+  set price($core.int v) { $_setSignedInt32(8, v); }
   @$pb.TagNumber(9)
-  $core.bool hasRestriction() => $_has(8);
+  $core.bool hasPrice() => $_has(8);
   @$pb.TagNumber(9)
-  void clearRestriction() => clearField(9);
+  void clearPrice() => clearField(9);
 
   @$pb.TagNumber(10)
-  $core.String get createBy => $_getSZ(9);
+  $core.String get restriction => $_getSZ(9);
   @$pb.TagNumber(10)
-  set createBy($core.String v) { $_setString(9, v); }
+  set restriction($core.String v) { $_setString(9, v); }
   @$pb.TagNumber(10)
-  $core.bool hasCreateBy() => $_has(9);
+  $core.bool hasRestriction() => $_has(9);
   @$pb.TagNumber(10)
-  void clearCreateBy() => clearField(10);
+  void clearRestriction() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $core.String get createBy => $_getSZ(10);
+  @$pb.TagNumber(11)
+  set createBy($core.String v) { $_setString(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasCreateBy() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearCreateBy() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.String get uuid => $_getSZ(11);
+  @$pb.TagNumber(12)
+  set uuid($core.String v) { $_setString(11, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasUuid() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearUuid() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.String get releaseTime => $_getSZ(12);
+  @$pb.TagNumber(13)
+  set releaseTime($core.String v) { $_setString(12, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasReleaseTime() => $_has(12);
+  @$pb.TagNumber(13)
+  void clearReleaseTime() => clearField(13);
 }
 
 class SubmitHelpRequest extends $pb.GeneratedMessage {
@@ -189,6 +231,9 @@ class SubmitHelpRequest extends $pb.GeneratedMessage {
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedAddr')
     ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedPrice', $pb.PbFieldType.O3)
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'demands')
+    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createBy')
+    ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOS(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
     ..hasRequiredFields = false
   ;
 
@@ -199,6 +244,9 @@ class SubmitHelpRequest extends $pb.GeneratedMessage {
     $core.String? expectedAddr,
     $core.int? expectedPrice,
     $core.String? demands,
+    $core.String? createBy,
+    $core.String? uuid,
+    $core.String? releaseTime,
   }) {
     final _result = create();
     if (name != null) {
@@ -215,6 +263,15 @@ class SubmitHelpRequest extends $pb.GeneratedMessage {
     }
     if (demands != null) {
       _result.demands = demands;
+    }
+    if (createBy != null) {
+      _result.createBy = createBy;
+    }
+    if (uuid != null) {
+      _result.uuid = uuid;
+    }
+    if (releaseTime != null) {
+      _result.releaseTime = releaseTime;
     }
     return _result;
   }
@@ -283,6 +340,33 @@ class SubmitHelpRequest extends $pb.GeneratedMessage {
   $core.bool hasDemands() => $_has(4);
   @$pb.TagNumber(5)
   void clearDemands() => clearField(5);
+
+  @$pb.TagNumber(11)
+  $core.String get createBy => $_getSZ(5);
+  @$pb.TagNumber(11)
+  set createBy($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasCreateBy() => $_has(5);
+  @$pb.TagNumber(11)
+  void clearCreateBy() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.String get uuid => $_getSZ(6);
+  @$pb.TagNumber(12)
+  set uuid($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasUuid() => $_has(6);
+  @$pb.TagNumber(12)
+  void clearUuid() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.String get releaseTime => $_getSZ(7);
+  @$pb.TagNumber(13)
+  set releaseTime($core.String v) { $_setString(7, v); }
+  @$pb.TagNumber(13)
+  $core.bool hasReleaseTime() => $_has(7);
+  @$pb.TagNumber(13)
+  void clearReleaseTime() => clearField(13);
 }
 
 class SubmitReply extends $pb.GeneratedMessage {

@@ -2,27 +2,48 @@ syntax = "proto3";
 
 package js.post;
 
-service post {
+service JsBridge {
   rpc FetchPost(FetchRequest) returns (FetchReply) {}
   rpc ReviewPost(ReviewRequest) returns (ReviewReply) {}
 }
 
-message Post {
-
+message AllRentPost {
+  string name = 1;
+  string phone = 2;
+  string room_addr = 3;
+  int32 room_area = 4;
+  string room_type = 5;
+  string room_orientation = 6;
+  int32 room_floor = 7;
+  string description = 8;
+  int32 price = 9;
+  string restriction = 10;
+  string create_by = 11;
+  string uuid = 12;
+  string release_time = 13;
 }
 
-message FetchRequest {
-
+message AllHelpPost {
+  string name = 1;
+  string phone = 2;
+  string expected_addr = 3;
+  int32 expected_price = 4;
+  string demands = 5;
+  string create_by = 6;
+  string uuid = 7;
+  string release_time = 8;
 }
+
+message FetchRequest {}
 
 message FetchReply {
-  repeated Post post = 1;
+  repeated AllRentPost all_rent_post = 1;
+  repeated AllHelpPost all_help_post = 2;
 }
 
 message ReviewRequest {
-
+  bool passed = 1;
+  string uuid = 2;
 }
 
-message ReviewReply {
-
-}
+message ReviewReply {}

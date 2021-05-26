@@ -4,7 +4,7 @@ use easy_rent_sdk::grpc::auth::authenticate_server::AuthenticateServer;
 use easy_rent_sdk::grpc::auth::Authenticator;
 use easy_rent_sdk::grpc::command::command_server::CommandServer;
 use easy_rent_sdk::grpc::command::Commander;
-use easy_rent_sdk::grpc::post::post_server::PostServer;
+use easy_rent_sdk::grpc::post::emit_server::EmitServer;
 use easy_rent_sdk::grpc::post::PostManager;
 use easy_rent_sdk::utils::set_panic_hook;
 use tonic::transport::Server;
@@ -45,7 +45,7 @@ async fn main() -> Result<()> {
     trace!("Start to serve at ");
     Server::builder()
         .add_service(AuthenticateServer::new(Authenticator::new(db_pool.clone())))
-        .add_service(PostServer::new(PostManager::new(db_pool.clone())))
+        .add_service(EmitServer::new(PostManager::new(db_pool.clone())))
         .add_service(CommandServer::new(Commander::new(db_pool.clone())))
         .serve(dotenv::var("LISTEN_ADDR")?.parse()?)
         .await?;

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS posts (
+CREATE TABLE IF NOT EXISTS rent_posts (
     id                  BIGSERIAL PRIMARY KEY,
     name                TEXT NOT NULL,
     phone               TEXT NOT NULL,
@@ -7,8 +7,11 @@ CREATE TABLE IF NOT EXISTS posts (
     room_type           TEXT NOT NULL,
     room_orientation    TEXT NOT NULL,
     room_floor          INT NOT NULL,
+    description         TEXT NOT NULL,
     price               INT NOT NULL,
     restriction         TEXT NOT NULL,
     create_by           TEXT NOT NULL,
+    uuid                TEXT NOT NULL,
+    release_time        TEXT NOT NULL,
     passed              BOOL NOT NULL
 )

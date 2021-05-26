@@ -2,9 +2,8 @@ tonic::include_proto!("easyrent.auth");
 
 use super::RpcResult;
 use crate::model::user::User;
-use crate::sql::*;
-use crate::{error::EasyRentAuthError, Auth};
-use anyhow::Result;
+use crate::sql::user::*;
+use crate::{error::{EasyRentAuthError, Result}, Auth};
 use authenticate_server::Authenticate;
 use sqlx::PgPool;
 use tonic::{Request, Response, Status};

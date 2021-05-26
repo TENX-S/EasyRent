@@ -389,15 +389,15 @@ class HelpPost extends Post {
 }
 
 class RentPost extends Post {
-  List<String>? pictures;
   String? roomAddr;
+  int? roomArea;
+  String? roomType;
+  String? roomOrientation;
+  int? roomFloor;
   String? description;
   int? price;
   String? restriction;
-  String? roomType;
-  int? roomArea;
-  int? roomFloor;
-  String? roomOrientation;
+  List<String>? pictures;
 
   RentPost(String name, String phone, String releaseTime,
       {List<String>? pictures,

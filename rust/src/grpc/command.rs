@@ -1,7 +1,7 @@
 tonic::include_proto!("easyrent.command");
 
 use crate::error::EasyRentCommandError;
-use crate::sql::LOGOUT_USER;
+use crate::sql::cmd::LOGOUT_USER;
 use command_server::Command;
 use sqlx::PgPool;
 use tonic::Response;
