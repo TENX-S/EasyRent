@@ -3,8 +3,8 @@ syntax = "proto3";
 package js.post;
 
 service JsBridge {
-  rpc FetchPost(FetchRequest) returns (FetchReply) {}
-  rpc ReviewPost(ReviewRequest) returns (ReviewReply) {}
+  rpc OnFetch(FetchRequest) returns (FetchReply) {}
+  rpc OnPass(PassRequest) returns (PassReply) {}
 }
 
 message AllRentPost {
@@ -41,9 +41,8 @@ message FetchReply {
   repeated AllHelpPost all_help_post = 2;
 }
 
-message ReviewRequest {
-  bool passed = 1;
-  string uuid = 2;
+message PassRequest {
+  string uuid = 1;
 }
 
-message ReviewReply {}
+message PassReply {}

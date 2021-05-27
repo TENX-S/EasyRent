@@ -9,8 +9,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class FetchedRentPost extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FetchedRentPost', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+class PassedRentPost extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PassedRentPost', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phone')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomAddr')
@@ -18,12 +18,15 @@ class FetchedRentPost extends $pb.GeneratedMessage {
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomType')
     ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomOrientation')
     ..a<$core.int>(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'roomFloor', $pb.PbFieldType.O3)
-    ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.O3)
+    ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'description')
+    ..a<$core.int>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.O3)
+    ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restriction')
+    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
     ..hasRequiredFields = false
   ;
 
-  FetchedRentPost._() : super();
-  factory FetchedRentPost({
+  PassedRentPost._() : super();
+  factory PassedRentPost({
     $core.String? name,
     $core.String? phone,
     $core.String? roomAddr,
@@ -31,7 +34,10 @@ class FetchedRentPost extends $pb.GeneratedMessage {
     $core.String? roomType,
     $core.String? roomOrientation,
     $core.int? roomFloor,
+    $core.String? description,
     $core.int? price,
+    $core.String? restriction,
+    $core.String? releaseTime,
   }) {
     final _result = create();
     if (name != null) {
@@ -55,31 +61,40 @@ class FetchedRentPost extends $pb.GeneratedMessage {
     if (roomFloor != null) {
       _result.roomFloor = roomFloor;
     }
+    if (description != null) {
+      _result.description = description;
+    }
     if (price != null) {
       _result.price = price;
     }
+    if (restriction != null) {
+      _result.restriction = restriction;
+    }
+    if (releaseTime != null) {
+      _result.releaseTime = releaseTime;
+    }
     return _result;
   }
-  factory FetchedRentPost.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FetchedRentPost.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory PassedRentPost.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PassedRentPost.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  FetchedRentPost clone() => FetchedRentPost()..mergeFromMessage(this);
+  PassedRentPost clone() => PassedRentPost()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  FetchedRentPost copyWith(void Function(FetchedRentPost) updates) => super.copyWith((message) => updates(message as FetchedRentPost)) as FetchedRentPost; // ignore: deprecated_member_use
+  PassedRentPost copyWith(void Function(PassedRentPost) updates) => super.copyWith((message) => updates(message as PassedRentPost)) as PassedRentPost; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static FetchedRentPost create() => FetchedRentPost._();
-  FetchedRentPost createEmptyInstance() => create();
-  static $pb.PbList<FetchedRentPost> createRepeated() => $pb.PbList<FetchedRentPost>();
+  static PassedRentPost create() => PassedRentPost._();
+  PassedRentPost createEmptyInstance() => create();
+  static $pb.PbList<PassedRentPost> createRepeated() => $pb.PbList<PassedRentPost>();
   @$core.pragma('dart2js:noInline')
-  static FetchedRentPost getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FetchedRentPost>(create);
-  static FetchedRentPost? _defaultInstance;
+  static PassedRentPost getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PassedRentPost>(create);
+  static PassedRentPost? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -145,32 +160,61 @@ class FetchedRentPost extends $pb.GeneratedMessage {
   void clearRoomFloor() => clearField(7);
 
   @$pb.TagNumber(8)
-  $core.int get price => $_getIZ(7);
+  $core.String get description => $_getSZ(7);
   @$pb.TagNumber(8)
-  set price($core.int v) { $_setSignedInt32(7, v); }
+  set description($core.String v) { $_setString(7, v); }
   @$pb.TagNumber(8)
-  $core.bool hasPrice() => $_has(7);
+  $core.bool hasDescription() => $_has(7);
   @$pb.TagNumber(8)
-  void clearPrice() => clearField(8);
+  void clearDescription() => clearField(8);
+
+  @$pb.TagNumber(9)
+  $core.int get price => $_getIZ(8);
+  @$pb.TagNumber(9)
+  set price($core.int v) { $_setSignedInt32(8, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasPrice() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearPrice() => clearField(9);
+
+  @$pb.TagNumber(10)
+  $core.String get restriction => $_getSZ(9);
+  @$pb.TagNumber(10)
+  set restriction($core.String v) { $_setString(9, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasRestriction() => $_has(9);
+  @$pb.TagNumber(10)
+  void clearRestriction() => clearField(10);
+
+  @$pb.TagNumber(11)
+  $core.String get releaseTime => $_getSZ(10);
+  @$pb.TagNumber(11)
+  set releaseTime($core.String v) { $_setString(10, v); }
+  @$pb.TagNumber(11)
+  $core.bool hasReleaseTime() => $_has(10);
+  @$pb.TagNumber(11)
+  void clearReleaseTime() => clearField(11);
 }
 
-class FetchedHelpPost extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'FetchedHelpPost', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+class PassedHelpPost extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PassedHelpPost', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'phone')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedAddr')
     ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedPrice', $pb.PbFieldType.O3)
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'demands')
+    ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
     ..hasRequiredFields = false
   ;
 
-  FetchedHelpPost._() : super();
-  factory FetchedHelpPost({
+  PassedHelpPost._() : super();
+  factory PassedHelpPost({
     $core.String? name,
     $core.String? phone,
     $core.String? expectedAddr,
     $core.int? expectedPrice,
     $core.String? demands,
+    $core.String? releaseTime,
   }) {
     final _result = create();
     if (name != null) {
@@ -188,28 +232,31 @@ class FetchedHelpPost extends $pb.GeneratedMessage {
     if (demands != null) {
       _result.demands = demands;
     }
+    if (releaseTime != null) {
+      _result.releaseTime = releaseTime;
+    }
     return _result;
   }
-  factory FetchedHelpPost.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory FetchedHelpPost.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  factory PassedHelpPost.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PassedHelpPost.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  FetchedHelpPost clone() => FetchedHelpPost()..mergeFromMessage(this);
+  PassedHelpPost clone() => PassedHelpPost()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  FetchedHelpPost copyWith(void Function(FetchedHelpPost) updates) => super.copyWith((message) => updates(message as FetchedHelpPost)) as FetchedHelpPost; // ignore: deprecated_member_use
+  PassedHelpPost copyWith(void Function(PassedHelpPost) updates) => super.copyWith((message) => updates(message as PassedHelpPost)) as PassedHelpPost; // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
   @$core.pragma('dart2js:noInline')
-  static FetchedHelpPost create() => FetchedHelpPost._();
-  FetchedHelpPost createEmptyInstance() => create();
-  static $pb.PbList<FetchedHelpPost> createRepeated() => $pb.PbList<FetchedHelpPost>();
+  static PassedHelpPost create() => PassedHelpPost._();
+  PassedHelpPost createEmptyInstance() => create();
+  static $pb.PbList<PassedHelpPost> createRepeated() => $pb.PbList<PassedHelpPost>();
   @$core.pragma('dart2js:noInline')
-  static FetchedHelpPost getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<FetchedHelpPost>(create);
-  static FetchedHelpPost? _defaultInstance;
+  static PassedHelpPost getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PassedHelpPost>(create);
+  static PassedHelpPost? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get name => $_getSZ(0);
@@ -255,6 +302,15 @@ class FetchedHelpPost extends $pb.GeneratedMessage {
   $core.bool hasDemands() => $_has(4);
   @$pb.TagNumber(5)
   void clearDemands() => clearField(5);
+
+  @$pb.TagNumber(8)
+  $core.String get releaseTime => $_getSZ(5);
+  @$pb.TagNumber(8)
+  set releaseTime($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasReleaseTime() => $_has(5);
+  @$pb.TagNumber(8)
+  void clearReleaseTime() => clearField(8);
 }
 
 class RefreshRequest extends $pb.GeneratedMessage {
@@ -288,15 +344,15 @@ class RefreshRequest extends $pb.GeneratedMessage {
 
 class RefreshReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RefreshReply', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
-    ..pc<FetchedRentPost>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'rentPost', $pb.PbFieldType.PM, subBuilder: FetchedRentPost.create)
-    ..pc<FetchedHelpPost>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'helpPost', $pb.PbFieldType.PM, subBuilder: FetchedHelpPost.create)
+    ..pc<PassedRentPost>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'rentPost', $pb.PbFieldType.PM, subBuilder: PassedRentPost.create)
+    ..pc<PassedHelpPost>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'helpPost', $pb.PbFieldType.PM, subBuilder: PassedHelpPost.create)
     ..hasRequiredFields = false
   ;
 
   RefreshReply._() : super();
   factory RefreshReply({
-    $core.Iterable<FetchedRentPost>? rentPost,
-    $core.Iterable<FetchedHelpPost>? helpPost,
+    $core.Iterable<PassedRentPost>? rentPost,
+    $core.Iterable<PassedHelpPost>? helpPost,
   }) {
     final _result = create();
     if (rentPost != null) {
@@ -329,10 +385,10 @@ class RefreshReply extends $pb.GeneratedMessage {
   static RefreshReply? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<FetchedRentPost> get rentPost => $_getList(0);
+  $core.List<PassedRentPost> get rentPost => $_getList(0);
 
   @$pb.TagNumber(2)
-  $core.List<FetchedHelpPost> get helpPost => $_getList(1);
+  $core.List<PassedHelpPost> get helpPost => $_getList(1);
 }
 
 class LogoutRequest extends $pb.GeneratedMessage {

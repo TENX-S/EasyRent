@@ -15,7 +15,7 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   DateTime? currentBackPressTime;
-  final _authClient = AuthClient();
+  final _authClient = AuthClient(serverAddr: '1.116.216.141', serverPort: 8081);
 
   Future<String?> _onLogin(LoginData input) async {
     final user = User(

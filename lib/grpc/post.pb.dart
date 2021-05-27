@@ -231,9 +231,9 @@ class SubmitHelpRequest extends $pb.GeneratedMessage {
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedAddr')
     ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedPrice', $pb.PbFieldType.O3)
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'demands')
-    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createBy')
-    ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
-    ..aOS(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createBy')
+    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
     ..hasRequiredFields = false
   ;
 
@@ -341,32 +341,32 @@ class SubmitHelpRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   void clearDemands() => clearField(5);
 
-  @$pb.TagNumber(11)
+  @$pb.TagNumber(6)
   $core.String get createBy => $_getSZ(5);
-  @$pb.TagNumber(11)
+  @$pb.TagNumber(6)
   set createBy($core.String v) { $_setString(5, v); }
-  @$pb.TagNumber(11)
+  @$pb.TagNumber(6)
   $core.bool hasCreateBy() => $_has(5);
-  @$pb.TagNumber(11)
-  void clearCreateBy() => clearField(11);
+  @$pb.TagNumber(6)
+  void clearCreateBy() => clearField(6);
 
-  @$pb.TagNumber(12)
+  @$pb.TagNumber(7)
   $core.String get uuid => $_getSZ(6);
-  @$pb.TagNumber(12)
+  @$pb.TagNumber(7)
   set uuid($core.String v) { $_setString(6, v); }
-  @$pb.TagNumber(12)
+  @$pb.TagNumber(7)
   $core.bool hasUuid() => $_has(6);
-  @$pb.TagNumber(12)
-  void clearUuid() => clearField(12);
+  @$pb.TagNumber(7)
+  void clearUuid() => clearField(7);
 
-  @$pb.TagNumber(13)
+  @$pb.TagNumber(8)
   $core.String get releaseTime => $_getSZ(7);
-  @$pb.TagNumber(13)
+  @$pb.TagNumber(8)
   set releaseTime($core.String v) { $_setString(7, v); }
-  @$pb.TagNumber(13)
+  @$pb.TagNumber(8)
   $core.bool hasReleaseTime() => $_has(7);
-  @$pb.TagNumber(13)
-  void clearReleaseTime() => clearField(13);
+  @$pb.TagNumber(8)
+  void clearReleaseTime() => clearField(8);
 }
 
 class SubmitReply extends $pb.GeneratedMessage {

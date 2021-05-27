@@ -110,7 +110,7 @@ impl Emit for PostManager {
     ) -> Result<Response<SubmitReply>, Status> {
         let help_addr = request.remote_addr();
         let post: HelpPost = request.into();
-        info!("Get a rent request from {:?}\n{:#?}", help_addr, post);
+        info!("Get a help request from {:?}\n{:#?}", help_addr, post);
 
         match self.help(&post).await {
             Ok(_) => {

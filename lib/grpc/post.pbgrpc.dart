@@ -13,19 +13,19 @@ import 'package:grpc/service_api.dart' as $grpc;
 import 'post.pb.dart' as $2;
 export 'post.pb.dart';
 
-class PostClient extends $grpc.Client {
+class EmitClient extends $grpc.Client {
   static final _$onRent =
       $grpc.ClientMethod<$2.SubmitRentRequest, $2.SubmitReply>(
-          '/easyrent.post.Post/OnRent',
+          '/easyrent.post.Emit/OnRent',
           ($2.SubmitRentRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $2.SubmitReply.fromBuffer(value));
   static final _$onHelp =
       $grpc.ClientMethod<$2.SubmitHelpRequest, $2.SubmitReply>(
-          '/easyrent.post.Post/OnHelp',
+          '/easyrent.post.Emit/OnHelp',
           ($2.SubmitHelpRequest value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $2.SubmitReply.fromBuffer(value));
 
-  PostClient($grpc.ClientChannel channel,
+  EmitClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
@@ -41,10 +41,10 @@ class PostClient extends $grpc.Client {
   }
 }
 
-abstract class PostServiceBase extends $grpc.Service {
-  $core.String get $name => 'easyrent.post.Post';
+abstract class EmitServiceBase extends $grpc.Service {
+  $core.String get $name => 'easyrent.post.Emit';
 
-  PostServiceBase() {
+  EmitServiceBase() {
     $addMethod($grpc.ServiceMethod<$2.SubmitRentRequest, $2.SubmitReply>(
         'OnRent',
         onRent_Pre,

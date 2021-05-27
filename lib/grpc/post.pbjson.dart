@@ -39,14 +39,14 @@ const SubmitHelpRequest$json = const {
     const {'1': 'expected_addr', '3': 3, '4': 1, '5': 9, '10': 'expectedAddr'},
     const {'1': 'expected_price', '3': 4, '4': 1, '5': 5, '10': 'expectedPrice'},
     const {'1': 'demands', '3': 5, '4': 1, '5': 9, '10': 'demands'},
-    const {'1': 'create_by', '3': 11, '4': 1, '5': 9, '10': 'createBy'},
-    const {'1': 'uuid', '3': 12, '4': 1, '5': 9, '10': 'uuid'},
-    const {'1': 'release_time', '3': 13, '4': 1, '5': 9, '10': 'releaseTime'},
+    const {'1': 'create_by', '3': 6, '4': 1, '5': 9, '10': 'createBy'},
+    const {'1': 'uuid', '3': 7, '4': 1, '5': 9, '10': 'uuid'},
+    const {'1': 'release_time', '3': 8, '4': 1, '5': 9, '10': 'releaseTime'},
   ],
 };
 
 /// Descriptor for `SubmitHelpRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List submitHelpRequestDescriptor = $convert.base64Decode('ChFTdWJtaXRIZWxwUmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEhQKBXBob25lGAIgASgJUgVwaG9uZRIjCg1leHBlY3RlZF9hZGRyGAMgASgJUgxleHBlY3RlZEFkZHISJQoOZXhwZWN0ZWRfcHJpY2UYBCABKAVSDWV4cGVjdGVkUHJpY2USGAoHZGVtYW5kcxgFIAEoCVIHZGVtYW5kcxIbCgljcmVhdGVfYnkYCyABKAlSCGNyZWF0ZUJ5EhIKBHV1aWQYDCABKAlSBHV1aWQSIQoMcmVsZWFzZV90aW1lGA0gASgJUgtyZWxlYXNlVGltZQ==');
+final $typed_data.Uint8List submitHelpRequestDescriptor = $convert.base64Decode('ChFTdWJtaXRIZWxwUmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEhQKBXBob25lGAIgASgJUgVwaG9uZRIjCg1leHBlY3RlZF9hZGRyGAMgASgJUgxleHBlY3RlZEFkZHISJQoOZXhwZWN0ZWRfcHJpY2UYBCABKAVSDWV4cGVjdGVkUHJpY2USGAoHZGVtYW5kcxgFIAEoCVIHZGVtYW5kcxIbCgljcmVhdGVfYnkYBiABKAlSCGNyZWF0ZUJ5EhIKBHV1aWQYByABKAlSBHV1aWQSIQoMcmVsZWFzZV90aW1lGAggASgJUgtyZWxlYXNlVGltZQ==');
 @$core.Deprecated('Use submitReplyDescriptor instead')
 const SubmitReply$json = const {
   '1': 'SubmitReply',

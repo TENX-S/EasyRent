@@ -32,8 +32,8 @@ class AuthClient extends Client {
           serverPort: serverPort,
         ) {
     ClientChannel channel = ClientChannel(
-      super.serverAddr!,
-      port: super.serverPort!,
+      serverAddr!,
+      port: serverPort!,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(
@@ -60,7 +60,7 @@ class AuthClient extends Client {
 }
 
 class PosterClient extends Client {
-  late PostClient stub;
+  late EmitClient stub;
   late ClientChannel channel;
 
   PosterClient({
@@ -71,8 +71,8 @@ class PosterClient extends Client {
     serverPort: serverPort,
   ) {
     ClientChannel channel = ClientChannel(
-      super.serverAddr!,
-      port: super.serverPort!,
+      serverAddr!,
+      port: serverPort!,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(
@@ -83,7 +83,7 @@ class PosterClient extends Client {
         ),
       ),
     );
-    stub = PostClient(channel);
+    stub = EmitClient(channel);
   }
 
   Future<SubmitReply> onRent(RentPost post) async => await stub.onRent(SubmitRentRequest(
@@ -127,8 +127,8 @@ class CmdClient extends Client {
     serverPort: serverPort,
   ) {
     ClientChannel channel = ClientChannel(
-      super.serverAddr!,
-      port: super.serverPort!,
+      serverAddr!,
+      port: serverPort!,
       options: ChannelOptions(
         credentials: ChannelCredentials.insecure(),
         codecRegistry: CodecRegistry(
