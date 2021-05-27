@@ -21,6 +21,7 @@ message SubmitRentRequest {
   string create_by = 11;
   string uuid = 12;
   string release_time = 13;
+  repeated bytes pictures = 14;
 }
 
 message SubmitHelpRequest {

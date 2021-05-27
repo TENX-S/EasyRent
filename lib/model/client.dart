@@ -100,6 +100,7 @@ class PosterClient extends Client {
     createBy: currentUser.name,
     uuid: Uuid().v4(),
     releaseTime: DateTime.now().toString().substring(0, 19),
+    pictures: post.pictures
   ));
 
   Future<SubmitReply> onHelp(HelpPost post) async => await stub.onHelp(SubmitHelpRequest(

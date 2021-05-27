@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:easy_rent/utils/contact.dart';
@@ -28,24 +30,22 @@ List<Post> allPosts = [
     expectedPrice: 5300,
     demands: "在学校附近，有电梯的优先",
   ),
-  RentPost(
-    "张杰",
-    "19841814534",
-    "2020/12/31",
-    pictures: [
-      "assets/images/1/a.jpg",
-      "assets/images/1/b.jpg",
-      "assets/images/1/c.jpg"
-    ],
-    roomAddr: "安徽 芜湖 弋江区",
-    description: "波尔卡精装修两房 家具电齐全 价格可谈",
-    price: 1400,
-    restriction: "押一付三",
-    roomType: "2室2厅1卫",
-    roomArea: 87,
-    roomFloor: 6,
-    roomOrientation: "南",
-  )
+  // RentPost(
+  // "张杰",
+  // "19841814534",
+  // "2020/12/31",
+  // pictures: [
+  // rootBundle.load("assets/images/1/a.jpg").
+  // ],
+  // roomAddr: "安徽 芜湖 弋江区",
+  // description: "波尔卡精装修两房 家具电齐全 价格可谈",
+  // price: 1400,
+  // restriction: "押一付三",
+  // roomType: "2室2厅1卫",
+  // roomArea: 87,
+  // roomFloor: 6,
+  // roomOrientation: "南",
+  // )
 ];
 
 abstract class Post {
@@ -145,8 +145,6 @@ class HelpPost extends Post {
         expectedPrice = expectedPrice,
         demands = demands,
         super(name, phone, releaseTime);
-
-
 
   @override
   Widget showPicture() => Image.asset("assets/images/help.png");
@@ -397,19 +395,22 @@ class RentPost extends Post {
   String? description;
   int? price;
   String? restriction;
-  List<String>? pictures;
+  List<Uint8List>? pictures;
 
-  RentPost(String name, String phone, String releaseTime,
-      {List<String>? pictures,
-      String? roomAddr,
-      String? description,
-      int? price,
-      String? restriction,
-      String? roomType,
-      int? roomArea,
-      int? roomFloor,
-      String? roomOrientation})
-      : pictures = pictures,
+  RentPost(
+    String name,
+    String phone,
+    String releaseTime, {
+    String? roomAddr,
+    String? description,
+    int? price,
+    String? restriction,
+    String? roomType,
+    int? roomArea,
+    int? roomFloor,
+    String? roomOrientation,
+    List<Uint8List>? pictures,
+  })  : pictures = pictures,
         roomAddr = roomAddr,
         description = description,
         price = price,
@@ -426,7 +427,7 @@ class RentPost extends Post {
       height: 220,
       child: Swiper(
         itemBuilder: (BuildContext context, int index) {
-          return Image.asset(
+          return Image.memory(
             pictures![index],
             fit: BoxFit.fill,
           );

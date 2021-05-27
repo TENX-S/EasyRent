@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
 import 'package:easy_rent/model/app_routes.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,6 +17,7 @@ class _HomePageState extends State<HomePage>
   late TabController _tabController;
 
   Future<void> _onLoad() async {
+
     await Future.delayed(
       Duration(seconds: 1),
       () {
@@ -41,7 +44,7 @@ class _HomePageState extends State<HomePage>
   }
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }

@@ -18,7 +18,7 @@ pub struct RentPost {
     pub create_by: String,
     pub uuid: String,
     pub release_time: String,
-    // pub background_path: Vec<String>,
+    pub pictures: Vec<Vec<u8>>,
 }
 
 impl From<Request<SubmitRentRequest>> for RentPost {
@@ -39,6 +39,7 @@ impl From<Request<SubmitRentRequest>> for RentPost {
             create_by: request.create_by,
             uuid: request.uuid,
             release_time: request.release_time,
+            pictures: request.pictures,
         }
     }
 }

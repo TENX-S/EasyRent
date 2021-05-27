@@ -25,11 +25,12 @@ const SubmitRentRequest$json = const {
     const {'1': 'create_by', '3': 11, '4': 1, '5': 9, '10': 'createBy'},
     const {'1': 'uuid', '3': 12, '4': 1, '5': 9, '10': 'uuid'},
     const {'1': 'release_time', '3': 13, '4': 1, '5': 9, '10': 'releaseTime'},
+    const {'1': 'pictures', '3': 14, '4': 3, '5': 12, '10': 'pictures'},
   ],
 };
 
 /// Descriptor for `SubmitRentRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List submitRentRequestDescriptor = $convert.base64Decode('ChFTdWJtaXRSZW50UmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEhQKBXBob25lGAIgASgJUgVwaG9uZRIbCglyb29tX2FkZHIYAyABKAlSCHJvb21BZGRyEhsKCXJvb21fYXJlYRgEIAEoBVIIcm9vbUFyZWESGwoJcm9vbV90eXBlGAUgASgJUghyb29tVHlwZRIpChByb29tX29yaWVudGF0aW9uGAYgASgJUg9yb29tT3JpZW50YXRpb24SHQoKcm9vbV9mbG9vchgHIAEoBVIJcm9vbUZsb29yEiAKC2Rlc2NyaXB0aW9uGAggASgJUgtkZXNjcmlwdGlvbhIUCgVwcmljZRgJIAEoBVIFcHJpY2USIAoLcmVzdHJpY3Rpb24YCiABKAlSC3Jlc3RyaWN0aW9uEhsKCWNyZWF0ZV9ieRgLIAEoCVIIY3JlYXRlQnkSEgoEdXVpZBgMIAEoCVIEdXVpZBIhCgxyZWxlYXNlX3RpbWUYDSABKAlSC3JlbGVhc2VUaW1l');
+final $typed_data.Uint8List submitRentRequestDescriptor = $convert.base64Decode('ChFTdWJtaXRSZW50UmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEhQKBXBob25lGAIgASgJUgVwaG9uZRIbCglyb29tX2FkZHIYAyABKAlSCHJvb21BZGRyEhsKCXJvb21fYXJlYRgEIAEoBVIIcm9vbUFyZWESGwoJcm9vbV90eXBlGAUgASgJUghyb29tVHlwZRIpChByb29tX29yaWVudGF0aW9uGAYgASgJUg9yb29tT3JpZW50YXRpb24SHQoKcm9vbV9mbG9vchgHIAEoBVIJcm9vbUZsb29yEiAKC2Rlc2NyaXB0aW9uGAggASgJUgtkZXNjcmlwdGlvbhIUCgVwcmljZRgJIAEoBVIFcHJpY2USIAoLcmVzdHJpY3Rpb24YCiABKAlSC3Jlc3RyaWN0aW9uEhsKCWNyZWF0ZV9ieRgLIAEoCVIIY3JlYXRlQnkSEgoEdXVpZBgMIAEoCVIEdXVpZBIhCgxyZWxlYXNlX3RpbWUYDSABKAlSC3JlbGVhc2VUaW1lEhoKCHBpY3R1cmVzGA4gAygMUghwaWN0dXJlcw==');
 @$core.Deprecated('Use submitHelpRequestDescriptor instead')
 const SubmitHelpRequest$json = const {
   '1': 'SubmitHelpRequest',

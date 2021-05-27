@@ -1,17 +1,26 @@
+import 'dart:typed_data';
 import 'dart:ui';
-import 'package:easy_rent/utils/pending.dart';
-import 'package:easy_rent/utils/tip.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:easy_rent/utils/tip.dart';
 import 'package:easy_rent/model/post.dart';
 import 'package:easy_rent/model/client.dart';
+import 'package:easy_rent/utils/pending.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:wechat_camera_picker/wechat_camera_picker.dart';
+import '../main.dart';
 
 extension RangeExtension on int {
   List<int> to(int maxInclusive) =>
       [for (int i = this; i <= maxInclusive; i++) i];
+}
+
+extension BuildContextExtension on BuildContext {
+  MediaQueryData get mediaQuery => MediaQuery.of(this);
+  ThemeData get themeData => Theme.of(this);
 }
 
 class SubmitPage extends StatefulWidget {
@@ -19,7 +28,7 @@ class SubmitPage extends StatefulWidget {
   _SubmitPageState createState() => _SubmitPageState();
 }
 
-class _SubmitPageState extends State<SubmitPage> {
+class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMixin {
   late RentPost rentPost;
   late HelpPost helpPost;
 
@@ -36,10 +45,13 @@ class _SubmitPageState extends State<SubmitPage> {
     '西南',
     '西北',
   ];
+  List<AssetEntity> assets = <AssetEntity>[];
 
   final _formKey = GlobalKey<FormBuilderState>();
-  final _posterClient = PosterClient(serverAddr: '1.116.216.141', serverPort: 8081);
+  final _posterClient =
+      PosterClient(serverAddr: '1.116.216.141', serverPort: 8081);
   bool _formChanged = false;
+  bool isDisplayingDetail = true;
 
   bool roomFloorSelected = false;
   bool roomTypeBedRoomSelected = false;
@@ -70,6 +82,10 @@ class _SubmitPageState extends State<SubmitPage> {
     fontSize: 19,
     color: Colors.black87,
   );
+
+  int get assetsLength => assets.length;
+
+  ThemeData get currentTheme => context.themeData;
 
   Widget _actionButton(
     BuildContext context,
@@ -138,8 +154,10 @@ class _SubmitPageState extends State<SubmitPage> {
     );
   }
 
-  Widget _bottomSheetBase(
-      {required Widget child, required void Function()? onDone}) {
+  Widget _bottomSheetBase({
+    required Widget child,
+    required void Function()? onDone,
+  }) {
     return Stack(
       children: [
         child,
@@ -165,8 +183,248 @@ class _SubmitPageState extends State<SubmitPage> {
     );
   }
 
+  Widget get selectedAssetsWidget {
+    return AnimatedContainer(
+      duration: kThemeChangeDuration,
+      curve: Curves.easeInOut,
+      height: assets.isNotEmpty
+          ? isDisplayingDetail
+              ? 120.0
+              : 80.0
+          : 40.0,
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 20.0,
+            child: GestureDetector(
+              onTap: () {
+                if (assets.isNotEmpty) {
+                  setState(() {
+                    isDisplayingDetail = !isDisplayingDetail;
+                  });
+                }
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey,
+                    ),
+                    child: Text(
+                      '${assets.length}',
+                      style: TextStyle(
+                        height: 1.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  if (assets.isNotEmpty)
+                    Icon(
+                      isDisplayingDetail
+                          ? Icons.arrow_upward
+                          : Icons.arrow_downward,
+                      size: 23.0,
+                    ),
+                ],
+              ),
+            ),
+          ),
+          selectedAssetsListView,
+        ],
+      ),
+    );
+  }
+
+  Widget _imageAssetWidget(AssetEntity asset) {
+    return Image(
+      image: AssetEntityImageProvider(asset, isOriginal: false),
+      fit: BoxFit.cover,
+    );
+  }
+
+  Widget _selectedAssetWidget(int index) {
+    final AssetEntity asset = assets.elementAt(index);
+    return GestureDetector(
+      onTap: isDisplayingDetail
+          ? () async {
+              final List<AssetEntity>? result =
+                  await AssetPickerViewer.pushToViewer(
+                context,
+                currentIndex: index,
+                previewAssets: assets,
+                themeData:
+                    AssetPicker.themeData(Color.fromARGB(255, 251, 150, 110)),
+              );
+              if (result != null && result != assets) {
+                assets = List<AssetEntity>.from(result);
+                if (mounted) {
+                  setState(() {});
+                }
+              }
+            }
+          : null,
+      child: RepaintBoundary(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: _imageAssetWidget(asset),
+        ),
+      ),
+    );
+  }
+
+  void removeAsset(int index) {
+    setState(() {
+      assets.removeAt(index);
+      if (assets.isEmpty) {
+        isDisplayingDetail = false;
+      }
+    });
+  }
+
+  Widget _selectedAssetDeleteButton(int index) {
+    return GestureDetector(
+      onTap: () => removeAsset(index),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4.0),
+          color: currentTheme.canvasColor.withOpacity(0.5),
+        ),
+        child: Icon(
+          Icons.close,
+          color: currentTheme.iconTheme.color,
+          size: 18.0,
+        ),
+      ),
+    );
+  }
+
+  Widget get selectedAssetsListView {
+    return Expanded(
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: assetsLength,
+        itemBuilder: (_, int index) => Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+          child: AspectRatio(
+            aspectRatio: 1.0,
+            child: Stack(
+              children: <Widget>[
+                Positioned.fill(child: _selectedAssetWidget(index)),
+                AnimatedPositioned(
+                  duration: kThemeAnimationDuration,
+                  top: isDisplayingDetail ? 6.0 : -30.0,
+                  right: isDisplayingDetail ? 6.0 : -30.0,
+                  child: _selectedAssetDeleteButton(index),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildImagePicker(BuildContext context) {
+    return GestureDetector(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/camera_bg.jpg"),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: null,
+            style: ElevatedButton.styleFrom(
+              shape: CircleBorder(),
+              padding: EdgeInsets.all(24),
+              primary: Colors.grey.shade400.withOpacity(0.02),
+            ),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.camera_alt,
+                  color: Colors.white70,
+                ),
+                Text(
+                  '上传照片',
+                  style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                  ),
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: selectedAssetsWidget,
+          ),
+        ],
+      ),
+      onTap: () => selectAssets(pickCamera),
+    );
+  }
+
+  Future<List<AssetEntity>?> get pickCamera {
+    return AssetPicker.pickAssets(
+      context,
+      maxAssets: 9,
+      selectedAssets: assets,
+      themeColor: Color.fromARGB(255, 251, 150, 110),
+      requestType: RequestType.common,
+      specialItemPosition: SpecialItemPosition.prepend,
+      specialItemBuilder: (BuildContext context) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () async {
+            final AssetEntity? result = await CameraPicker.pickFromCamera(
+              context,
+              enableRecording: false,
+            );
+            if (result != null) {
+              Navigator.of(context).pop(<AssetEntity>[...assets, result]);
+            }
+          },
+          child: Center(
+            child: Icon(Icons.camera_alt, size: 42.0),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> selectAssets(Future<List<AssetEntity>?> model) async {
+    final List<AssetEntity>? result = await model;
+    if (result != null) {
+      assets = List<AssetEntity>.from(result);
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
+
   @override
+  bool get wantKeepAlive => true;
+
+  @override
+  @mustCallSuper
   Widget build(BuildContext context) {
+    super.build(context);
     switch (submitPageType) {
       case PostKind.Rent:
         rentPost = RentPost('', '', '');
@@ -174,6 +432,7 @@ class _SubmitPageState extends State<SubmitPage> {
           context: context,
           child: Column(
             children: [
+              buildImagePicker(context),
               Container(
                 height: 10,
                 color: Colors.grey.withOpacity(0.09),
@@ -209,8 +468,6 @@ class _SubmitPageState extends State<SubmitPage> {
                           decoration: InputDecoration(
                             hintText: '填写房屋地址',
                             hintStyle: TextStyle(fontSize: 19),
-                            // border: InputBorder.none,
-                            // errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -247,8 +504,6 @@ class _SubmitPageState extends State<SubmitPage> {
                           decoration: InputDecoration(
                             hintText: '请填写',
                             hintStyle: TextStyle(fontSize: 19),
-                            // border: InputBorder.none,
-                            // errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -335,12 +590,14 @@ class _SubmitPageState extends State<SubmitPage> {
                                                       itemExtent: 35,
                                                       backgroundColor:
                                                           Colors.white,
-                                                      onSelectedItemChanged: (int
-                                                              index) =>
-                                                          setState(() {
-                                                            roomTypeBedRoomSelected = true;
-                                                            _roomType[1] = '${index + 1}室';
-                                                          }),
+                                                      onSelectedItemChanged:
+                                                          (int index) =>
+                                                              setState(() {
+                                                        roomTypeBedRoomSelected =
+                                                            true;
+                                                        _roomType[1] =
+                                                            '${index + 1}室';
+                                                      }),
                                                       children: 1
                                                           .to(15)
                                                           .map(
@@ -366,14 +623,16 @@ class _SubmitPageState extends State<SubmitPage> {
                                                       itemExtent: 35,
                                                       backgroundColor:
                                                           Colors.white,
-                                                      onSelectedItemChanged: (int
-                                                              index) =>
-                                                          setState(() {
-                                                            if (index != 0) {
-                                                              roomTypeLivingRoomSelected = true;
-                                                              _roomType[2] = '$index厅';
-                                                            }
-                                                          }),
+                                                      onSelectedItemChanged:
+                                                          (int index) =>
+                                                              setState(() {
+                                                        if (index != 0) {
+                                                          roomTypeLivingRoomSelected =
+                                                              true;
+                                                          _roomType[2] =
+                                                              '$index厅';
+                                                        }
+                                                      }),
                                                       children: 0
                                                           .to(15)
                                                           .map(
@@ -399,14 +658,16 @@ class _SubmitPageState extends State<SubmitPage> {
                                                       itemExtent: 35,
                                                       backgroundColor:
                                                           Colors.white,
-                                                      onSelectedItemChanged: (int
-                                                              index) =>
-                                                          setState(() {
-                                                            if (index != 0) {
-                                                              roomTypeToiletSelected = true;
-                                                              _roomType[3] = '$index卫';
-                                                            }
-                                                          }),
+                                                      onSelectedItemChanged:
+                                                          (int index) =>
+                                                              setState(() {
+                                                        if (index != 0) {
+                                                          roomTypeToiletSelected =
+                                                              true;
+                                                          _roomType[3] =
+                                                              '$index卫';
+                                                        }
+                                                      }),
                                                       children: 0
                                                           .to(15)
                                                           .map(
@@ -427,21 +688,22 @@ class _SubmitPageState extends State<SubmitPage> {
                                               ),
                                             ),
                                             onDone: () {
-                                              setState(
-                                                  () {
-                                                    _formChanged = true;
-                                                    if (!roomTypeBedRoomSelected) {
-                                                      _roomType[1] = '1室';
-                                                    }
-                                                    if (!roomTypeLivingRoomSelected) {
-                                                      _roomType[2] = '';
-                                                    }
-                                                    if (!roomTypeToiletSelected) {
-                                                      _roomType[3] = '';
-                                                    }
-                                                    roomTypePickerTextStyle = selectedPickerTextStyle;
-                                                    roomTypeStr = _roomType.values.join();
-                                                  });
+                                              setState(() {
+                                                _formChanged = true;
+                                                if (!roomTypeBedRoomSelected) {
+                                                  _roomType[1] = '1室';
+                                                }
+                                                if (!roomTypeLivingRoomSelected) {
+                                                  _roomType[2] = '';
+                                                }
+                                                if (!roomTypeToiletSelected) {
+                                                  _roomType[3] = '';
+                                                }
+                                                roomTypePickerTextStyle =
+                                                    selectedPickerTextStyle;
+                                                roomTypeStr =
+                                                    _roomType.values.join();
+                                              });
                                               Navigator.pop(context);
                                             });
                                       },
@@ -494,9 +756,9 @@ class _SubmitPageState extends State<SubmitPage> {
                                               backgroundColor: Colors.white,
                                               onSelectedItemChanged:
                                                   (int index) => setState(() {
-                                                    _roomOrientation = _orientations[index];
-                                                    // print("select: ${rentPost.roomOrientation}");
-                                                  }),
+                                                _roomOrientation =
+                                                    _orientations[index];
+                                              }),
                                               children: _orientations
                                                   .map(
                                                     (val) => Text(
@@ -515,8 +777,10 @@ class _SubmitPageState extends State<SubmitPage> {
                                               if (_roomOrientation == null) {
                                                 _roomOrientation = '东';
                                               }
-                                              roomOrientationPickerTextStyle = selectedPickerTextStyle;
-                                              roomOrientationStr = _roomOrientation!;
+                                              roomOrientationPickerTextStyle =
+                                                  selectedPickerTextStyle;
+                                              roomOrientationStr =
+                                                  _roomOrientation!;
                                             });
                                             Navigator.pop(context);
                                           },
@@ -571,16 +835,15 @@ class _SubmitPageState extends State<SubmitPage> {
                                               backgroundColor: Colors.white,
                                               onSelectedItemChanged:
                                                   (int index) => setState(() {
-                                                    print(index);
-                                                    roomFloorSelected = true;
-                                                    if (index < 2) {
-                                                      _roomFloor = index - 2;
-                                                    } else if (index == 2) {
-                                                      _roomFloor = 1;
-                                                    } else {
-                                                      _roomFloor = index - 1;
-                                                    }
-                                                  }),
+                                                roomFloorSelected = true;
+                                                if (index < 2) {
+                                                  _roomFloor = index - 2;
+                                                } else if (index == 2) {
+                                                  _roomFloor = 1;
+                                                } else {
+                                                  _roomFloor = index - 1;
+                                                }
+                                              }),
                                               children: (-2)
                                                   .to(99)
                                                   .where((value) => value != 0)
@@ -598,11 +861,13 @@ class _SubmitPageState extends State<SubmitPage> {
                                           onDone: () {
                                             setState(() {
                                               _formChanged = true;
-                                              roomFloorPickerTextStyle = selectedPickerTextStyle;
+                                              roomFloorPickerTextStyle =
+                                                  selectedPickerTextStyle;
                                               if (!roomFloorSelected) {
                                                 _roomFloor = 1;
                                               }
-                                              roomFloorStr =_roomFloor.toString();
+                                              roomFloorStr =
+                                                  _roomFloor.toString();
                                             });
                                             Navigator.pop(context);
                                           },
@@ -825,58 +1090,71 @@ class _SubmitPageState extends State<SubmitPage> {
                 height: 10,
                 color: Colors.grey.withOpacity(0.09),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 50,
-                child: MaterialButton(
-                  onPressed: () async {
-                    bool? partlyValidate = _formKey.currentState?.saveAndValidate();
-                    if (partlyValidate!) {
-                      if (_roomType.values.join().isEmpty) {
-                        showTip(msg: '厅室不得为空', gravity: ToastGravity.CENTER);
-                        return;
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: MaterialButton(
+                    onPressed: () async {
+                      bool? partlyValidate =
+                          _formKey.currentState?.saveAndValidate();
+                      if (partlyValidate!) {
+                        if (_roomType.values.join().isEmpty) {
+                          showTip(msg: '厅室不得为空', gravity: ToastGravity.CENTER);
+                          return;
+                        }
+                        if (_roomOrientation == null) {
+                          showTip(msg: '朝向不得为空', gravity: ToastGravity.CENTER);
+                          return;
+                        }
+                        if (_roomFloor == null) {
+                          showTip(msg: '楼层不得为空', gravity: ToastGravity.CENTER);
+                          return;
+                        }
+                        showPendingDialog(context);
+                        var pictures = <Uint8List>[];
+                        for (var e in assets) {
+                          var file = await e.loadFile();
+                          pictures.add(file!.readAsBytesSync());
+                        }
+
+                        final value = _formKey.currentState?.value;
+                        rentPost
+                          ..name = value!['name']
+                          ..phone = value['phone']
+                          ..roomAddr = value['roomAddr']
+                          ..roomArea = int.parse(value['roomArea'])
+                          ..roomType = roomTypeStr
+                          ..roomOrientation = _roomOrientation
+                          ..roomFloor = _roomFloor
+                          ..price = int.parse(value['price'])
+                          ..restriction = value['restriction']
+                          ..pictures = pictures;
+
+                        print(rentPost.toString());
+
+                        final result = await _posterClient.onRent(rentPost);
+                        Navigator.pop(context);
+                        if (result.success) {
+                          showTip(msg: '提交成功', gravity: ToastGravity.CENTER);
+                        } else {
+                          showTip(msg: '提交失败', gravity: ToastGravity.CENTER);
+                        }
                       }
-                      if (_roomOrientation == null) {
-                        showTip(msg: '朝向不得为空', gravity: ToastGravity.CENTER);
-                        return;
-                      }
-                      if (_roomFloor == null) {
-                        showTip(msg: '楼层不得为空', gravity: ToastGravity.CENTER);
-                        return;
-                      }
-                      final value = _formKey.currentState?.value;
-                      rentPost
-                        ..name = value!['name']
-                        ..phone = value['phone']
-                        ..roomAddr = value['roomAddr']
-                        ..roomArea = int.parse(value['roomArea'])
-                        ..roomType = roomTypeStr
-                        ..roomOrientation = _roomOrientation
-                        ..roomFloor = _roomFloor
-                        ..price = int.parse(value['price'])
-                        ..restriction = value['restriction'];
-                      print(rentPost.toString());
-                      showPendingDialog(context);
-                      final result = await _posterClient.onRent(rentPost);
-                      Navigator.pop(context);
-                      if (result.success) {
-                        showTip(msg: '提交成功', gravity: ToastGravity.CENTER);
-                      } else {
-                        showTip(msg: '提交失败', gravity: ToastGravity.CENTER);
-                      }
-                    }
-                  },
-                  color: Color.fromARGB(255, 251, 150, 110),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                  ),
-                  elevation: 0,
-                  child: Text(
-                    '提 交',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontFamily: 'SourceHanSansCN',
+                    },
+                    color: Color.fromARGB(255, 251, 150, 110),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    elevation: 0,
+                    child: Text(
+                      '提 交',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontFamily: 'SourceHanSansCN',
+                      ),
                     ),
                   ),
                 ),

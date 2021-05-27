@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS rent_posts (
     create_by           TEXT NOT NULL,
     uuid                TEXT NOT NULL,
     release_time        TEXT NOT NULL,
+    pictures            bytea[] NOT NULL,
     passed              BOOL NOT NULL
 )

@@ -53,6 +53,7 @@ impl Poster for PostManager {
             .bind(&post.create_by)
             .bind(&post.uuid)
             .bind(&post.release_time)
+            .bind(&post.pictures)
             .execute(&self.db_pool)
             .await
         {

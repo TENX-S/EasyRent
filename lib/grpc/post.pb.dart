@@ -24,6 +24,7 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'createBy')
     ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
     ..aOS(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
+    ..p<$core.List<$core.int>>(14, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pictures', $pb.PbFieldType.PY)
     ..hasRequiredFields = false
   ;
 
@@ -42,6 +43,7 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     $core.String? createBy,
     $core.String? uuid,
     $core.String? releaseTime,
+    $core.Iterable<$core.List<$core.int>>? pictures,
   }) {
     final _result = create();
     if (name != null) {
@@ -82,6 +84,9 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
     }
     if (releaseTime != null) {
       _result.releaseTime = releaseTime;
+    }
+    if (pictures != null) {
+      _result.pictures.addAll(pictures);
     }
     return _result;
   }
@@ -222,6 +227,9 @@ class SubmitRentRequest extends $pb.GeneratedMessage {
   $core.bool hasReleaseTime() => $_has(12);
   @$pb.TagNumber(13)
   void clearReleaseTime() => clearField(13);
+
+  @$pb.TagNumber(14)
+  $core.List<$core.List<$core.int>> get pictures => $_getList(13);
 }
 
 class SubmitHelpRequest extends $pb.GeneratedMessage {

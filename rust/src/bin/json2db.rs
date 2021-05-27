@@ -1,6 +1,7 @@
 use anyhow::Result;
 use dirs_next::data_local_dir;
 use easy_rent_sdk::utils::set_panic_hook;
+use rand::{Rng, thread_rng};
 use rayon::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
@@ -10,6 +11,7 @@ use std::{
 };
 use tracing::*;
 use tracing_subscriber::{self, fmt, subscribe::CollectExt, EnvFilter};
+use easy_rent_sdk::model::post::RentPost;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Post {
@@ -40,6 +42,26 @@ struct Post {
 
     orientation: String,
 }
+
+fn random_phone_number() -> String {
+    let possible_header_prefixes = vec![13, 14, 15, 16, 17, 18, 19];
+    let rand_num = || {
+        thread_rng().gen_range(0..=9)
+    };
+    let last = rand_num().to_string();
+    let header = possible_header_prefixes[thread_rng().gen_range(0..=6)].to_string() + &last;
+    let mut suffix = String::new();
+    for _ in 0..8 {
+        suffix += &rand_num().to_string();
+    }
+    header + &suffix
+}
+
+// impl From<Post> for RentPost {
+//     fn from(post: Post) -> Self {
+
+//     }
+// }
 
 fn main() -> Result<()> {
     set_panic_hook();

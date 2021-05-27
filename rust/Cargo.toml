@@ -5,6 +5,7 @@ edition = "2018"
 
 [dependencies]
 rayon = "1"
+rand = "0.8"
 anyhow = "1"
 tonic = "0.4"
 prost = "0.7"
