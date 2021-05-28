@@ -11,9 +11,10 @@ use std::{
 };
 use tracing::*;
 use tracing_subscriber::{self, fmt, subscribe::CollectExt, EnvFilter};
-use easy_rent_sdk::model::post::RentPost;
+use easy_rent_sdk::{model::post::RentPost, sql::post::ADD_RENT_POST};
+use faker_rand::en_us::internet::Email;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 struct Post {
     #[serde(rename = "houseId")]
     house_id: u32,
@@ -41,6 +42,9 @@ struct Post {
     room_floor: u8,
 
     orientation: String,
+
+    #[serde(skip)]
+    email: String,
 }
 
 fn random_phone_number() -> String {
@@ -57,13 +61,90 @@ fn random_phone_number() -> String {
     header + &suffix
 }
 
-// impl From<Post> for RentPost {
-//     fn from(post: Post) -> Self {
+fn random_time() -> String {
+    let years = vec![2019, 2020, 2021];
+    let months = (1..=12).collect::<Vec<_>>();
+    let days = |upper_bound| (1..=upper_bound).collect::<Vec<_>>();
 
-//     }
-// }
+    let hours = (0..=23).collect::<Vec<_>>();
+    let minutes = (0..=59).collect::<Vec<_>>();
+    let seconds = (0..=59).collect::<Vec<_>>();
 
-fn main() -> Result<()> {
+    let rnd_y = years[thread_rng().gen_range(0..=2)].to_string();
+    let rnd_month = months[thread_rng().gen_range(0..11)].to_string();
+    let rnd_d: String;
+
+    if rnd_y == 2020.to_string() {
+        if rnd_month == 2.to_string() {
+            let all_days = days(29);
+            rnd_d = all_days[thread_rng().gen_range(0..=28)].to_string();
+        } else if ["1", "3", "5", "7", "8", "10", "12"].contains(&rnd_month.as_ref()) {
+            let all_days = days(31);
+            rnd_d = all_days[thread_rng().gen_range(0..=30)].to_string();
+        } else {
+            let all_days = days(30);
+            rnd_d = all_days[thread_rng().gen_range(0..=29)].to_string();
+        }
+    } else {
+        if rnd_month == 2.to_string() {
+            let all_days = days(28);
+            rnd_d = all_days[thread_rng().gen_range(0..=27)].to_string();
+        } else if ["1", "3", "5", "7", "8", "10", "12"].contains(&rnd_month.as_ref()) {
+            let all_days = days(31);
+            rnd_d = all_days[thread_rng().gen_range(0..=30)].to_string();
+        } else {
+            let all_days = days(30);
+            rnd_d = all_days[thread_rng().gen_range(0..=29)].to_string();
+        }
+    }
+
+    let rnd_h = hours[thread_rng().gen_range(0..=23)].to_string();
+
+    let rnd_minute = minutes[thread_rng().gen_range(0..=59)].to_string();
+
+    let rnd_s = seconds[thread_rng().gen_range(0..59)].to_string();
+
+    format!("{}-{}-{} {:0>2}:{:0>2}:{:0>2}", rnd_y, rnd_month, rnd_d, rnd_h, rnd_minute, rnd_s)
+
+}
+
+impl From<Post> for RentPost {
+    fn from(post: Post) -> Self {
+        let name = post.publisher.clone();
+        let phone = random_phone_number();
+        let room_addr: String = [post.province.clone(), post.city.clone()].join("");
+        let pictures = post
+            .backround_path
+            .iter()
+            .map(|p| {
+                let mut bytes = vec![];
+                File::open(p).unwrap().read_to_end(&mut bytes).unwrap();
+                bytes
+            })
+            .collect();
+        RentPost {
+            id: 0i64,
+            name,
+            phone,
+            room_addr,
+            room_area: post.room_area as i32,
+            room_type: post.room_type.clone(),
+            room_orientation: post.orientation.clone(),
+            room_floor: post.room_floor as i32,
+            description: post.description.clone(),
+            price: post.monthly_rent as i32,
+            restriction: post.payment_restrictions.clone(),
+            create_by: post.email,
+            uuid: uuid::Uuid::new_v4().to_string(),
+            release_time: random_time(),
+            pictures,
+        }
+
+    }
+}
+
+#[tokio::main]
+async fn main() -> Result<()> {
     set_panic_hook();
     let (non_blocking, _guard) = tracing_appender::non_blocking(tracing_appender::rolling::hourly(
         data_local_dir()
@@ -101,6 +182,7 @@ fn main() -> Result<()> {
 
     trace!("Start to transform the relative path to absolute path.");
     posts.par_iter_mut().for_each(|i| {
+        i.email = thread_rng().gen::<Email>().to_string();
         i.backround_path = i
             .backround_path
             .par_iter()
@@ -116,6 +198,61 @@ fn main() -> Result<()> {
             })
             .collect::<Vec<_>>()
     });
+
+    let rent_posts = posts
+        .par_iter()
+        .map(|p| {
+            let r: RentPost = p.clone().into();
+            r
+        })
+        .collect::<Vec<_>>();
+
+    let db_pool = sqlx::PgPool::connect(&dotenv::var("DATABASE_URL")?).await?;
+
+    for post in &rent_posts {
+        if let Err(e) = sqlx::query(ADD_RENT_POST)
+            .bind(&post.name)
+            .bind(&post.phone)
+            .bind(&post.room_addr)
+            .bind(&post.room_area)
+            .bind(&post.room_type)
+            .bind(&post.room_orientation)
+            .bind(&post.room_floor)
+            .bind(&post.description)
+            .bind(&post.price)
+            .bind(&post.restriction)
+            .bind(&post.create_by)
+            .bind(&post.uuid)
+            .bind(&post.release_time)
+            .bind(&post.pictures)
+            .execute(&db_pool)
+            .await
+        {
+            error!("{:?}", e);
+        }
+    }
+
+    // let fields = rent_posts
+    //     .iter()
+    //     .map(|r|
+    //         vec![
+    //             r.name.clone(),
+    //             r.phone.clone(),
+    //             r.room_addr.clone(),
+    //             r.room_area.to_string().clone(),
+    //             r.room_type.clone(),
+    //             r.room_orientation.clone(),
+    //             r.room_floor.to_string().clone(),
+    //             r.description.clone(),
+    //             r.price.to_string().clone(),
+    //             r.restriction.clone(),
+    //             r.create_by.clone(),
+    //             r.uuid.clone(),
+    //             r.release_time.clone(),
+    //         ]
+    //     )
+    //     .collect::<Vec<_>>();
+    // trace!("{:#?}", fields);
 
     trace!("Transformation completed");
 

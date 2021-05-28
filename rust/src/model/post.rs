@@ -4,7 +4,7 @@ use tonic::Request;
 
 #[derive(Debug, FromRow)]
 pub struct RentPost {
-    id: i64,
+    pub id: i64,
     pub name: String,
     pub phone: String,
     pub room_addr: String,

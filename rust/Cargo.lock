@@ -259,6 +259,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "deunicode"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f37775d639f64aa16389eede0cbe6a70f56df4609d50d8b6858690d5d7bf8f2"
+
+[[package]]
 name = "digest"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -322,6 +328,7 @@ dependencies = [
  "chrono",
  "dirs-next",
  "dotenv",
+ "faker_rand",
  "prost",
  "rand",
  "rayon",
@@ -335,6 +342,7 @@ dependencies = [
  "tracing 0.2.0",
  "tracing-appender",
  "tracing-subscriber",
+ "uuid",
 ]
 
 [[package]]
@@ -344,6 +352,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e78d4f1cc4ae33bbfc157ed5d5a5ef3bc29227303d595861deb238fcec4e9457"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "faker_rand"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "300d2ddbf2245b5b5e723995e0961033121b4fc2be9045fb661af82bd739ffb6"
+dependencies = [
+ "deunicode",
+ "lazy_static",
+ "rand",
 ]
 
 [[package]]
@@ -1818,6 +1837,15 @@ dependencies = [
  "idna",
  "matches",
  "percent-encoding",
+]
+
+[[package]]
+name = "uuid"
+version = "0.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bc5cf98d8186244414c848017f0e2676b3fcb46807f6668a97dfe67359a3c4b7"
+dependencies = [
+ "getrandom",
 ]
 
 [[package]]
