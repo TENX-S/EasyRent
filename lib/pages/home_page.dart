@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
+import 'package:easy_rent/model/client.dart';
 import 'package:easy_rent/model/app_routes.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
@@ -15,36 +17,76 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final _cmdClient = CmdClient(serverAddr: '1.116.216.141', serverPort: 8081);
+  bool first = true;
 
   Future<void> _onLoad() async {
+    if (mounted) {
+      final allExistPosts = rentPosts.map((e) => e.uuid).toList();
+      allExistPosts.addAll(helpPosts.map((e) => e.uuid).toList());
 
-    await Future.delayed(
-      Duration(seconds: 1),
-      () {
-        if (mounted) {
-          setState(() {
-            allPosts.add(allPosts[allPosts.length - 1]);
-          });
-        }
-      },
-    );
+      final comingPosts = await _cmdClient.onLoad(allExistPosts);
+      setState(() {
+        rentPosts.addAll(comingPosts.postPackage.rentPosts.map(
+          (p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
+            ..roomAddr = p.roomAddr
+            ..roomArea = p.roomArea
+            ..roomType = p.roomType
+            ..roomOrientation = p.roomOrientation
+            ..roomFloor = p.roomFloor
+            ..description = p.description
+            ..price = p.price
+            ..restriction = p.restriction
+            ..releaseTime = p.releaseTime
+            ..pictures = p.pictures.map((e) => e as Uint8List).toList(),
+        ));
+
+        helpPosts.addAll(comingPosts.postPackage.helpPosts.map(
+          (p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
+            ..expectedAddr = p.expectedAddr
+            ..expectedPrice = p.expectedPrice
+            ..demands = p.demands
+            ..releaseTime = p.releaseTime,
+        ));
+      });
+    }
   }
 
   Future<void> _onRefresh() async {
-    await Future.delayed(
-      Duration(seconds: 1),
-      () {
-        if (mounted) {
-          setState(() {
-            allPosts.shuffle();
-          });
-        }
-      },
-    );
+    if (mounted) {
+      if (first) {
+        final comingPosts = await _cmdClient.onRefresh(first);
+        setState(() {
+          rentPosts.addAll(comingPosts.postPackage.rentPosts.map(
+                (p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
+              ..roomAddr = p.roomAddr
+              ..roomArea = p.roomArea
+              ..roomType = p.roomType
+              ..roomOrientation = p.roomOrientation
+              ..roomFloor = p.roomFloor
+              ..description = p.description
+              ..price = p.price
+              ..restriction = p.restriction
+              ..releaseTime = p.releaseTime
+              ..pictures = p.pictures.map((e) => e as Uint8List).toList(),
+          ));
+
+          helpPosts.addAll(comingPosts.postPackage.helpPosts.map(
+                (p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
+              ..expectedAddr = p.expectedAddr
+              ..expectedPrice = p.expectedPrice
+              ..demands = p.demands
+              ..releaseTime = p.releaseTime,
+          ));
+          first = false;
+        });
+      }
+
+    }
   }
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
@@ -65,6 +107,7 @@ class _HomePageState extends State<HomePage>
         onRefresh: _onRefresh,
         topBouncing: true,
         bottomBouncing: true,
+        firstRefresh: true,
         header: ClassicalHeader(
           textColor: Color.fromARGB(255, 251, 150, 110),
           extent: 60,
@@ -169,8 +212,8 @@ class _HomePageState extends State<HomePage>
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) =>
-                            allPosts[index].buildCard(context),
-                        childCount: allPosts.length,
+                            rentPosts[index].buildCard(context),
+                        childCount: rentPosts.length,
                       ),
                     ),
                     footer!,
@@ -183,8 +226,8 @@ class _HomePageState extends State<HomePage>
                     SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) =>
-                            allPosts[index].buildCard(context),
-                        childCount: allPosts.length,
+                            helpPosts[index].buildCard(context),
+                        childCount: helpPosts.length,
                       ),
                     ),
                     footer,
@@ -220,7 +263,8 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   _SliverAppBarDelegate(this.tabBar);
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       child: tabBar,
     );
@@ -277,7 +321,7 @@ class CustomSearchDelegate extends SearchDelegate {
     if (searchResult != null) {
       searchResult!.clear();
     }
-    searchResult = allPosts
+    searchResult = rentPosts
         .where((element) => element.toString().contains(query))
         .toList();
     if (searchResult!.isEmpty) {

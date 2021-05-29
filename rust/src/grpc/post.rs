@@ -15,9 +15,10 @@ pub struct PostManager {
 }
 
 impl RpcResult for SubmitReply {
+    type Value = ();
     type Error = EasyRentPostError;
 
-    fn success() -> Self {
+    fn success(_: ()) -> Self {
         SubmitReply {
             success: true,
         }
@@ -60,6 +61,7 @@ impl Poster for PostManager {
             error!("{:?}", e);
             return Err(EasyRentPostError::Unknown);
         }
+        trace!("Post : {} submit successfully!", post.uuid);
         Ok(())
     }
 
@@ -79,6 +81,7 @@ impl Poster for PostManager {
             error!("{:?}", e);
             return Err(EasyRentPostError::Unknown);
         }
+        trace!("Post : {} submit successfully!", post.uuid);
         Ok(())
     }
 }
@@ -92,17 +95,32 @@ impl Emit for PostManager {
     ) -> Result<Response<SubmitReply>, Status> {
         let rent_addr = request.remote_addr();
         let post: RentPost = request.into();
-        info!("Get a rent request from {:?}\n{:#?}", rent_addr, post);
+        let fields = vec![
+            format!("name : {}", post.name),
+            format!("phone : {}", post.phone),
+            format!("addr : {}", post.room_addr),
+            format!("roomArea : {}", post.room_area.to_string()),
+            format!("roomType : {}", post.room_type),
+            format!("roomOrientation : {}", post.room_orientation),
+            format!("roomFloor : {}", post.room_floor.to_string()),
+            format!("description : {}", post.description),
+            format!("price : {}", post.price.to_string()),
+            format!("restriction : {}", post.restriction),
+            format!("createBy : {}", post.create_by),
+            format!("uuid : {}", post.uuid),
+            format!("releaseTime : {}", post.release_time),
+            format!("picture numbers: {}", post.pictures.len()),
+        ];
+        info!("Get a rent request from {:?}\n{:#?}", rent_addr, fields);
 
         match self.rent(&post).await {
             Ok(_) => {
-                Ok(Response::new(SubmitReply::success()))
+                Ok(Response::new(SubmitReply::success(())))
             }
             Err(e) => {
                 Ok(Response::new(SubmitReply::failure(e)))
             }
         }
-
     }
 
     async fn on_help(
@@ -115,7 +133,7 @@ impl Emit for PostManager {
 
         match self.help(&post).await {
             Ok(_) => {
-                Ok(Response::new(SubmitReply::success()))
+                Ok(Response::new(SubmitReply::success(())))
             }
             Err(e) => {
                 Ok(Response::new(SubmitReply::failure(e)))

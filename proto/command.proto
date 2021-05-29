@@ -3,7 +3,9 @@ syntax = "proto3";
 package easyrent.command;
 
 service Command {
+  rpc OnLoad(LoadRequest) returns (LoadReply) {}
   rpc OnRefresh(RefreshRequest) returns (RefreshReply) {}
+  rpc OnSearch(SearchRequest) returns (SearchReply) {}
   rpc OnLogout(LogoutRequest) returns (LogoutReply) {}
 }
 
@@ -18,7 +20,9 @@ message PassedRentPost {
   string description = 8;
   int32 price = 9;
   string restriction = 10;
-  string release_time = 11;
+  string uuid = 11;
+  string release_time = 12;
+  repeated bytes pictures = 13;
 }
 
 message PassedHelpPost {
@@ -27,17 +31,41 @@ message PassedHelpPost {
   string expected_addr = 3;
   int32 expected_price = 4;
   string demands = 5;
-  string release_time = 8;
+  string uuid = 6;
+  string release_time = 7;
 }
 
-message RefreshRequest {}
+message PostPackage {
+  repeated PassedRentPost rent_posts = 1;
+  repeated PassedHelpPost help_posts = 2;
+}
+
+message LoadRequest {
+  repeated string exist_posts = 1;
+}
+
+message LoadReply {
+  optional PostPackage post_package = 1;
+}
+
+message RefreshRequest {
+  bool first = 1;
+}
 
 message RefreshReply {
-  repeated PassedRentPost rent_post = 1;
-  repeated PassedHelpPost help_post = 2;
+  optional PostPackage post_package = 2;
+}
+
+message SearchRequest {
+  string query = 1;
+}
+
+message SearchReply {
+  optional PostPackage post_package = 1;
 }
 
 message LogoutRequest {
   string name = 1;
 }
+
 message LogoutReply {}

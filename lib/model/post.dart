@@ -13,23 +13,7 @@ enum PostKind {
 
 var submitPageType = PostKind.Rent;
 
-List<Post> allPosts = [
-  HelpPost(
-    "张三",
-    "14434236932",
-    "2020/4/22",
-    expectedAddr: "江苏 南京 鼓楼区",
-    expectedPrice: 2400,
-    demands: "临近地铁，南北通透最好",
-  ),
-  HelpPost(
-    "李四",
-    "14534238912",
-    "2020/12/31",
-    expectedAddr: "北京 朝阳区",
-    expectedPrice: 5300,
-    demands: "在学校附近，有电梯的优先",
-  ),
+List<RentPost> rentPosts = [
   // RentPost(
   // "张杰",
   // "19841814534",
@@ -48,7 +32,27 @@ List<Post> allPosts = [
   // )
 ];
 
+List<HelpPost> helpPosts = [
+  // HelpPost(
+  //   "张三",
+  //   "14434236932",
+  //   "2020/4/22",
+  //   expectedAddr: "江苏 南京 鼓楼区",
+  //   expectedPrice: 2400,
+  //   demands: "临近地铁，南北通透最好",
+  // ),
+  // HelpPost(
+  //   "李四",
+  //   "14534238912",
+  //   "2020/12/31",
+  //   expectedAddr: "北京 朝阳区",
+  //   expectedPrice: 5300,
+  //   demands: "在学校附近，有电梯的优先",
+  // ),
+];
+
 abstract class Post {
+  String uuid;
   String name;
   String phone;
   String releaseTime;
@@ -95,7 +99,7 @@ abstract class Post {
     fontSize: 20.0,
   );
 
-  Post(this.name, this.phone, this.releaseTime);
+  Post(this.name, this.phone, this.releaseTime, this.uuid);
 
   Widget showPicture();
   String toString();
@@ -135,6 +139,7 @@ class HelpPost extends Post {
   String? demands;
 
   HelpPost(
+    String uuid,
     String name,
     String phone,
     String releaseTime, {
@@ -144,7 +149,7 @@ class HelpPost extends Post {
   })  : expectedAddr = expectedAddr,
         expectedPrice = expectedPrice,
         demands = demands,
-        super(name, phone, releaseTime);
+        super(uuid, name, phone, releaseTime);
 
   @override
   Widget showPicture() => Image.asset("assets/images/help.png");
@@ -398,6 +403,7 @@ class RentPost extends Post {
   List<Uint8List>? pictures;
 
   RentPost(
+    String uuid,
     String name,
     String phone,
     String releaseTime, {
@@ -419,7 +425,7 @@ class RentPost extends Post {
         roomArea = roomArea,
         roomFloor = roomFloor,
         roomOrientation = roomOrientation,
-        super(name, phone, releaseTime);
+        super(uuid, name, phone, releaseTime);
 
   @override
   Widget showPicture() {

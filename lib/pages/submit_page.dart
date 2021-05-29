@@ -1,5 +1,6 @@
-import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:typed_data';
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:easy_rent/utils/tip.dart';
@@ -11,7 +12,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wechat_camera_picker/wechat_camera_picker.dart';
-import '../main.dart';
 
 extension RangeExtension on int {
   List<int> to(int maxInclusive) =>
@@ -427,7 +427,7 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
     super.build(context);
     switch (submitPageType) {
       case PostKind.Rent:
-        rentPost = RentPost('', '', '');
+        rentPost = RentPost('', '', '', '');
         return _formBase(
           context: context,
           child: Column(
@@ -983,19 +983,19 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           ),
                           options: [
                             FormBuilderFieldOption(
-                              value: 'y1f1',
+                              value: '押一付一',
                               child: Text('押一付一'),
                             ),
                             FormBuilderFieldOption(
-                              value: 'y1f3',
+                              value: '押一付三',
                               child: Text('押一付三'),
                             ),
                             FormBuilderFieldOption(
-                              value: 'bnf',
+                              value: '半年付',
                               child: Text('半年付'),
                             ),
                             FormBuilderFieldOption(
-                              value: 'nf',
+                              value: '年付',
                               child: Text('年付'),
                             ),
                           ],
@@ -1121,6 +1121,7 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
 
                         final value = _formKey.currentState?.value;
                         rentPost
+                          ..uuid = Uuid().v4()
                           ..name = value!['name']
                           ..phone = value['phone']
                           ..roomAddr = value['roomAddr']
@@ -1167,7 +1168,7 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
           ),
         );
       case PostKind.Help:
-        helpPost = HelpPost('', '', '');
+        helpPost = HelpPost('', '', '', '');
         return _formBase(
           context: context,
           child: Container(),

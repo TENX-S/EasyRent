@@ -23,6 +23,6 @@ pub enum EasyRentPostError {
 }
 #[derive(Error, Debug)]
 pub enum EasyRentCommandError {
-    #[error("Unknown error")]
-    Unknown,
+    #[error("{0}")]
+    Reason(String),
 }

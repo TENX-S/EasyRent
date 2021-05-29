@@ -26,14 +26,14 @@ impl From<Request<SubmitRentRequest>> for RentPost {
         let request = submit_rent_request.into_inner();
         RentPost {
             id: 0i64,
-            name: request.name.clone(),
-            phone: request.phone.clone(),
-            room_addr: request.room_addr.clone(),
+            name: request.name,
+            phone: request.phone,
+            room_addr: request.room_addr,
             room_area: request.room_area,
-            room_type: request.room_type.clone(),
-            room_orientation: request.room_orientation.clone(),
-            room_floor: request.room_floor.clone(),
-            description: request.description.clone(),
+            room_type: request.room_type,
+            room_orientation: request.room_orientation,
+            room_floor: request.room_floor,
+            description: request.description,
             price: request.price,
             restriction: request.restriction,
             create_by: request.create_by,
@@ -62,14 +62,14 @@ impl From<Request<SubmitHelpRequest>> for HelpPost {
         let request = submit_help_request.into_inner();
         HelpPost {
             id: 0i64,
-            name: request.name.clone(),
-            phone: request.phone.clone(),
-            expected_addr: request.expected_addr.clone(),
+            name: request.name,
+            phone: request.phone,
+            expected_addr: request.expected_addr,
             expected_price: request.expected_price,
-            demands: request.demands.clone(),
-            create_by: request.create_by.clone(),
-            uuid: request.uuid.clone(),
-            release_time: request.release_time.clone(),
+            demands: request.demands,
+            create_by: request.create_by,
+            uuid: request.uuid,
+            release_time: request.release_time,
         }
     }
 }

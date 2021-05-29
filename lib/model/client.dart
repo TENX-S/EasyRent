@@ -1,5 +1,4 @@
 import 'package:grpc/grpc.dart';
-import 'package:uuid/uuid.dart';
 import 'package:easy_rent/model/post.dart';
 import 'package:easy_rent/model/user.dart';
 import 'package:easy_rent/grpc/auth.pb.dart';
@@ -98,7 +97,7 @@ class PosterClient extends Client {
     price: post.price,
     restriction: post.restriction,
     createBy: currentUser.name,
-    uuid: Uuid().v4(),
+    uuid: post.uuid,
     releaseTime: DateTime.now().toString().substring(0, 19),
     pictures: post.pictures
   ));
@@ -110,7 +109,7 @@ class PosterClient extends Client {
     expectedPrice: post.expectedPrice,
     demands: post.demands,
     createBy: currentUser.name,
-    uuid: Uuid().v4(),
+    uuid: post.uuid,
     releaseTime: DateTime.now().toString().substring(0, 19),
   ));
 
@@ -143,6 +142,7 @@ class CmdClient extends Client {
     stub = CommandClient(channel);
   }
 
-  Future<RefreshReply> onRefresh() async => await stub.onRefresh(RefreshRequest());
+  Future<LoadReply> onLoad(List<String> existsPosts) async => await stub.onLoad(LoadRequest(existPosts: existsPosts));
+  Future<RefreshReply> onRefresh(bool first) async => await stub.onRefresh(RefreshRequest(first: first));
   Future<LogoutReply> onLogOut() async => await stub.onLogout(LogoutRequest(name: currentUser.name));
 }

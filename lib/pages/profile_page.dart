@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Stack(
                       children: <Widget>[
                         Container(
-                          width: double.infinity,
+                          // width: double.infinity,
                           height: 220.0,
                           color: Colors.white,
                         ),
@@ -62,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: SizedBox(
                             height: 200.0,
                             child: Container(
-                              width: double.infinity,
+                              // width: double.infinity,
                               height: 240.0,
                               color: Color.fromARGB(255, 251, 150, 110),
                             ),
@@ -101,45 +101,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ],
                     ),
-                    // Container(
-                    //   width: double.infinity,
-                    //   color: Colors.white,
-                    //   padding: EdgeInsets.all(10.0),
-                    //   child: Card(
-                    //     color: Colors.blue,
-                    //     child: Container(
-                    //       padding: EdgeInsets.all(10.0),
-                    //       child: Column(
-                    //         children: <Widget>[
-                    //           ListItem(
-                    //             icon: Icon(
-                    //               Icons.supervised_user_circle,
-                    //               color: Colors.white,
-                    //             ),
-                    //             title: 'QQ 群',
-                    //             titleColor: Colors.white,
-                    //             describe: '554981921',
-                    //             describeColor: Colors.white,
-                    //             onPressed: () {},
-                    //           ),
-                    //           ListItem(
-                    //             icon: Icon(
-                    //               Icons.http,
-                    //               color: Colors.white,
-                    //             ),
-                    //             title: 'GitHub',
-                    //             titleColor: Colors.white,
-                    //             describe: 'https://github.com/xuelongqy',
-                    //             describeColor: Colors.white,
-                    //             onPressed: () {},
-                    //           )
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                     Container(
-                      width: double.infinity,
+                      // width: double.infinity,
                       color: Colors.white,
                       padding: EdgeInsets.all(10.0),
                       child: Card(
@@ -155,33 +118,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                   title: '用户名',
                                   titleColor: Colors.white,
-                                  describe: 'KnoYo',
+                                  describe: currentUser.name,
                                   describeColor: Colors.white,
                                 ),
                               ],
                             ),
-                          )),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      color: Colors.white,
-                      padding: EdgeInsets.all(10.0),
-                      child: Card(
-                        color: Colors.teal,
-                        child: Container(
-                          padding: EdgeInsets.all(10.0),
-                          child: ListItem(
-                            icon: Icon(
-                              Icons.email,
-                              color: Colors.white,
-                            ),
-                            title: '邮箱',
-                            titleColor: Colors.white,
-                            describe: currentUser.name,
-                            describeColor: Colors.white,
-                            onPressed: () {},
                           ),
-                        ),
                       ),
                     ),
                   ],

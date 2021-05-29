@@ -329,6 +329,7 @@ dependencies = [
  "dirs-next",
  "dotenv",
  "faker_rand",
+ "futures",
  "prost",
  "rand",
  "rayon",

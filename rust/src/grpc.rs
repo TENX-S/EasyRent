@@ -3,9 +3,10 @@ pub mod command;
 pub mod post;
 
 pub trait RpcResult {
+    type Value;
     type Error;
 
-    fn success() -> Self;
+    fn success(value: Self::Value) -> Self;
     fn failure(error: Self::Error) -> Self;
 }
 

@@ -15,9 +15,10 @@ pub struct Authenticator {
 }
 
 impl RpcResult for LoginReply {
+    type Value = ();
     type Error = AuthError;
 
-    fn success() -> Self {
+    fn success(_: ()) -> Self {
         LoginReply {
             success: true,
             error: None,
@@ -33,9 +34,10 @@ impl RpcResult for LoginReply {
 }
 
 impl RpcResult for RegisterReply {
+    type Value = ();
     type Error = AuthError;
 
-    fn success() -> Self {
+    fn success(_: ()) -> Self {
         RegisterReply {
             success: true,
             error: None,
@@ -135,7 +137,7 @@ impl Authenticate for Authenticator {
         let user: User = request.into();
         info!("Get a login request from {:?}\n{:#?}", user_addr, user);
         match self.login(&user).await {
-            Ok(_) => Ok(Response::new(LoginReply::success())),
+            Ok(_) => Ok(Response::new(LoginReply::success(()))),
             Err(e) => match e {
                 EasyRentAuthError::NonexistentUser => Ok(Response::new(LoginReply::failure(
                     AuthError::NonexistentUser,
@@ -156,7 +158,7 @@ impl Authenticate for Authenticator {
         let user: User = request.into();
         info!("Got a register request from {:?}\n{:#?}", user_addr, user);
         match self.register(&user).await {
-            Ok(_) => Ok(Response::new(RegisterReply::success())),
+            Ok(_) => Ok(Response::new(RegisterReply::success(()))),
             Err(e) => match e {
                 EasyRentAuthError::DuplicateName => Ok(Response::new(RegisterReply::failure(
                     AuthError::DuplicatedName,

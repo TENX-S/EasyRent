@@ -16,8 +16,8 @@ impl From<Request<AuthRequest>> for User {
         let request = auth_request.into_inner();
         User {
             id: 0i64,
-            name: request.name.clone(),
-            password: request.password.clone(),
+            name: request.name,
+            password: request.password,
             create_time: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
         }
     }

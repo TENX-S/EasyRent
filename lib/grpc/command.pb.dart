@@ -21,7 +21,9 @@ class PassedRentPost extends $pb.GeneratedMessage {
     ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'description')
     ..a<$core.int>(9, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'price', $pb.PbFieldType.O3)
     ..aOS(10, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'restriction')
-    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
+    ..aOS(11, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOS(12, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
+    ..p<$core.List<$core.int>>(13, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'pictures', $pb.PbFieldType.PY)
     ..hasRequiredFields = false
   ;
 
@@ -37,7 +39,9 @@ class PassedRentPost extends $pb.GeneratedMessage {
     $core.String? description,
     $core.int? price,
     $core.String? restriction,
+    $core.String? uuid,
     $core.String? releaseTime,
+    $core.Iterable<$core.List<$core.int>>? pictures,
   }) {
     final _result = create();
     if (name != null) {
@@ -70,8 +74,14 @@ class PassedRentPost extends $pb.GeneratedMessage {
     if (restriction != null) {
       _result.restriction = restriction;
     }
+    if (uuid != null) {
+      _result.uuid = uuid;
+    }
     if (releaseTime != null) {
       _result.releaseTime = releaseTime;
+    }
+    if (pictures != null) {
+      _result.pictures.addAll(pictures);
     }
     return _result;
   }
@@ -187,13 +197,25 @@ class PassedRentPost extends $pb.GeneratedMessage {
   void clearRestriction() => clearField(10);
 
   @$pb.TagNumber(11)
-  $core.String get releaseTime => $_getSZ(10);
+  $core.String get uuid => $_getSZ(10);
   @$pb.TagNumber(11)
-  set releaseTime($core.String v) { $_setString(10, v); }
+  set uuid($core.String v) { $_setString(10, v); }
   @$pb.TagNumber(11)
-  $core.bool hasReleaseTime() => $_has(10);
+  $core.bool hasUuid() => $_has(10);
   @$pb.TagNumber(11)
-  void clearReleaseTime() => clearField(11);
+  void clearUuid() => clearField(11);
+
+  @$pb.TagNumber(12)
+  $core.String get releaseTime => $_getSZ(11);
+  @$pb.TagNumber(12)
+  set releaseTime($core.String v) { $_setString(11, v); }
+  @$pb.TagNumber(12)
+  $core.bool hasReleaseTime() => $_has(11);
+  @$pb.TagNumber(12)
+  void clearReleaseTime() => clearField(12);
+
+  @$pb.TagNumber(13)
+  $core.List<$core.List<$core.int>> get pictures => $_getList(12);
 }
 
 class PassedHelpPost extends $pb.GeneratedMessage {
@@ -203,7 +225,8 @@ class PassedHelpPost extends $pb.GeneratedMessage {
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedAddr')
     ..a<$core.int>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'expectedPrice', $pb.PbFieldType.O3)
     ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'demands')
-    ..aOS(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'uuid')
+    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'releaseTime')
     ..hasRequiredFields = false
   ;
 
@@ -214,6 +237,7 @@ class PassedHelpPost extends $pb.GeneratedMessage {
     $core.String? expectedAddr,
     $core.int? expectedPrice,
     $core.String? demands,
+    $core.String? uuid,
     $core.String? releaseTime,
   }) {
     final _result = create();
@@ -231,6 +255,9 @@ class PassedHelpPost extends $pb.GeneratedMessage {
     }
     if (demands != null) {
       _result.demands = demands;
+    }
+    if (uuid != null) {
+      _result.uuid = uuid;
     }
     if (releaseTime != null) {
       _result.releaseTime = releaseTime;
@@ -303,23 +330,180 @@ class PassedHelpPost extends $pb.GeneratedMessage {
   @$pb.TagNumber(5)
   void clearDemands() => clearField(5);
 
-  @$pb.TagNumber(8)
-  $core.String get releaseTime => $_getSZ(5);
-  @$pb.TagNumber(8)
-  set releaseTime($core.String v) { $_setString(5, v); }
-  @$pb.TagNumber(8)
-  $core.bool hasReleaseTime() => $_has(5);
-  @$pb.TagNumber(8)
-  void clearReleaseTime() => clearField(8);
+  @$pb.TagNumber(6)
+  $core.String get uuid => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set uuid($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasUuid() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearUuid() => clearField(6);
+
+  @$pb.TagNumber(7)
+  $core.String get releaseTime => $_getSZ(6);
+  @$pb.TagNumber(7)
+  set releaseTime($core.String v) { $_setString(6, v); }
+  @$pb.TagNumber(7)
+  $core.bool hasReleaseTime() => $_has(6);
+  @$pb.TagNumber(7)
+  void clearReleaseTime() => clearField(7);
+}
+
+class PostPackage extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'PostPackage', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+    ..pc<PassedRentPost>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'rentPosts', $pb.PbFieldType.PM, subBuilder: PassedRentPost.create)
+    ..pc<PassedHelpPost>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'helpPosts', $pb.PbFieldType.PM, subBuilder: PassedHelpPost.create)
+    ..hasRequiredFields = false
+  ;
+
+  PostPackage._() : super();
+  factory PostPackage({
+    $core.Iterable<PassedRentPost>? rentPosts,
+    $core.Iterable<PassedHelpPost>? helpPosts,
+  }) {
+    final _result = create();
+    if (rentPosts != null) {
+      _result.rentPosts.addAll(rentPosts);
+    }
+    if (helpPosts != null) {
+      _result.helpPosts.addAll(helpPosts);
+    }
+    return _result;
+  }
+  factory PostPackage.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PostPackage.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  PostPackage clone() => PostPackage()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  PostPackage copyWith(void Function(PostPackage) updates) => super.copyWith((message) => updates(message as PostPackage)) as PostPackage; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static PostPackage create() => PostPackage._();
+  PostPackage createEmptyInstance() => create();
+  static $pb.PbList<PostPackage> createRepeated() => $pb.PbList<PostPackage>();
+  @$core.pragma('dart2js:noInline')
+  static PostPackage getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PostPackage>(create);
+  static PostPackage? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<PassedRentPost> get rentPosts => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $core.List<PassedHelpPost> get helpPosts => $_getList(1);
+}
+
+class LoadRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoadRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+    ..pPS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'existPosts')
+    ..hasRequiredFields = false
+  ;
+
+  LoadRequest._() : super();
+  factory LoadRequest({
+    $core.Iterable<$core.String>? existPosts,
+  }) {
+    final _result = create();
+    if (existPosts != null) {
+      _result.existPosts.addAll(existPosts);
+    }
+    return _result;
+  }
+  factory LoadRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoadRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  LoadRequest clone() => LoadRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  LoadRequest copyWith(void Function(LoadRequest) updates) => super.copyWith((message) => updates(message as LoadRequest)) as LoadRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LoadRequest create() => LoadRequest._();
+  LoadRequest createEmptyInstance() => create();
+  static $pb.PbList<LoadRequest> createRepeated() => $pb.PbList<LoadRequest>();
+  @$core.pragma('dart2js:noInline')
+  static LoadRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoadRequest>(create);
+  static LoadRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$core.String> get existPosts => $_getList(0);
+}
+
+class LoadReply extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'LoadReply', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+    ..aOM<PostPackage>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'postPackage', subBuilder: PostPackage.create)
+    ..hasRequiredFields = false
+  ;
+
+  LoadReply._() : super();
+  factory LoadReply({
+    PostPackage? postPackage,
+  }) {
+    final _result = create();
+    if (postPackage != null) {
+      _result.postPackage = postPackage;
+    }
+    return _result;
+  }
+  factory LoadReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory LoadReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  LoadReply clone() => LoadReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  LoadReply copyWith(void Function(LoadReply) updates) => super.copyWith((message) => updates(message as LoadReply)) as LoadReply; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static LoadReply create() => LoadReply._();
+  LoadReply createEmptyInstance() => create();
+  static $pb.PbList<LoadReply> createRepeated() => $pb.PbList<LoadReply>();
+  @$core.pragma('dart2js:noInline')
+  static LoadReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<LoadReply>(create);
+  static LoadReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  PostPackage get postPackage => $_getN(0);
+  @$pb.TagNumber(1)
+  set postPackage(PostPackage v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPostPackage() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPostPackage() => clearField(1);
+  @$pb.TagNumber(1)
+  PostPackage ensurePostPackage() => $_ensure(0);
 }
 
 class RefreshRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RefreshRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+    ..aOB(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'first')
     ..hasRequiredFields = false
   ;
 
   RefreshRequest._() : super();
-  factory RefreshRequest() => create();
+  factory RefreshRequest({
+    $core.bool? first,
+  }) {
+    final _result = create();
+    if (first != null) {
+      _result.first = first;
+    }
+    return _result;
+  }
   factory RefreshRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory RefreshRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
   @$core.Deprecated(
@@ -340,26 +524,30 @@ class RefreshRequest extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static RefreshRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RefreshRequest>(create);
   static RefreshRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get first => $_getBF(0);
+  @$pb.TagNumber(1)
+  set first($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasFirst() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearFirst() => clearField(1);
 }
 
 class RefreshReply extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'RefreshReply', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
-    ..pc<PassedRentPost>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'rentPost', $pb.PbFieldType.PM, subBuilder: PassedRentPost.create)
-    ..pc<PassedHelpPost>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'helpPost', $pb.PbFieldType.PM, subBuilder: PassedHelpPost.create)
+    ..aOM<PostPackage>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'postPackage', subBuilder: PostPackage.create)
     ..hasRequiredFields = false
   ;
 
   RefreshReply._() : super();
   factory RefreshReply({
-    $core.Iterable<PassedRentPost>? rentPost,
-    $core.Iterable<PassedHelpPost>? helpPost,
+    PostPackage? postPackage,
   }) {
     final _result = create();
-    if (rentPost != null) {
-      _result.rentPost.addAll(rentPost);
-    }
-    if (helpPost != null) {
-      _result.helpPost.addAll(helpPost);
+    if (postPackage != null) {
+      _result.postPackage = postPackage;
     }
     return _result;
   }
@@ -384,11 +572,112 @@ class RefreshReply extends $pb.GeneratedMessage {
   static RefreshReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<RefreshReply>(create);
   static RefreshReply? _defaultInstance;
 
-  @$pb.TagNumber(1)
-  $core.List<PassedRentPost> get rentPost => $_getList(0);
-
   @$pb.TagNumber(2)
-  $core.List<PassedHelpPost> get helpPost => $_getList(1);
+  PostPackage get postPackage => $_getN(0);
+  @$pb.TagNumber(2)
+  set postPackage(PostPackage v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasPostPackage() => $_has(0);
+  @$pb.TagNumber(2)
+  void clearPostPackage() => clearField(2);
+  @$pb.TagNumber(2)
+  PostPackage ensurePostPackage() => $_ensure(0);
+}
+
+class SearchRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SearchRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'query')
+    ..hasRequiredFields = false
+  ;
+
+  SearchRequest._() : super();
+  factory SearchRequest({
+    $core.String? query,
+  }) {
+    final _result = create();
+    if (query != null) {
+      _result.query = query;
+    }
+    return _result;
+  }
+  factory SearchRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SearchRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SearchRequest clone() => SearchRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SearchRequest copyWith(void Function(SearchRequest) updates) => super.copyWith((message) => updates(message as SearchRequest)) as SearchRequest; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static SearchRequest create() => SearchRequest._();
+  SearchRequest createEmptyInstance() => create();
+  static $pb.PbList<SearchRequest> createRepeated() => $pb.PbList<SearchRequest>();
+  @$core.pragma('dart2js:noInline')
+  static SearchRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SearchRequest>(create);
+  static SearchRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get query => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set query($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasQuery() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearQuery() => clearField(1);
+}
+
+class SearchReply extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SearchReply', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
+    ..aOM<PostPackage>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'postPackage', subBuilder: PostPackage.create)
+    ..hasRequiredFields = false
+  ;
+
+  SearchReply._() : super();
+  factory SearchReply({
+    PostPackage? postPackage,
+  }) {
+    final _result = create();
+    if (postPackage != null) {
+      _result.postPackage = postPackage;
+    }
+    return _result;
+  }
+  factory SearchReply.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SearchReply.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SearchReply clone() => SearchReply()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SearchReply copyWith(void Function(SearchReply) updates) => super.copyWith((message) => updates(message as SearchReply)) as SearchReply; // ignore: deprecated_member_use
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static SearchReply create() => SearchReply._();
+  SearchReply createEmptyInstance() => create();
+  static $pb.PbList<SearchReply> createRepeated() => $pb.PbList<SearchReply>();
+  @$core.pragma('dart2js:noInline')
+  static SearchReply getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SearchReply>(create);
+  static SearchReply? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  PostPackage get postPackage => $_getN(0);
+  @$pb.TagNumber(1)
+  set postPackage(PostPackage v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPostPackage() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPostPackage() => clearField(1);
+  @$pb.TagNumber(1)
+  PostPackage ensurePostPackage() => $_ensure(0);
 }
 
 class LogoutRequest extends $pb.GeneratedMessage {
