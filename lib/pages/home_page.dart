@@ -1,10 +1,8 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
 import 'package:easy_rent/model/client.dart';
 import 'package:easy_rent/model/app_routes.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,67 +19,59 @@ class _HomePageState extends State<HomePage>
   bool first = true;
 
   Future<void> _onLoad() async {
-    if (mounted) {
-      final allExistPosts = rentPosts.map((e) => e.uuid).toList();
-      allExistPosts.addAll(helpPosts.map((e) => e.uuid).toList());
+    final allExistPosts = rentPosts.map((e) => e.uuid).toList();
+    allExistPosts.addAll(helpPosts.map((e) => e.uuid).toList());
 
-      final comingPosts = await _cmdClient.onLoad(allExistPosts);
-      setState(() {
-        rentPosts.addAll(comingPosts.postPackage.rentPosts.map(
-          (p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
-            ..roomAddr = p.roomAddr
-            ..roomArea = p.roomArea
-            ..roomType = p.roomType
-            ..roomOrientation = p.roomOrientation
-            ..roomFloor = p.roomFloor
-            ..description = p.description
-            ..price = p.price
-            ..restriction = p.restriction
-            ..releaseTime = p.releaseTime
-            ..pictures = p.pictures.map((e) => e as Uint8List).toList(),
-        ));
+    final comingPosts = await _cmdClient.onLoad(allExistPosts);
+    setState(() {
+      rentPosts.addAll(comingPosts.postPackage.rentPosts
+          .map((p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
+        ..roomAddr = p.roomAddr
+        ..roomArea = p.roomArea
+        ..roomType = p.roomType
+        ..roomOrientation = p.roomOrientation
+        ..roomFloor = p.roomFloor
+        ..description = p.description
+        ..price = p.price
+        ..restriction = p.restriction
+        ..pictures = p.pictures.map((e) => e as Uint8List).toList()));
 
-        helpPosts.addAll(comingPosts.postPackage.helpPosts.map(
-          (p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
-            ..expectedAddr = p.expectedAddr
-            ..expectedPrice = p.expectedPrice
-            ..demands = p.demands
-            ..releaseTime = p.releaseTime,
-        ));
-      });
-    }
+      helpPosts.addAll(comingPosts.postPackage.helpPosts
+          .map((p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
+        ..expectedAddr = p.expectedAddr
+        ..expectedPrice = p.expectedPrice
+        ..demands = p.demands));
+    });
   }
 
   Future<void> _onRefresh() async {
-    if (mounted) {
-      if (first) {
-        final comingPosts = await _cmdClient.onRefresh(first);
-        setState(() {
-          rentPosts.addAll(comingPosts.postPackage.rentPosts.map(
-                (p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
-              ..roomAddr = p.roomAddr
-              ..roomArea = p.roomArea
-              ..roomType = p.roomType
-              ..roomOrientation = p.roomOrientation
-              ..roomFloor = p.roomFloor
-              ..description = p.description
-              ..price = p.price
-              ..restriction = p.restriction
-              ..releaseTime = p.releaseTime
-              ..pictures = p.pictures.map((e) => e as Uint8List).toList(),
-          ));
+    if (first) {
+      final comingPosts = await _cmdClient.onRefresh(first);
+      setState(() {
+        rentPosts.addAll(comingPosts.postPackage.rentPosts
+            .map((p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
+          ..roomAddr = p.roomAddr
+          ..roomArea = p.roomArea
+          ..roomType = p.roomType
+          ..roomOrientation = p.roomOrientation
+          ..roomFloor = p.roomFloor
+          ..description = p.description
+          ..price = p.price
+          ..restriction = p.restriction
+          ..pictures = p.pictures.map((e) => e as Uint8List).toList()));
 
-          helpPosts.addAll(comingPosts.postPackage.helpPosts.map(
-                (p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
-              ..expectedAddr = p.expectedAddr
-              ..expectedPrice = p.expectedPrice
-              ..demands = p.demands
-              ..releaseTime = p.releaseTime,
-          ));
-          first = false;
-        });
-      }
-
+        helpPosts.addAll(comingPosts.postPackage.helpPosts
+            .map((p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
+          ..expectedAddr = p.expectedAddr
+          ..expectedPrice = p.expectedPrice
+          ..demands = p.demands));
+        first = false;
+      });
+    } else {
+      setState(() {
+        rentPosts.shuffle();
+        helpPosts.shuffle();
+      });
     }
   }
 

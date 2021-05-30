@@ -1,15 +1,3 @@
-pub const LOAD_RENT_POSTS: &str = r#"
-    SELECT * FROM rent_posts
-    WHERE uuid NOT IN $1
-    LIMIT 3;
-"#;
-
-pub const LOAD_HELP_POSTS: &str = r#"
-    SELECT * FROM rent_posts
-    WHERE uuid NOT IN $1
-    LIMIT 3;
-"#;
-
 pub const LOAD_INIT_RENT_POSTS: &str = r#"
     SELECT * FROM rent_posts
     WHERE passed = TRUE
@@ -17,7 +5,7 @@ pub const LOAD_INIT_RENT_POSTS: &str = r#"
 "#;
 
 pub const LOAD_INIT_HELP_POSTS: &str = r#"
-    SELECT * FROM
+    SELECT * FROM help_posts
     WHERE passed = TRUE
     LIMIT 5;
 "#;

@@ -28,7 +28,8 @@ class SubmitPage extends StatefulWidget {
   _SubmitPageState createState() => _SubmitPageState();
 }
 
-class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMixin {
+class _SubmitPageState extends State<SubmitPage>
+    with AutomaticKeepAliveClientMixin {
   late RentPost rentPost;
   late HelpPost helpPost;
 
@@ -468,6 +469,8 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           decoration: InputDecoration(
                             hintText: '填写房屋地址',
                             hintStyle: TextStyle(fontSize: 19),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -504,6 +507,8 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           decoration: InputDecoration(
                             hintText: '请填写',
                             hintStyle: TextStyle(fontSize: 19),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -922,8 +927,8 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           decoration: InputDecoration(
                             hintText: '请填写',
                             hintStyle: TextStyle(fontSize: 19),
-                            // border: InputBorder.none,
-                            // errorBorder: InputBorder.none,
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -974,6 +979,8 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           pressElevation: 0,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -1035,6 +1042,8 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           decoration: InputDecoration(
                             hintText: '请填写姓名',
                             hintStyle: TextStyle(fontSize: 19),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -1063,8 +1072,8 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           decoration: InputDecoration(
                             hintText: '请填写',
                             hintStyle: TextStyle(fontSize: 19),
-                            // border: InputBorder.none,
-                            // errorBorder: InputBorder.none,
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
@@ -1082,6 +1091,56 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           ]),
                         ),
                       ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 10,
+                color: Colors.grey.withOpacity(0.09),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 5, 15, 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '其他说明',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.33,
+                      child: FormBuilderTextField(
+                        cursorColor: Colors.black,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        name: 'description',
+                        maxLines: 15,
+                        decoration: InputDecoration(
+                          hintText: '补充说明，例：房子临近地铁和学校',
+                          hintStyle: TextStyle(fontSize: 19),
+                          border: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(
+                            context,
+                            errorText: '补充说明不得为空',
+                          ),
+                          FormBuilderValidators.maxLength(
+                            context,
+                            80,
+                            errorText: '补充说明不得多于80个字符',
+                          ),
+                        ]),
+                      ),
                     ),
                   ],
                 ),
@@ -1112,6 +1171,11 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           showTip(msg: '楼层不得为空', gravity: ToastGravity.CENTER);
                           return;
                         }
+                        if (assets.isEmpty) {
+                          showTip(
+                              msg: '至少拍摄一张图片', gravity: ToastGravity.CENTER);
+                          return;
+                        }
                         showPendingDialog(context);
                         var pictures = <Uint8List>[];
                         for (var e in assets) {
@@ -1129,16 +1193,17 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
                           ..roomType = roomTypeStr
                           ..roomOrientation = _roomOrientation
                           ..roomFloor = _roomFloor
+                          ..description = value['description']
                           ..price = int.parse(value['price'])
                           ..restriction = value['restriction']
                           ..pictures = pictures;
-
-                        print(rentPost.toString());
 
                         final result = await _posterClient.onRent(rentPost);
                         Navigator.pop(context);
                         if (result.success) {
                           showTip(msg: '提交成功', gravity: ToastGravity.CENTER);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
                         } else {
                           showTip(msg: '提交失败', gravity: ToastGravity.CENTER);
                         }
@@ -1171,7 +1236,309 @@ class _SubmitPageState extends State<SubmitPage> with AutomaticKeepAliveClientMi
         helpPost = HelpPost('', '', '', '');
         return _formBase(
           context: context,
-          child: Container(),
+          child: Column(
+            children: [
+              Container(
+                height: 10,
+                color: Colors.grey.withOpacity(0.09),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 5, 15, 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '基本信息',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '地址',
+                          style: TextStyle(fontSize: 11),
+                        ),
+                        FormBuilderTextField(
+                          cursorColor: Colors.black,
+                          textAlign: TextAlign.center,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'expectedAddr',
+                          maxLines: 2,
+                          decoration: InputDecoration(
+                            hintText: '您期望的住址',
+                            hintStyle: TextStyle(fontSize: 19),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                          ),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                              context,
+                              errorText: '地址不能为空',
+                            ),
+                            FormBuilderValidators.minLength(context, 6,
+                                errorText: '地址不得少于6位'),
+                            FormBuilderValidators.maxLength(context, 30,
+                                errorText: '地址不得多于30位')
+                          ]),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '月租金',
+                          style: TextStyle(fontSize: 11),
+                        ),
+                        FormBuilderTextField(
+                          cursorColor: Colors.black,
+                          textAlign: TextAlign.center,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'expectedPrice',
+                          keyboardType:
+                          TextInputType.numberWithOptions(signed: false),
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                            hintText: '您期望的月租金',
+                            hintStyle: TextStyle(fontSize: 19),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                          ),
+                          onChanged: (val) {
+                            setState(() {
+                              _formKey.currentState?.fields['monthlyRent']
+                                  ?.validate();
+                            });
+                          },
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                              context,
+                              errorText: '租金不能为空',
+                            ),
+                            FormBuilderValidators.numeric(
+                              context,
+                              errorText: '租金必须为数字',
+                            ),
+                            FormBuilderValidators.max(
+                              context,
+                              400000,
+                              errorText: '租金不得大于400000',
+                            ),
+                            FormBuilderValidators.min(
+                              context,
+                              100,
+                              errorText: '租金不得小于100',
+                            ),
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 10,
+                color: Colors.grey.withOpacity(0.09),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 5, 15, 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '需求说明',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.33,
+                      child: FormBuilderTextField(
+                        cursorColor: Colors.black,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        name: 'demands',
+                        maxLines: 15,
+                        decoration: InputDecoration(
+                          hintText: '填写需求，例：优先考虑南北通透，临近地铁',
+                          hintStyle: TextStyle(fontSize: 19),
+                          border: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(
+                            context,
+                            errorText: '需求不能为空',
+                          ),
+                          FormBuilderValidators.maxLength(
+                            context,
+                            80,
+                            errorText: '需求不得多于80个字符',
+                          ),
+                        ]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 10,
+                color: Colors.grey.withOpacity(0.09),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 5, 15, 20),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '联系方式',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FormBuilderTextField(
+                          cursorColor: Colors.black,
+                          textAlign: TextAlign.center,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'name',
+                          decoration: InputDecoration(
+                            hintText: '请填写姓名',
+                            hintStyle: TextStyle(fontSize: 19),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                          ),
+                          validator: FormBuilderValidators.required(
+                            context,
+                            errorText: '姓名不能为空',
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      thickness: 1,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '手机号',
+                          style: TextStyle(fontSize: 11),
+                        ),
+                        FormBuilderTextField(
+                          cursorColor: Colors.black,
+                          textAlign: TextAlign.center,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          name: 'phone',
+                          decoration: InputDecoration(
+                            hintText: '请填写',
+                            hintStyle: TextStyle(fontSize: 19),
+                            border: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                          ),
+                          keyboardType: TextInputType.phone,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                              context,
+                              errorText: '手机号不能为空',
+                            ),
+                            FormBuilderValidators.match(
+                              context,
+                              r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$',
+                              errorText: '手机号的格式不正确',
+                            ),
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 10,
+                color: Colors.grey.withOpacity(0.09),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 50,
+                  child: MaterialButton(
+                    onPressed: () async {
+                      bool? validate =
+                      _formKey.currentState?.saveAndValidate();
+                      if (validate!) {
+                        showPendingDialog(context);
+                        final value = _formKey.currentState?.value;
+                        helpPost
+                          ..uuid = Uuid().v4()
+                          ..name = value!['name']
+                          ..phone = value['phone']
+                          ..expectedAddr = value['expectedAddr']
+                          ..expectedPrice = int.parse(value['expectedPrice'])
+                          ..demands = value['demands'];
+
+                        final result = await _posterClient.onHelp(helpPost);
+                        Navigator.pop(context);
+                        if (result.success) {
+                          showTip(msg: '提交成功', gravity: ToastGravity.CENTER);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        } else {
+                          showTip(msg: '提交失败', gravity: ToastGravity.CENTER);
+                        }
+                      }
+                    },
+                    color: Color.fromARGB(255, 251, 150, 110),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    elevation: 0,
+                    child: Text(
+                      '提 交',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontFamily: 'SourceHanSansCN',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 10,
+                color: Colors.grey.withOpacity(0.09),
+              ),
+            ],
+          ),
         );
     }
   }

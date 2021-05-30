@@ -144,5 +144,6 @@ class CmdClient extends Client {
 
   Future<LoadReply> onLoad(List<String> existsPosts) async => await stub.onLoad(LoadRequest(existPosts: existsPosts));
   Future<RefreshReply> onRefresh(bool first) async => await stub.onRefresh(RefreshRequest(first: first));
+  Future<SearchReply> onSearch(String query) async => await stub.onSearch(SearchRequest(query: query));
   Future<LogoutReply> onLogOut() async => await stub.onLogout(LogoutRequest(name: currentUser.name));
 }

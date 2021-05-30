@@ -104,7 +104,7 @@ fn random_time() -> String {
 
     let rnd_s = seconds[thread_rng().gen_range(0..59)].to_string();
 
-    format!("{}-{}-{} {:0>2}:{:0>2}:{:0>2}", rnd_y, rnd_month, rnd_d, rnd_h, rnd_minute, rnd_s)
+    format!("{}-{:0>2}-{:0>2} {:0>2}:{:0>2}:{:0>2}", rnd_y, rnd_month, rnd_d, rnd_h, rnd_minute, rnd_s)
 
 }
 

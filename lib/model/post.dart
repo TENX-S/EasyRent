@@ -13,43 +13,9 @@ enum PostKind {
 
 var submitPageType = PostKind.Rent;
 
-List<RentPost> rentPosts = [
-  // RentPost(
-  // "张杰",
-  // "19841814534",
-  // "2020/12/31",
-  // pictures: [
-  // rootBundle.load("assets/images/1/a.jpg").
-  // ],
-  // roomAddr: "安徽 芜湖 弋江区",
-  // description: "波尔卡精装修两房 家具电齐全 价格可谈",
-  // price: 1400,
-  // restriction: "押一付三",
-  // roomType: "2室2厅1卫",
-  // roomArea: 87,
-  // roomFloor: 6,
-  // roomOrientation: "南",
-  // )
-];
+List<RentPost> rentPosts = [];
 
-List<HelpPost> helpPosts = [
-  // HelpPost(
-  //   "张三",
-  //   "14434236932",
-  //   "2020/4/22",
-  //   expectedAddr: "江苏 南京 鼓楼区",
-  //   expectedPrice: 2400,
-  //   demands: "临近地铁，南北通透最好",
-  // ),
-  // HelpPost(
-  //   "李四",
-  //   "14534238912",
-  //   "2020/12/31",
-  //   expectedAddr: "北京 朝阳区",
-  //   expectedPrice: 5300,
-  //   demands: "在学校附近，有电梯的优先",
-  // ),
-];
+List<HelpPost> helpPosts = [];
 
 abstract class Post {
   String uuid;
@@ -99,7 +65,7 @@ abstract class Post {
     fontSize: 20.0,
   );
 
-  Post(this.name, this.phone, this.releaseTime, this.uuid);
+  Post(this.uuid, this.name, this.phone, this.releaseTime);
 
   Widget showPicture();
   String toString();
@@ -260,7 +226,7 @@ class HelpPost extends Post {
                           Flexible(
                             flex: 9,
                             child: Text(
-                              releaseTime,
+                              releaseTime.substring(0, 10),
                               style: TextStyle(
                                 color: Color.fromRGBO(48, 47, 48, 1.0),
                                 fontWeight: FontWeight.w700,
@@ -553,7 +519,7 @@ class RentPost extends Post {
                           Flexible(
                             flex: 9,
                             child: Text(
-                              releaseTime,
+                              releaseTime.substring(0, 10),
                               style: TextStyle(
                                 color: Color.fromRGBO(48, 47, 48, 1.0),
                                 fontWeight: FontWeight.w700,

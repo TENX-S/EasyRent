@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:easy_rent/pages/home_page.dart';
 import 'package:easy_rent/pages/about_page.dart';
 import 'package:easy_rent/pages/profile_page.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:easy_rent/utils/tip.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 

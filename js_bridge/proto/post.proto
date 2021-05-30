@@ -7,7 +7,7 @@ service JsBridge {
   rpc OnPass(PassRequest) returns (PassReply) {}
 }
 
-message AllRentPost {
+message JsRentPost {
   string name = 1;
   string phone = 2;
   string room_addr = 3;
@@ -21,9 +21,10 @@ message AllRentPost {
   string create_by = 11;
   string uuid = 12;
   string release_time = 13;
+  repeated bytes pictures = 14;
 }
 
-message AllHelpPost {
+message JsHelpPost {
   string name = 1;
   string phone = 2;
   string expected_addr = 3;
@@ -34,11 +35,15 @@ message AllHelpPost {
   string release_time = 8;
 }
 
+message PostPackage {
+  repeated JsRentPost rent_posts = 1;
+  repeated JsHelpPost help_posts = 2;
+}
+
 message FetchRequest {}
 
 message FetchReply {
-  repeated AllRentPost all_rent_post = 1;
-  repeated AllHelpPost all_help_post = 2;
+  optional PostPackage post_package = 1;
 }
 
 message PassRequest {

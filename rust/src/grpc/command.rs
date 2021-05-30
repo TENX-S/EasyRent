@@ -1,7 +1,7 @@
 tonic::include_proto!("easyrent.command");
 
 use super::RpcResult;
-use crate::model::post::{RentPost, HelpPost};
+use crate::model::post::{RentPost, HelpPost,};
 use crate::sql::cmd::*;
 use crate::{error::{EasyRentCommandError, Result}, Cmd};
 use command_server::Command;
@@ -86,9 +86,22 @@ impl Cmd for Commander {
     type Value = Option<PostPackage>;
 
     async fn load(&self, posts: &[String]) -> Result<Self::Value> {
-        trace!("Loading post!");
-        let rent_posts = sqlx::query(LOAD_RENT_POSTS)
-            .bind(posts)
+        trace!("Loading rent post!");
+        let r_sql;
+        if posts.is_empty() {
+            r_sql = r#"
+            SELECT * FROM rent_posts
+            WHERE passed = TRUE
+            LIMIT 3;"#.to_string();
+        } else {
+            let param: String = posts.join(", ");
+            r_sql = format!(r#"
+            SELECT * FROM rent_posts
+            WHERE passed = TRUE AND uuid NOT IN ({})
+            LIMIT 3;"#, param.as_str());
+        }
+        trace!("{}", r_sql);
+        let rent_posts = sqlx::query(&r_sql)
             .map(|row: PgRow| {
                 PassedRentPost {
                     name: row.get("name"),
@@ -102,15 +115,30 @@ impl Cmd for Commander {
                     price: row.get("price"),
                     restriction: row.get("restriction"),
                     uuid: row.get("uuid"),
-                    release_time: row.get("release"),
+                    release_time: row.get("release_time"),
                     pictures: row.get("pictures"),
                 }
             })
             .fetch_all(&self.db_pool)
             .await?;
+        trace!("Fetch {} rent posts", rent_posts.len());
 
-        let help_posts = sqlx::query(LOAD_HELP_POSTS)
-            .bind(posts)
+        trace!("Loading help post!");
+        let h_sql;
+        if posts.is_empty() {
+            h_sql = r#"
+            SELECT * FROM help_posts
+            WHERE passed = TRUE
+            LIMIT 3;"#.to_string();
+        } else {
+            let param: String = posts.join(", ");
+            h_sql = format!(r#"
+            SELECT * FROM help_posts
+            WHERE passed = TRUE AND uuid NOT IN ({})
+            LIMIT 3;"#, param.as_str());
+        }
+        trace!("{}", h_sql);
+        let help_posts = sqlx::query(&h_sql)
             .map(|row: PgRow|
                 PassedHelpPost {
                     name: row.get("name"),
@@ -119,21 +147,22 @@ impl Cmd for Commander {
                     expected_price: row.get("expected_price"),
                     demands: row.get("demands"),
                     uuid: row.get("uuid"),
-                    release_time: row.get("release"),
+                    release_time: row.get("release_time"),
                 }
             )
             .fetch_all(&self.db_pool)
             .await?;
+        trace!("Fetch {} help posts", help_posts.len());
 
-        return Ok(Some(PostPackage{
+        Ok(Some(PostPackage{
             rent_posts,
             help_posts,
-        }));
+        }))
     }
 
     async fn refresh(&self, first: bool) -> Result<Self::Value> {
         if first {
-            trace!("First Refresh!");
+            trace!("First refresh!");
             let rent_posts = sqlx::query(LOAD_INIT_RENT_POSTS)
                 .map(|row: PgRow|
                     PassedRentPost {
@@ -148,12 +177,14 @@ impl Cmd for Commander {
                         price: row.get("price"),
                         restriction: row.get("restriction"),
                         uuid: row.get("uuid"),
-                        release_time: row.get("release"),
+                        release_time: row.get("release_time"),
                         pictures: row.get("pictures"),
                     }
                 )
                 .fetch_all(&self.db_pool)
                 .await?;
+            trace!("Fetch {} rent posts", rent_posts.len());
+            trace!("One of fetched: {}", rent_posts[0].pictures.len());
 
             let help_posts = sqlx::query(LOAD_INIT_HELP_POSTS)
                 .map(|row: PgRow|
@@ -164,11 +195,12 @@ impl Cmd for Commander {
                         expected_price: row.get("expected_price"),
                         demands: row.get("demands"),
                         uuid: row.get("uuid"),
-                        release_time: row.get("release"),
+                        release_time: row.get("release_time"),
                     }
                 )
                 .fetch_all(&self.db_pool)
                 .await?;
+            trace!("Fetch {} help posts", help_posts.len());
 
             return Ok(Some(PostPackage{
                 rent_posts,
