@@ -20,7 +20,7 @@ class FadePageRoute<T> extends MaterialPageRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    if (settings.name == AppRoutes.loginPage) {
+    if (settings.name == AppRoutes.authPage) {
       return child;
     }
 

@@ -1,5 +1,5 @@
 class AppRoutes {
-  static const loginPage = '/';
+  static const authPage = '/';
   static const mainPage = '/main';
   static const submitPage = '/submit';
   static const selectPage = '/select';

@@ -10,8 +10,8 @@ import 'package:easy_rent/grpc/command.pbgrpc.dart';
 
 
 abstract class Client {
-  String? serverAddr = '1.116.216.141';
-  int? serverPort = 8081;
+  String? serverAddr;
+  int? serverPort;
 
   Client({
     this.serverAddr,

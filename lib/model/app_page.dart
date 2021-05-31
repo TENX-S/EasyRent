@@ -5,7 +5,7 @@ import 'package:easy_rent/pages/submit_page.dart';
 import 'package:easy_rent/pages/select_page.dart';
 
 enum PageType {
-  Login,
+  Auth,
   Main,
   Submit,
   Select,
@@ -18,7 +18,7 @@ class AppPage {
 
   Widget get page {
     switch (pageType) {
-      case PageType.Login:
+      case PageType.Auth:
         return AuthPage();
       case PageType.Main:
         return MainPage();
@@ -28,5 +28,4 @@ class AppPage {
         return SelectPage();
     }
   }
-
 }
