@@ -2,11 +2,12 @@ syntax = "proto3";
 
 package easyrent.agency.post;
 
-service Release {
-  rpc OnSubmit(HouseInfo) returns (SubmitReply) {}
+service Agency {
+  rpc OnRent(RentRequest) returns (SubmitReply) {}
+  rpc OnHelp(HelpRequest) returns (SubmitReply) {}
 }
 
-message HouseInfo {
+message RentRequest {
   string name = 1;
   string phone = 2;
   string room_addr = 3;
@@ -21,6 +22,17 @@ message HouseInfo {
   string uuid = 12;
   string release_time = 13;
   repeated bytes pictures = 14;
+}
+
+message HelpRequest {
+  string name = 1;
+  string phone = 2;
+  string expected_addr = 3;
+  int32 expected_price = 4;
+  string demands = 5;
+  string create_by = 6;
+  string uuid = 7;
+  string release_time = 8;
 }
 
 message SubmitReply {

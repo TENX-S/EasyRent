@@ -512,12 +512,6 @@ class _SubmitPageState extends State<SubmitPage>
                             focusedBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                           ),
-                          onChanged: (val) {
-                            setState(() {
-                              _formKey.currentState?.fields['roomArea']
-                                  ?.validate();
-                            });
-                          },
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
                               context,

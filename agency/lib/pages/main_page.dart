@@ -1,4 +1,5 @@
 import 'package:agency/model/app_routes.dart';
+import 'package:agency/model/post.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math show pi;
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
@@ -60,7 +61,38 @@ class _MainPageState extends State<MainPage> {
         text: '发布',
         icon: Icons.post_add_outlined,
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.releasePage);
+          showDialog(context: context, builder: (context) {
+            return Container(
+              width: 200,
+              height: 300,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MaterialButton(
+                    onPressed: () {
+                      submitPageType = PostKind.Rent;
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, AppRoutes.submitPage);
+                    },
+                    elevation: 0,
+                    shape: StadiumBorder(),
+                    color: Color(0xFFfb966e),
+                    child: Text('发布出租'),
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      submitPageType = PostKind.Help;
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, AppRoutes.submitPage);
+                    },
+                    shape: StadiumBorder(),
+                    color: Color(0xFFfb966e),
+                    child: Text('发布求租'),
+                  ),
+                ],
+              ),
+            );
+          });
         },
       )
     ];

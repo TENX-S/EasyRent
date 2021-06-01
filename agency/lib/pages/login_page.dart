@@ -102,15 +102,15 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             MaterialButton(
                               onPressed: _onLogin,
-                              child: Text('登 录'),
                               shape: StadiumBorder(),
                               color: Color(0xFFfb966e),
                               elevation: 0,
+                              child: Text('登 录'),
                             ),
                             MaterialButton(
                               onPressed: _onRegister,
-                              child: Text('注 册'),
                               shape: StadiumBorder(),
+                              child: Text('注 册'),
                             ),
                           ],
                         ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:agency/pages/login_page.dart';
 import 'package:agency/pages/register_page.dart';
-import 'package:agency/pages/release_page.dart';
+import 'package:agency/pages/submit_page.dart';
 import 'package:agency/pages/main_page.dart';
 
 enum PageType {
   Login,
   Register,
-  Release,
+  Submit,
   Main,
 }
 
@@ -22,8 +22,8 @@ class AppPage {
         return LoginPage();
       case PageType.Register:
         return RegisterPage();
-      case PageType.Release:
-        return ReleasePage();
+      case PageType.Submit:
+        return SubmitPage();
       case PageType.Main:
         return MainPage();
     }
