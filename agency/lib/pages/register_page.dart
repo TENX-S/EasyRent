@@ -115,9 +115,10 @@ class _RegisterPageState extends State<RegisterPage> {
                             cursorColor: Colors.black,
                             name: 'name',
                             decoration: InputDecoration(
-                              hintText: '邮箱',
+                              hintText: '邮箱（作为登录名）',
                               hintStyle: TextStyle(fontSize: 19),
                             ),
+                            // TODO: - validators
                           ),
                           FormBuilderTextField(
                             cursorColor: Colors.black,
