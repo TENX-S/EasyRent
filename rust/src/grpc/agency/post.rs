@@ -1,16 +1,16 @@
-tonic::include_proto!("easyrent.post");
+tonic::include_proto!("easyrent.agency.post");
 
-use super::RpcResult;
+use agency_post_server::AgencyPost;
+use super::super::RpcResult;
 use crate::model::post::{RentPost, HelpPost};
 use crate::sql::post::*;
 use crate::{error::{EasyRentPostError, Result}, Poster};
-use emit_server::Emit;
 use sqlx::PgPool;
 use tonic::{Request, Response, Status};
 use tracing::*;
 
 #[derive(Debug)]
-pub struct UserPostManager {
+pub struct AgencyPostManager {
     db_pool: PgPool,
 }
 
@@ -31,14 +31,14 @@ impl RpcResult for SubmitReply {
     }
 }
 
-impl UserPostManager {
+impl AgencyPostManager {
     pub fn new(db_pool: PgPool) -> Self {
-        UserPostManager { db_pool }
+        AgencyPostManager { db_pool }
     }
 }
 
 #[tonic::async_trait]
-impl Poster for UserPostManager {
+impl Poster for AgencyPostManager {
     async fn rent(&self, post: &RentPost) -> Result<(), EasyRentPostError> {
         if let Err(e) = sqlx::query(ADD_RENT_POST)
             .bind(&post.name)
@@ -88,10 +88,10 @@ impl Poster for UserPostManager {
 
 
 #[tonic::async_trait]
-impl Emit for UserPostManager {
+impl AgencyPost for AgencyPostManager {
     async fn on_rent(
         &self,
-        request: Request<SubmitRentRequest>,
+        request: Request<RentRequest>,
     ) -> Result<Response<SubmitReply>, Status> {
         let rent_addr = request.remote_addr();
         let post: RentPost = request.into();
@@ -125,7 +125,7 @@ impl Emit for UserPostManager {
 
     async fn on_help(
         &self,
-        request: Request<SubmitHelpRequest>,
+        request: Request<HelpRequest>,
     ) -> Result<Response<SubmitReply>, Status> {
         let help_addr = request.remote_addr();
         let post: HelpPost = request.into();

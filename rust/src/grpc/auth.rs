@@ -10,7 +10,7 @@ use tonic::{Request, Response, Status};
 use tracing::*;
 
 #[derive(Debug)]
-pub struct Authenticator {
+pub struct UserAuthenticator {
     db_pool: PgPool,
 }
 
@@ -52,14 +52,14 @@ impl RpcResult for RegisterReply {
     }
 }
 
-impl Authenticator {
+impl UserAuthenticator {
     pub fn new(db_pool: PgPool) -> Self {
-        Authenticator { db_pool }
+        UserAuthenticator { db_pool }
     }
 }
 
 #[tonic::async_trait]
-impl Auth for Authenticator {
+impl Auth for UserAuthenticator {
     async fn login(&self, user: &User) -> Result<(), EasyRentAuthError> {
         match sqlx::query_as::<_, User>(QUERY_USER)
             .bind(&user.name)
@@ -128,7 +128,7 @@ impl Auth for Authenticator {
 }
 
 #[tonic::async_trait]
-impl Authenticate for Authenticator {
+impl Authenticate for UserAuthenticator {
     async fn on_login(
         &self,
         request: Request<AuthRequest>,

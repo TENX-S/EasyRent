@@ -1,3 +1,5 @@
+late Agent currentAgent;
+
 class Agent {
   String? corp;
   String? corpId;

@@ -3,6 +3,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "../proto/auth.proto",
         "../proto/post.proto",
         "../proto/command.proto",
+        "../proto/agency_auth.proto",
+        "../proto/agency_post.proto",
     ];
 
     let dirs = &["../proto"];
