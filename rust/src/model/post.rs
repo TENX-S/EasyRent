@@ -1,4 +1,5 @@
-use crate::grpc::post::{SubmitRentRequest, SubmitHelpRequest};
+use crate::grpc::post::{SubmitRentRequest, SubmitHelpRequest,};
+use crate::grpc::agency::post::{RentRequest, HelpRequest};
 use sqlx::FromRow;
 use tonic::Request;
 
@@ -24,6 +25,29 @@ pub struct RentPost {
 impl From<Request<SubmitRentRequest>> for RentPost {
     fn from(submit_rent_request: Request<SubmitRentRequest>) -> Self {
         let request = submit_rent_request.into_inner();
+        RentPost {
+            id: 0i64,
+            name: request.name,
+            phone: request.phone,
+            room_addr: request.room_addr,
+            room_area: request.room_area,
+            room_type: request.room_type,
+            room_orientation: request.room_orientation,
+            room_floor: request.room_floor,
+            description: request.description,
+            price: request.price,
+            restriction: request.restriction,
+            create_by: request.create_by,
+            uuid: request.uuid,
+            release_time: request.release_time,
+            pictures: request.pictures,
+        }
+    }
+}
+
+impl From<Request<RentRequest>> for RentPost {
+    fn from(rent_request: Request<RentRequest>) -> Self {
+        let request = rent_request.into_inner();
         RentPost {
             id: 0i64,
             name: request.name,
@@ -73,3 +97,21 @@ impl From<Request<SubmitHelpRequest>> for HelpPost {
         }
     }
 }
+
+impl From<Request<HelpRequest>> for HelpPost {
+    fn from(help_request: Request<HelpRequest>) -> Self {
+        let request = help_request.into_inner();
+        HelpPost {
+            id: 0i64,
+            name: request.name,
+            phone: request.phone,
+            expected_addr: request.expected_addr,
+            expected_price: request.expected_price,
+            demands: request.demands,
+            create_by: request.create_by,
+            uuid: request.uuid,
+            release_time: request.release_time,
+        }
+    }
+}
+

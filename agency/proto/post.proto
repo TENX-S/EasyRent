@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package easyrent.agency.post;
+
+service AgencyPost {
+  rpc OnRent(RentRequest) returns (SubmitReply) {}
+  rpc OnHelp(HelpRequest) returns (SubmitReply) {}
+}
+
+message RentRequest {
+  string name = 1;
+  string phone = 2;
+  string room_addr = 3;
+  int32 room_area = 4;
+  string room_type = 5;
+  string room_orientation = 6;
+  int32 room_floor = 7;
+  string description = 8;
+  int32 price = 9;
+  string restriction = 10;
+  string create_by = 11;
+  string uuid = 12;
+  string release_time = 13;
+  repeated bytes pictures = 14;
+}
+
+message HelpRequest {
+  string name = 1;
+  string phone = 2;
+  string expected_addr = 3;
+  int32 expected_price = 4;
+  string demands = 5;
+  string create_by = 6;
+  string uuid = 7;
+  string release_time = 8;
+}
+
+message SubmitReply {
+  bool success = 1;
+}

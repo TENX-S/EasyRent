@@ -1,0 +1,39 @@
+name: agency
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  grpc: ^3.0.0
+  uuid: ^3.0.4
+  fluttertoast: ^8.0.6
+  cupertino_icons: ^1.0.2
+  email_validator: ^2.0.1
+  flutter_spinkit: ^5.0.0
+  image_picker_web: ^2.0.2
+  collapsible_sidebar: ^2.0.0
+  flutter_form_builder: ^6.0.1
+  font_awesome_flutter: ^9.0.0
+  flutter_swiper_null_safety: ^1.0.1
+  syncfusion_flutter_charts: ^19.1.65
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: SourceHanSansCN
+      fonts:
+        - asset: assets/fonts/SourceHanSansSC-Regular.otf
+    - family: Vladimir
+      fonts:
+        - asset: assets/fonts/Vladimir.ttf

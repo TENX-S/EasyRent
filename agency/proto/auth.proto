@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package easyrent.agency.auth;
+
+service AgentAuth {
+  rpc OnLogin(LoginRequest) returns (LoginReply) {}
+  rpc OnRegister(RegisterRequest) returns (RegisterReply) {}
+}
+
+message LoginRequest {
+  string name = 1;
+  string password = 2;
+}
+
+message RegisterRequest {
+  string corp = 1;
+  string corp_id = 2;
+  string com_regd_addr = 3;
+  string name = 4;
+  string password = 5;
+}
+
+enum AuthError {
+  MISMATCHED_PASSWORD = 0;
+  NONEXISTENT_USER = 1;
+  DUPLICATED_NAME = 2;
+  UNKNOWN = 3;
+}
+
+message LoginReply {
+  bool success = 1;
+  optional AuthError error = 2;
+}
+
+message RegisterReply {
+  bool success = 1;
+  optional AuthError error = 2;
+}

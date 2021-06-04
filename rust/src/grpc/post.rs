@@ -10,7 +10,7 @@ use tonic::{Request, Response, Status};
 use tracing::*;
 
 #[derive(Debug)]
-pub struct PostManager {
+pub struct UserPostManager {
     db_pool: PgPool,
 }
 
@@ -31,14 +31,14 @@ impl RpcResult for SubmitReply {
     }
 }
 
-impl PostManager {
+impl UserPostManager {
     pub fn new(db_pool: PgPool) -> Self {
-        PostManager { db_pool }
+        UserPostManager { db_pool }
     }
 }
 
 #[tonic::async_trait]
-impl Poster for PostManager {
+impl Poster for UserPostManager {
     async fn rent(&self, post: &RentPost) -> Result<(), EasyRentPostError> {
         if let Err(e) = sqlx::query(ADD_RENT_POST)
             .bind(&post.name)
@@ -88,7 +88,7 @@ impl Poster for PostManager {
 
 
 #[tonic::async_trait]
-impl Emit for PostManager {
+impl Emit for UserPostManager {
     async fn on_rent(
         &self,
         request: Request<SubmitRentRequest>,

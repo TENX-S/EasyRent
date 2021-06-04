@@ -7,6 +7,7 @@ pub mod utils;
 use error::{EasyRentAuthError, EasyRentPostError, Result};
 use model::post::{RentPost, HelpPost};
 use model::user::User;
+use model::agent::Agent;
 
 #[tonic::async_trait]
 pub trait Auth {
@@ -41,4 +42,13 @@ pub trait Cmd {
 
     /// Logout an user
     async fn logout(&self, name: &str) -> Result<()>;
+}
+
+#[tonic::async_trait]
+pub trait AgencyAuth {
+    /// Register an agent
+    async fn register(&self, name: &Agent) -> Result<(), EasyRentAuthError>;
+
+    /// Login an agent
+    async fn login(&self, name: &str, password: &str) -> Result<(), EasyRentAuthError>;
 }

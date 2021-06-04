@@ -56,8 +56,8 @@ class App extends StatelessWidget {
         }),
       ),
       routes: {
-        AppRoutes.loginPage: (context) =>
-            AppPage(pageType: PageType.Login).page,
+        AppRoutes.authPage: (context) =>
+            AppPage(pageType: PageType.Auth).page,
         AppRoutes.mainPage: (context) =>
             AppPage(pageType: PageType.Main).page,
         AppRoutes.submitPage: (context) =>
