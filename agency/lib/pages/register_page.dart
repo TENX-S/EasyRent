@@ -1,5 +1,11 @@
 import 'dart:ui';
+import 'package:agency/grpc/auth.pb.dart';
+import 'package:agency/model/agent.dart';
+import 'package:agency/model/client.dart';
+import 'package:agency/utils/pending.dart';
+import 'package:agency/utils/tip.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -10,18 +16,51 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  var agent = Agent();
+  final _formKey = GlobalKey<FormBuilderState>();
+  final authClient = AuthClient(serverAddr: '1.116.216.141', serverPort: 8081);
 
+  void _onDone() async {
+    bool? validate = _formKey.currentState?.saveAndValidate();
+    if (validate!) {
+      final value = _formKey.currentState?.value;
+      if (value!['password'] != value['password']) {
+        showTip(msg: '两次输入的密码不一致', gravity: ToastGravity.BOTTOM);
+        return;
+      }
+      agent
+        ..corp = value['corp']
+        ..corpId = value['corpId']
+        ..comRegdAddr = value['comRegdAddr']
+        ..contact = value['contact']
+        ..name = value['name']
+        ..password = value['password'];
 
-  void _onDone() {
+      showPendingDialog(context);
+      final resp = await authClient.onRegister(agent);
 
+      if (!resp.success) {
+        switch (resp.error) {
+          case AuthError.DUPLICATED_NAME:
+            showTip(msg: '用户名不存在', gravity: ToastGravity.TOP);
+            return;
+          case AuthError.UNKNOWN:
+            showTip(msg: '未知的错误', gravity: ToastGravity.TOP);
+            return;
+        }
+      }
+      Navigator.pop(context);
+    }
+
+    return;
   }
 
   Widget _actionButton(
-      BuildContext context,
-      Color color,
-      String content,
-      bool save,
-      ) =>
+    BuildContext context,
+    Color color,
+    String content,
+    bool save,
+  ) =>
       TextButton(
         onPressed: () => Navigator.of(context).pop(save),
         child: Text(
@@ -82,68 +121,173 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: size.height / 1.5,
                     decoration: BoxDecoration(
                         color: Colors.grey.shade200.withOpacity(0.5)),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          FormBuilderTextField(
-                            cursorColor: Colors.black,
-                            name: 'corp',
-                            decoration: InputDecoration(
-                              hintText: '法人代表',
-                              hintStyle: TextStyle(fontSize: 19),
+                    child: FormBuilder(
+                      key: _formKey,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            FormBuilderTextField(
+                              cursorColor: Colors.black,
+                              name: 'corp',
+                              decoration: InputDecoration(
+                                hintText: '法人代表',
+                                hintStyle: TextStyle(fontSize: 19),
+                              ),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                  context,
+                                  errorText: '不能为空',
+                                ),
+                                FormBuilderValidators.max(
+                                  context,
+                                  8,
+                                  errorText: '2至8个字符',
+                                ),
+                                FormBuilderValidators.min(
+                                  context,
+                                  2,
+                                  errorText: '2至8个字符',
+                                ),
+                              ]),
                             ),
-                          ),
-                          FormBuilderTextField(
-                            cursorColor: Colors.black,
-                            name: 'corpId',
-                            decoration: InputDecoration(
-                              hintText: '法人身份证号',
-                              hintStyle: TextStyle(fontSize: 19),
+                            FormBuilderTextField(
+                              cursorColor: Colors.black,
+                              name: 'corpId',
+                              decoration: InputDecoration(
+                                hintText: '法人身份证号',
+                                hintStyle: TextStyle(fontSize: 19),
+                              ),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                  context,
+                                  errorText: '不能为空',
+                                ),
+                                FormBuilderValidators.match(context,
+                                    r'^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$',
+                                    errorText: '请输入正确的身份证号'),
+                              ]),
                             ),
-                          ),
-                          FormBuilderTextField(
-                            cursorColor: Colors.black,
-                            name: 'comRegdAddr',
-                            decoration: InputDecoration(
-                              hintText: '机构注册地址',
-                              hintStyle: TextStyle(fontSize: 19),
+                            FormBuilderTextField(
+                              cursorColor: Colors.black,
+                              name: 'comRegdAddr',
+                              decoration: InputDecoration(
+                                hintText: '机构注册地址',
+                                hintStyle: TextStyle(fontSize: 19),
+                              ),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                  context,
+                                  errorText: '不能为空',
+                                ),
+                                FormBuilderValidators.max(
+                                  context,
+                                  25,
+                                  errorText: '5至25个字符',
+                                ),
+                                FormBuilderValidators.min(
+                                  context,
+                                  5,
+                                  errorText: '5至25个字符',
+                                ),
+                              ]),
                             ),
-                          ),
-                          FormBuilderTextField(
-                            cursorColor: Colors.black,
-                            name: 'name',
-                            decoration: InputDecoration(
-                              hintText: '邮箱（作为登录名）',
-                              hintStyle: TextStyle(fontSize: 19),
+                            FormBuilderTextField(
+                              cursorColor: Colors.black,
+                              name: 'contact',
+                              decoration: InputDecoration(
+                                hintText: '联系方式（邮箱）',
+                                hintStyle: TextStyle(fontSize: 19),
+                              ),
+                              validator: FormBuilderValidators.email(
+                                context,
+                                errorText: '邮箱格式不正确',
+                              ),
                             ),
-                            // TODO: - validators
-                          ),
-                          FormBuilderTextField(
-                            cursorColor: Colors.black,
-                            name: 'password',
-                            decoration: InputDecoration(
-                              hintText: '密码',
-                              hintStyle: TextStyle(fontSize: 19),
+                            FormBuilderTextField(
+                              cursorColor: Colors.black,
+                              name: 'name',
+                              decoration: InputDecoration(
+                                hintText: '用户名',
+                                hintStyle: TextStyle(fontSize: 19),
+                              ),
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                  context,
+                                  errorText: '不能为空',
+                                ),
+                                FormBuilderValidators.max(
+                                  context,
+                                  16,
+                                  errorText: '2至16个字符',
+                                ),
+                                FormBuilderValidators.min(
+                                  context,
+                                  2,
+                                  errorText: '2至16个字符',
+                                ),
+                              ]),
                             ),
-                          ),
-                          FormBuilderTextField(
-                            cursorColor: Colors.black,
-                            name: 'rePassword',
-                            decoration: InputDecoration(
-                              hintText: '请重复输入密码',
-                              hintStyle: TextStyle(fontSize: 19),
+                            FormBuilderTextField(
+                              cursorColor: Colors.black,
+                              name: 'password',
+                              decoration: InputDecoration(
+                                hintText: '密码',
+                                hintStyle: TextStyle(fontSize: 19),
+                              ),
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                  context,
+                                  errorText: '不能为空',
+                                ),
+                                // FormBuilderValidators.max(
+                                //   context,
+                                //   16,
+                                //   errorText: '6至16个字符',
+                                // ),
+                                // FormBuilderValidators.min(
+                                //   context,
+                                //   6,
+                                //   errorText: '6至16个字符',
+                                // ),
+                              ]),
                             ),
-                          ),
-                          MaterialButton(
-                            onPressed: _onDone,
-                            child: Text('完 成'),
-                            shape: StadiumBorder(),
-                            color: Color(0xFFfb966e),
-                            elevation: 0,
-                          ),
-                        ],
+                            FormBuilderTextField(
+                              cursorColor: Colors.black,
+                              name: 'rePassword',
+                              decoration: InputDecoration(
+                                hintText: '请重复输入密码',
+                                hintStyle: TextStyle(fontSize: 19),
+                              ),
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.required(
+                                  context,
+                                  errorText: '不能为空',
+                                ),
+                                // FormBuilderValidators.max(
+                                //   context,
+                                //   16,
+                                //   errorText: '6至16个字符',
+                                // ),
+                                // FormBuilderValidators.min(
+                                //   context,
+                                //   6,
+                                //   errorText: '6至16个字符',
+                                // ),
+                              ]),
+                            ),
+                            MaterialButton(
+                              onPressed: _onDone,
+                              child: Text('完 成'),
+                              shape: StadiumBorder(),
+                              color: Color(0xFFfb966e),
+                              elevation: 0,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

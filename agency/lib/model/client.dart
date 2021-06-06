@@ -1,6 +1,8 @@
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_web.dart';
 import 'package:agency/model/agent.dart';
 import 'package:agency/model/post.dart';
+import 'package:agency/grpc/auth.pb.dart';
+import 'package:agency/grpc/auth.pbgrpc.dart';
 import 'package:agency/grpc/post.pb.dart';
 import 'package:agency/grpc/post.pbgrpc.dart';
 
@@ -14,9 +16,39 @@ abstract class Client {
   });
 }
 
+class AuthClient extends Client {
+  late AgentAuthClient stub;
+  late GrpcWebClientChannel channel;
+
+  AuthClient({
+    String? serverAddr,
+    int? serverPort,
+  }) : super(
+    serverAddr: serverAddr,
+    serverPort: serverPort,
+  ) {
+    GrpcWebClientChannel channel = GrpcWebClientChannel.xhr(Uri.parse('http://$serverAddr:$serverPort'));
+    stub = AgentAuthClient(channel);
+  }
+
+  Future<LoginReply> onLogin(Agent agent) async => await stub.onLogin(LoginRequest(
+    name: agent.name,
+    password: agent.password,
+  ));
+
+  Future<RegisterReply> onRegister(Agent agent) async => await stub.onRegister(RegisterRequest(
+    corp: agent.corp,
+    corpId: agent.corpId,
+    comRegdAddr: agent.comRegdAddr,
+    contact: agent.contact,
+    name: agent.name,
+    password: agent.password,
+  ));
+}
+
 class PosterClient extends Client {
-  late AgencyClient stub;
-  late ClientChannel channel;
+  late AgencyPostClient stub;
+  late GrpcWebClientChannel channel;
 
   PosterClient({
     String? serverAddr,
@@ -25,25 +57,12 @@ class PosterClient extends Client {
     serverAddr: serverAddr,
     serverPort: serverPort,
   ) {
-    ClientChannel channel = ClientChannel(
-      serverAddr!,
-      port: serverPort!,
-      options: ChannelOptions(
-        credentials: ChannelCredentials.insecure(),
-        codecRegistry: CodecRegistry(
-          codecs: const [
-            GzipCodec(),
-            IdentityCodec(),
-          ],
-        ),
-      ),
-    );
-    stub = AgencyClient(channel);
+    GrpcWebClientChannel channel = GrpcWebClientChannel.xhr(Uri.parse('http://$serverAddr:$serverPort'));
+    stub = AgencyPostClient(channel);
   }
 
   Future<SubmitReply> onRent(RentPost post) async => await stub.onRent(RentRequest(
       name: post.name,
-      phone: post.phone,
       roomAddr: post.roomAddr,
       roomArea: post.roomArea,
       roomType: post.roomType,
@@ -60,7 +79,6 @@ class PosterClient extends Client {
 
   Future<SubmitReply> onHelp(HelpPost post) async => await stub.onHelp(HelpRequest(
     name: post.name,
-    phone: post.phone,
     expectedAddr: post.expectedAddr,
     expectedPrice: post.expectedPrice,
     demands: post.demands,

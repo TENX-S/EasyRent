@@ -79,8 +79,9 @@ class RegisterRequest extends $pb.GeneratedMessage {
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'corp')
     ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'corpId')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'comRegdAddr')
-    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
-    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'contact')
+    ..aOS(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
+    ..aOS(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'password')
     ..hasRequiredFields = false
   ;
 
@@ -89,6 +90,7 @@ class RegisterRequest extends $pb.GeneratedMessage {
     $core.String? corp,
     $core.String? corpId,
     $core.String? comRegdAddr,
+    $core.String? contact,
     $core.String? name,
     $core.String? password,
   }) {
@@ -101,6 +103,9 @@ class RegisterRequest extends $pb.GeneratedMessage {
     }
     if (comRegdAddr != null) {
       _result.comRegdAddr = comRegdAddr;
+    }
+    if (contact != null) {
+      _result.contact = contact;
     }
     if (name != null) {
       _result.name = name;
@@ -159,22 +164,31 @@ class RegisterRequest extends $pb.GeneratedMessage {
   void clearComRegdAddr() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get name => $_getSZ(3);
+  $core.String get contact => $_getSZ(3);
   @$pb.TagNumber(4)
-  set name($core.String v) { $_setString(3, v); }
+  set contact($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasName() => $_has(3);
+  $core.bool hasContact() => $_has(3);
   @$pb.TagNumber(4)
-  void clearName() => clearField(4);
+  void clearContact() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.String get password => $_getSZ(4);
+  $core.String get name => $_getSZ(4);
   @$pb.TagNumber(5)
-  set password($core.String v) { $_setString(4, v); }
+  set name($core.String v) { $_setString(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasPassword() => $_has(4);
+  $core.bool hasName() => $_has(4);
   @$pb.TagNumber(5)
-  void clearPassword() => clearField(5);
+  void clearName() => clearField(5);
+
+  @$pb.TagNumber(6)
+  $core.String get password => $_getSZ(5);
+  @$pb.TagNumber(6)
+  set password($core.String v) { $_setString(5, v); }
+  @$pb.TagNumber(6)
+  $core.bool hasPassword() => $_has(5);
+  @$pb.TagNumber(6)
+  void clearPassword() => clearField(6);
 }
 
 class LoginReply extends $pb.GeneratedMessage {

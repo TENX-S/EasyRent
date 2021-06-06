@@ -47,7 +47,7 @@ pub trait Cmd {
 #[tonic::async_trait]
 pub trait AgencyAuth {
     /// Register an agent
-    async fn register(&self, name: &Agent) -> Result<(), EasyRentAuthError>;
+    async fn register(&self, agent: &Agent) -> Result<(), EasyRentAuthError>;
 
     /// Login an agent
     async fn login(&self, name: &str, password: &str) -> Result<(), EasyRentAuthError>;

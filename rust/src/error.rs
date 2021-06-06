@@ -12,6 +12,9 @@ pub enum EasyRentAuthError {
     #[error("Duplicate email")]
     DuplicateName,
 
+    #[error("Unverified account")]
+    Unverified,
+
     #[error("Unknown error")]
     Unknown,
 }
@@ -21,6 +24,7 @@ pub enum EasyRentPostError {
     #[error("Unknown error")]
     Unknown,
 }
+
 #[derive(Error, Debug)]
 pub enum EasyRentCommandError {
     #[error("{0}")]
