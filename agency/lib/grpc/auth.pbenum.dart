@@ -13,12 +13,14 @@ class AuthError extends $pb.ProtobufEnum {
   static const AuthError MISMATCHED_PASSWORD = AuthError._(0, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'MISMATCHED_PASSWORD');
   static const AuthError NONEXISTENT_USER = AuthError._(1, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'NONEXISTENT_USER');
   static const AuthError DUPLICATED_NAME = AuthError._(2, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'DUPLICATED_NAME');
-  static const AuthError UNKNOWN = AuthError._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
+  static const AuthError UNVERIFIED = AuthError._(3, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNVERIFIED');
+  static const AuthError UNKNOWN = AuthError._(4, const $core.bool.fromEnvironment('protobuf.omit_enum_names') ? '' : 'UNKNOWN');
 
   static const $core.List<AuthError> values = <AuthError> [
     MISMATCHED_PASSWORD,
     NONEXISTENT_USER,
     DUPLICATED_NAME,
+    UNVERIFIED,
     UNKNOWN,
   ];
 

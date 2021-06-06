@@ -7,8 +7,10 @@ pub struct Agent {
     pub corp: String,
     pub corp_id: String,
     pub com_regd_addr: String,
+    pub contact: String,
     pub name: String,
     pub password: String,
+    pub verified: bool,
 }
 
 impl From<Request<RegisterRequest>> for Agent {
@@ -18,8 +20,10 @@ impl From<Request<RegisterRequest>> for Agent {
             corp: req.corp,
             corp_id: req.corp_id,
             com_regd_addr: req.com_regd_addr,
+            contact: req.contact,
             name: req.name,
             password: req.password,
+            verified: false,
         }
     }
 }

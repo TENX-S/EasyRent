@@ -13,17 +13,17 @@ import 'package:grpc/service_api.dart' as $grpc;
 import 'post.pb.dart' as $1;
 export 'post.pb.dart';
 
-class AgencyClient extends $grpc.Client {
+class AgencyPostClient extends $grpc.Client {
   static final _$onRent = $grpc.ClientMethod<$1.RentRequest, $1.SubmitReply>(
-      '/easyrent.agency.post.Agency/OnRent',
+      '/easyrent.agency.post.AgencyPost/OnRent',
       ($1.RentRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.SubmitReply.fromBuffer(value));
   static final _$onHelp = $grpc.ClientMethod<$1.HelpRequest, $1.SubmitReply>(
-      '/easyrent.agency.post.Agency/OnHelp',
+      '/easyrent.agency.post.AgencyPost/OnHelp',
       ($1.HelpRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $1.SubmitReply.fromBuffer(value));
 
-  AgencyClient($grpc.ClientChannel channel,
+  AgencyPostClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options, interceptors: interceptors);
@@ -39,10 +39,10 @@ class AgencyClient extends $grpc.Client {
   }
 }
 
-abstract class AgencyServiceBase extends $grpc.Service {
-  $core.String get $name => 'easyrent.agency.post.Agency';
+abstract class AgencyPostServiceBase extends $grpc.Service {
+  $core.String get $name => 'easyrent.agency.post.AgencyPost';
 
-  AgencyServiceBase() {
+  AgencyPostServiceBase() {
     $addMethod($grpc.ServiceMethod<$1.RentRequest, $1.SubmitReply>(
         'OnRent',
         onRent_Pre,

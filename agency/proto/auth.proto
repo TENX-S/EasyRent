@@ -16,15 +16,17 @@ message RegisterRequest {
   string corp = 1;
   string corp_id = 2;
   string com_regd_addr = 3;
-  string name = 4;
-  string password = 5;
+  string contact = 4;
+  string name = 5;
+  string password = 6;
 }
 
 enum AuthError {
   MISMATCHED_PASSWORD = 0;
   NONEXISTENT_USER = 1;
   DUPLICATED_NAME = 2;
-  UNKNOWN = 3;
+  UNVERIFIED = 3;
+  UNKNOWN = 4;
 }
 
 message LoginReply {

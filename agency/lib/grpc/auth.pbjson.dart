@@ -15,12 +15,13 @@ const AuthError$json = const {
     const {'1': 'MISMATCHED_PASSWORD', '2': 0},
     const {'1': 'NONEXISTENT_USER', '2': 1},
     const {'1': 'DUPLICATED_NAME', '2': 2},
-    const {'1': 'UNKNOWN', '2': 3},
+    const {'1': 'UNVERIFIED', '2': 3},
+    const {'1': 'UNKNOWN', '2': 4},
   ],
 };
 
 /// Descriptor for `AuthError`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List authErrorDescriptor = $convert.base64Decode('CglBdXRoRXJyb3ISFwoTTUlTTUFUQ0hFRF9QQVNTV09SRBAAEhQKEE5PTkVYSVNURU5UX1VTRVIQARITCg9EVVBMSUNBVEVEX05BTUUQAhILCgdVTktOT1dOEAM=');
+final $typed_data.Uint8List authErrorDescriptor = $convert.base64Decode('CglBdXRoRXJyb3ISFwoTTUlTTUFUQ0hFRF9QQVNTV09SRBAAEhQKEE5PTkVYSVNURU5UX1VTRVIQARITCg9EVVBMSUNBVEVEX05BTUUQAhIOCgpVTlZFUklGSUVEEAMSCwoHVU5LTk9XThAE');
 @$core.Deprecated('Use loginRequestDescriptor instead')
 const LoginRequest$json = const {
   '1': 'LoginRequest',
@@ -39,13 +40,14 @@ const RegisterRequest$json = const {
     const {'1': 'corp', '3': 1, '4': 1, '5': 9, '10': 'corp'},
     const {'1': 'corp_id', '3': 2, '4': 1, '5': 9, '10': 'corpId'},
     const {'1': 'com_regd_addr', '3': 3, '4': 1, '5': 9, '10': 'comRegdAddr'},
-    const {'1': 'name', '3': 4, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'password', '3': 5, '4': 1, '5': 9, '10': 'password'},
+    const {'1': 'contact', '3': 4, '4': 1, '5': 9, '10': 'contact'},
+    const {'1': 'name', '3': 5, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'password', '3': 6, '4': 1, '5': 9, '10': 'password'},
   ],
 };
 
 /// Descriptor for `RegisterRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List registerRequestDescriptor = $convert.base64Decode('Cg9SZWdpc3RlclJlcXVlc3QSEgoEY29ycBgBIAEoCVIEY29ycBIXCgdjb3JwX2lkGAIgASgJUgZjb3JwSWQSIgoNY29tX3JlZ2RfYWRkchgDIAEoCVILY29tUmVnZEFkZHISEgoEbmFtZRgEIAEoCVIEbmFtZRIaCghwYXNzd29yZBgFIAEoCVIIcGFzc3dvcmQ=');
+final $typed_data.Uint8List registerRequestDescriptor = $convert.base64Decode('Cg9SZWdpc3RlclJlcXVlc3QSEgoEY29ycBgBIAEoCVIEY29ycBIXCgdjb3JwX2lkGAIgASgJUgZjb3JwSWQSIgoNY29tX3JlZ2RfYWRkchgDIAEoCVILY29tUmVnZEFkZHISGAoHY29udGFjdBgEIAEoCVIHY29udGFjdBISCgRuYW1lGAUgASgJUgRuYW1lEhoKCHBhc3N3b3JkGAYgASgJUghwYXNzd29yZA==');
 @$core.Deprecated('Use loginReplyDescriptor instead')
 const LoginReply$json = const {
   '1': 'LoginReply',
