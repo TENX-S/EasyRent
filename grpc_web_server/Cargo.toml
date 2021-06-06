@@ -3,6 +3,48 @@ name = "grpc_web_server"
 version = "0.1.0"
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+anyhow = "1"
+prost = "0.7"
+chrono = "0.4"
+futures = "0.3"
+dotenv = "0.15"
+thiserror = "1"
+dirs-next = "2"
+
+[dependencies.tonic]
+git = "https://github.com.cnpmjs.org/hyperium/tonic.git"
+
+[dependencies.tonic-web]
+git = "https://github.com.cnpmjs.org/hyperium/tonic.git"
+
+[dependencies.tracing]
+version = "0.2"
+git = "https://github.com.cnpmjs.org/tokio-rs/tracing.git"
+
+[dependencies.tracing-appender]
+version = "0.2"
+git = "https://github.com.cnpmjs.org/tokio-rs/tracing.git"
+
+[dependencies.tracing-subscriber]
+version = "0.3"
+git = "https://github.com.cnpmjs.org/tokio-rs/tracing.git"
+
+[dependencies.uuid]
+version = "0.8.2"
+features = ["v4"]
+
+[dependencies.tokio]
+version = "1.0"
+features = ["macros", "rt-multi-thread"]
+
+[dependencies.sqlx]
+version = "0.5"
+features = ["postgres", "offline", "runtime-tokio-rustls"]
+
+[build-dependencies]
+tonic-build = { git = "https://github.com.cnpmjs.org/hyperium/tonic.git" }
+
+[profile.release]
+lto = true
+codegen-units = 1

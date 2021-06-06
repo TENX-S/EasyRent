@@ -7,21 +7,21 @@ import 'package:agency/model/app_routes.dart';
 extension ColorExtension on Color {
   MaterialColor get swatch => Colors.primaries.firstWhere(
         (Color c) => c.value == value,
-    orElse: () => _swatch,
-  );
+        orElse: () => _swatch,
+      );
 
   Map<int, Color> get getMaterialColorValues => <int, Color>{
-    50: _swatchShade(50),
-    100: _swatchShade(100),
-    200: _swatchShade(200),
-    300: _swatchShade(300),
-    400: _swatchShade(400),
-    500: _swatchShade(500),
-    600: _swatchShade(600),
-    700: _swatchShade(700),
-    800: _swatchShade(800),
-    900: _swatchShade(900),
-  };
+        50: _swatchShade(50),
+        100: _swatchShade(100),
+        200: _swatchShade(200),
+        300: _swatchShade(300),
+        400: _swatchShade(400),
+        500: _swatchShade(500),
+        600: _swatchShade(600),
+        700: _swatchShade(700),
+        800: _swatchShade(800),
+        900: _swatchShade(900),
+      };
 
   MaterialColor get _swatch => MaterialColor(value, getMaterialColorValues);
 
@@ -52,9 +52,12 @@ class App extends StatelessWidget {
         primaryColor: Color(0xFF3A3B3C),
       ),
       routes: {
-        AppRoutes.loginPage: (context) => AppPage(pageType: PageType.Login).page,
-        AppRoutes.registerPage: (context) => AppPage(pageType: PageType.Register).page,
-        AppRoutes.submitPage: (context) => AppPage(pageType: PageType.Submit).page,
+        AppRoutes.loginPage: (context) =>
+            AppPage(pageType: PageType.Login).page,
+        AppRoutes.registerPage: (context) =>
+            AppPage(pageType: PageType.Register).page,
+        AppRoutes.submitPage: (context) =>
+            AppPage(pageType: PageType.Submit).page,
         AppRoutes.mainPage: (context) => AppPage(pageType: PageType.Main).page,
       },
     );
