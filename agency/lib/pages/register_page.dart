@@ -18,7 +18,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   var agent = Agent();
   final _formKey = GlobalKey<FormBuilderState>();
-  final authClient = AuthClient(serverAddr: '1.116.216.141', serverPort: 8081);
+  final authClient = AuthClient(serverAddr: '1.116.216.141', serverPort: 8082);
 
   void _onDone() async {
     bool? validate = _formKey.currentState?.saveAndValidate();
@@ -38,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
       showPendingDialog(context);
       final resp = await authClient.onRegister(agent);
-
+      Navigator.pop(context);
       if (!resp.success) {
         switch (resp.error) {
           case AuthError.DUPLICATED_NAME:

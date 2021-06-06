@@ -43,17 +43,17 @@ async fn main() -> Result<()> {
                     .with_writer(non_blocking),
             ),
     )?;
-
+    let addr = dotenv::var("LISTEN_ADDR")?.parse()?;
     let db_pool = sqlx::PgPool::connect(&dotenv::var("DATABASE_URL")?).await?;
 
-    trace!("Start to serve at ");
+    trace!("Start to serve at {}", addr);
     Server::builder()
         .add_service(AuthenticateServer::new(UserAuthenticator::new(db_pool.clone())))
         .add_service(EmitServer::new(UserPostManager::new(db_pool.clone())))
         .add_service(CommandServer::new(Commander::new(db_pool.clone())))
         .add_service(AgentAuthServer::new(AgencyAuthenticator::new(db_pool.clone())))
         .add_service(AgencyPostServer::new(AgencyPostManager::new(db_pool.clone())))
-        .serve(dotenv::var("LISTEN_ADDR")?.parse()?)
+        .serve(addr)
         .await?;
 
     Ok(())

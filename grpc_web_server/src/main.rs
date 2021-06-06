@@ -39,13 +39,13 @@ async fn main() -> Result<()> {
     )?;
 
     let addr = dotenv::var("LISTEN_ADDR")?.parse()?;
-
     let db_pool = sqlx::PgPool::connect(&dotenv::var("DATABASE_URL")?).await?;
-    let config = tonic_web::config().allow_origins(vec![format!("http://{}", addr)]);
 
+    trace!("Start to serve at {}", addr);
     Server::builder()
-        .add_service(config.enable(AgentAuthServer::new(AgencyAuthenticator::new(db_pool.clone()))))
-        .add_service(config.enable(AgencyPostServer::new(AgencyPostManager::new(db_pool.clone()))))
+        .accept_http1(true)
+        .add_service(tonic_web::enable(AgentAuthServer::new(AgencyAuthenticator::new(db_pool.clone()))))
+        .add_service(tonic_web::enable(AgencyPostServer::new(AgencyPostManager::new(db_pool.clone()))))
         .serve(addr)
         .await?;
 
