@@ -1,8 +1,6 @@
 pub mod auth;
 pub mod command;
 pub mod post;
-pub mod agency;
-pub mod admin;
 
 pub trait RpcResult {
     type Value;

@@ -6,10 +6,6 @@ use easy_rent_sdk::grpc::command::command_server::CommandServer;
 use easy_rent_sdk::grpc::command::Commander;
 use easy_rent_sdk::grpc::post::emit_server::EmitServer;
 use easy_rent_sdk::grpc::post::UserPostManager;
-use easy_rent_sdk::grpc::agency::auth::agent_auth_server::AgentAuthServer;
-use easy_rent_sdk::grpc::agency::auth::AgencyAuthenticator;
-use easy_rent_sdk::grpc::agency::post::agency_post_server::AgencyPostServer;
-use easy_rent_sdk::grpc::agency::post::AgencyPostManager;
 use easy_rent_sdk::utils::set_panic_hook;
 use tonic::transport::Server;
 use tracing::*;
@@ -51,8 +47,6 @@ async fn main() -> Result<()> {
         .add_service(AuthenticateServer::new(UserAuthenticator::new(db_pool.clone())))
         .add_service(EmitServer::new(UserPostManager::new(db_pool.clone())))
         .add_service(CommandServer::new(Commander::new(db_pool.clone())))
-        .add_service(AgentAuthServer::new(AgencyAuthenticator::new(db_pool.clone())))
-        .add_service(AgencyPostServer::new(AgencyPostManager::new(db_pool.clone())))
         .serve(addr)
         .await?;
 

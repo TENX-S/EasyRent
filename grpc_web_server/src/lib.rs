@@ -4,7 +4,7 @@ pub mod model;
 pub mod sql;
 pub mod utils;
 
-use error::{EasyRentAuthError, EasyRentPostError, Result};
+use error::{EasyRentAuthError, EasyRentPostError, EasyRentCommandError, Result};
 use model::post::{RentPost, HelpPost};
 use model::agent::Agent;
 
@@ -24,4 +24,10 @@ pub trait AgencyAuth {
 
     /// Login an agent
     async fn login(&self, name: &str, password: &str) -> Result<(), EasyRentAuthError>;
+}
+
+#[tonic::async_trait]
+pub trait AdminCmd {
+    async fn on_load_unverified_agents() -> Result<(), EasyRentCommandError>;
+    async fn on_load_unverified_posts() -> Result<(), EasyRentCommandError>;
 }
