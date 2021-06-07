@@ -1,9 +1,12 @@
 import 'dart:typed_data';
+import 'package:easy_rent/utils/pending.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
 import 'package:easy_rent/model/client.dart';
 import 'package:easy_rent/model/app_routes.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+
+int activeIndex = 0;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -89,6 +92,11 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        activeIndex = _tabController.index;
+      }
+    });
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 247, 238, 213),
       body: EasyRefresh.builder(
@@ -146,8 +154,8 @@ class _HomePageState extends State<HomePage>
                       icon: Icon(
                         Icons.search_outlined,
                       ),
-                      onPressed: () {
-                        showSearch(
+                      onPressed: () async {
+                        await showSearch(
                           context: context,
                           delegate: CustomSearchDelegate(),
                         );
@@ -270,7 +278,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => false;
 }
 
-class CustomSearchDelegate extends SearchDelegate {
+class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
   List<Post>? searchResult;
 
   @override
@@ -301,9 +309,18 @@ class CustomSearchDelegate extends SearchDelegate {
     return IconButton(
       icon: Icon(Icons.arrow_back),
       onPressed: () {
-        close(context, null);
+        close(context, Future.value(null));
       },
     );
+  }
+
+  Future<List<Post>> search(String query) async {
+    if (activeIndex == 0) {
+
+    } else {
+
+    }
+    return Future.value(null);
   }
 
   @override
@@ -311,44 +328,55 @@ class CustomSearchDelegate extends SearchDelegate {
     if (searchResult != null) {
       searchResult!.clear();
     }
-    searchResult = rentPosts
-        .where((element) => element.toString().contains(query))
-        .toList();
-    if (searchResult!.isEmpty) {
-      return Container(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/not_found.png',
-              ),
-              Text(
-                '非常抱歉，没有找到符合条件的帖子呢',
-                style: TextStyle(
-                  color: Color.fromRGBO(141, 141, 141, 1.0),
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
+    // searchResult = rentPosts
+    //     .where((element) => element.toString().contains(query))
+    //     .toList();
+    return FutureBuilder(
+      future: search(query),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (searchResult!.isEmpty) {
+            return Container(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/not_found.png',
+                    ),
+                    Text(
+                      '非常抱歉，没有找到符合条件的帖子呢',
+                      style: TextStyle(
+                        color: Color.fromRGBO(141, 141, 141, 1.0),
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return Container(
-        color: Color.fromARGB(255, 247, 238, 213),
-        child: ListView(
-          padding: EdgeInsets.only(top: 8, bottom: 8),
-          scrollDirection: Axis.vertical,
-          children: List.generate(
-            searchResult!.length,
-            (index) => searchResult![index].buildCard(context),
-          ),
-        ),
-      );
-    }
+            );
+          } else {
+            return Container(
+              color: Color.fromARGB(255, 247, 238, 213),
+              child: ListView(
+                padding: EdgeInsets.only(top: 8, bottom: 8),
+                scrollDirection: Axis.vertical,
+                children: List.generate(
+                  (snapshot.data! as List<Post>).length,
+                      (index) => (snapshot.data! as List<Post>)[index].buildCard(context),
+                ),
+              ),
+            );
+          }
+        } else {
+          showPendingDialog(context);
+          return Container();
+        }
+      },
+    );
+
   }
 
   @override

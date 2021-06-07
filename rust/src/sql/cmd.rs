@@ -15,3 +15,13 @@ pub const LOGOUT_USER: &str = r#"
     SET online = FALSE
     WHERE name = $1;
 "#;
+
+pub const FETCH_ALL_PASSED_RENT_POSTS: &str = r#"
+    SELECT * FROM rent_posts
+    WHERE passed = TRUE;
+"#;
+
+pub const FETCH_ALL_PASSED_HELP_POSTS: &str = r#"
+    SELECT * FROM help_posts
+    WHERE passed = TRUE;
+"#;

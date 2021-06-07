@@ -10,6 +10,6 @@ pub const REGISTER_AGENT: &str = r#"
 
 pub const VERIFY_AGENT: &str = r#"
     UPDATE agency
-    WHERE name = $1
-    SET verified = TRUE;
+    SET verified = TRUE
+    WHERE name = $1;
 "#;

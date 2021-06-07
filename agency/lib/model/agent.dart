@@ -1,6 +1,5 @@
-import 'package:agency/model/client.dart';
 
-late Agent currentAgent;
+Agent? currentAgent = Agent(corp: '', corpId: '', comRegdAddr: '', contact: '', name: '', password: '');
 
 class Agent {
   String? corp;

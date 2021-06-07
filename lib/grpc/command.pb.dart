@@ -587,16 +587,21 @@ class RefreshReply extends $pb.GeneratedMessage {
 class SearchRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'SearchRequest', package: const $pb.PackageName(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'easyrent.command'), createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'query')
+    ..a<$core.int>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'index', $pb.PbFieldType.O3)
     ..hasRequiredFields = false
   ;
 
   SearchRequest._() : super();
   factory SearchRequest({
     $core.String? query,
+    $core.int? index,
   }) {
     final _result = create();
     if (query != null) {
       _result.query = query;
+    }
+    if (index != null) {
+      _result.index = index;
     }
     return _result;
   }
@@ -629,6 +634,15 @@ class SearchRequest extends $pb.GeneratedMessage {
   $core.bool hasQuery() => $_has(0);
   @$pb.TagNumber(1)
   void clearQuery() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get index => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set index($core.int v) { $_setSignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasIndex() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearIndex() => clearField(2);
 }
 
 class SearchReply extends $pb.GeneratedMessage {

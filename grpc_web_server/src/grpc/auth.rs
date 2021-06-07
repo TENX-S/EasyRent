@@ -88,6 +88,7 @@ impl AgencyAuth for AgencyAuthenticator {
                 }
             }
         }
+        trace!("Login successfully: {}", name);
         Ok(())
     }
 

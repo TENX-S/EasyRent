@@ -37,7 +37,7 @@ pub trait Cmd {
     async fn refresh(&self, first: bool) -> Result<Self::Value>;
 
     /// Handle search request from client
-    async fn search(&self, query: &str) -> Result<Self::Value>;
+    async fn search(&self, query: &str, index: i32) -> Result<Self::Value>;
 
     /// Logout an user
     async fn logout(&self, name: &str) -> Result<()>;

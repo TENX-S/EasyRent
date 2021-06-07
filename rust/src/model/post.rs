@@ -21,6 +21,14 @@ pub struct RentPost {
     pub pictures: Vec<Vec<u8>>,
 }
 
+impl RentPost {
+    pub fn text(&self) -> (String, String) {
+        (self.uuid.clone(), vec![self.name.as_str(), self.phone.as_str(), self.room_addr.as_str(), self.room_area.to_string().as_str(),
+        self.room_type.as_str(), self.room_orientation.as_str(), self.description.as_str(), self.price.to_string().as_str(),
+        self.release_time.as_str()].join(" "))
+    }
+}
+
 impl From<Request<SubmitRentRequest>> for RentPost {
     fn from(submit_rent_request: Request<SubmitRentRequest>) -> Self {
         let request = submit_rent_request.into_inner();
@@ -55,6 +63,13 @@ pub struct HelpPost {
     pub create_by: String,
     pub uuid: String,
     pub release_time: String,
+}
+
+impl HelpPost {
+    pub fn text(&self) -> (String, String) {
+        (self.uuid.clone(), vec![self.name.as_str(), self.phone.as_str(), self.expected_addr.as_str(),
+        self.expected_price.to_string().as_str(), self.demands.to_string().as_str(), self.release_time.as_str()].join(" "))
+    }
 }
 
 impl From<Request<SubmitHelpRequest>> for HelpPost {

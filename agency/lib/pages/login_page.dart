@@ -47,6 +47,7 @@ class _LoginPageState extends State<LoginPage> {
             return;
         }
       }
+      currentAgent!..name = agent.name;
       Navigator.pushNamed(context, AppRoutes.mainPage);
     }
     return;

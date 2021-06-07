@@ -71,7 +71,7 @@ class PosterClient extends Client {
       description: post.description,
       price: post.price,
       restriction: post.restriction,
-      createBy: currentAgent.name,
+      createBy: currentAgent!.name,
       uuid: post.uuid,
       releaseTime: post.releaseTime,
       pictures: post.pictures
@@ -82,7 +82,7 @@ class PosterClient extends Client {
     expectedAddr: post.expectedAddr,
     expectedPrice: post.expectedPrice,
     demands: post.demands,
-    createBy: currentAgent.name,
+    createBy: currentAgent!.name,
     uuid: post.uuid,
     releaseTime: post.releaseTime,
   ));

@@ -23,7 +23,7 @@ class _SubmitPageState extends State<SubmitPage> {
   List<Uint8List> assets = [];
   final _formKey = GlobalKey<FormBuilderState>();
   final _posterClient =
-      PosterClient(serverAddr: '1.116.216.141', serverPort: 8081);
+      PosterClient(serverAddr: '1.116.216.141', serverPort: 8082);
 
   Widget _actionButton(
     BuildContext context,
@@ -826,7 +826,6 @@ class _SubmitPageState extends State<SubmitPage> {
                                 if (result.success) {
                                   showTip(msg: '提交成功', gravity: ToastGravity.CENTER);
                                   Navigator.pop(context);
-                                  Navigator.pop(context);
                                 } else {
                                   showTip(msg: '提交失败', gravity: ToastGravity.CENTER);
                                 }
@@ -1041,7 +1040,6 @@ class _SubmitPageState extends State<SubmitPage> {
                       Navigator.pop(context);
                       if (result.success) {
                         showTip(msg: '提交成功', gravity: ToastGravity.CENTER);
-                        Navigator.pop(context);
                         Navigator.pop(context);
                       } else {
                         showTip(msg: '提交失败', gravity: ToastGravity.CENTER);

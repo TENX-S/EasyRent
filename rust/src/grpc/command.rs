@@ -3,20 +3,55 @@ tonic::include_proto!("easyrent.command");
 use super::RpcResult;
 use crate::model::post::{RentPost, HelpPost,};
 use crate::sql::cmd::*;
+use crate::sql::post::FETCH_ALL_HELP_POSTS;
 use crate::{error::{EasyRentCommandError, Result}, Cmd};
 use command_server::Command;
+use rayon::prelude::*;
 use sqlx::Row;
 use sqlx::{PgPool, postgres::PgRow};
 use tonic::{Request, Response, Status};
 use tracing::*;
+use once_cell::sync::Lazy;
+use dashmap::{DashMap, DashSet};
+use std::sync::Arc;
+
+static RENT_BASE: Lazy<DashMap<String, String>> = Lazy::new(|| {
+    DashMap::new()
+});
+
+static HELP_BASE: Lazy<DashMap<String, String>> = Lazy::new(|| {
+    DashMap::new()
+});
 
 #[derive(Debug)]
 pub struct Commander {
-    db_pool: PgPool,
+    db_pool: Arc<PgPool>,
 }
 
 impl Commander {
     pub fn new(db_pool: PgPool) -> Self {
+        let db_pool = Arc::new(db_pool);
+        let fetch_rent = Arc::clone(&db_pool);
+        tokio::spawn(async move {
+            let rent_posts = sqlx::query_as::<_, RentPost>(FETCH_ALL_PASSED_RENT_POSTS).fetch_all(&*fetch_rent).await.unwrap();
+            rent_posts
+                .into_par_iter()
+                .for_each(|p| {
+                    let text = p.text();
+                    RENT_BASE.insert(text.0, text.1);
+                });
+        });
+        let fetch_help = Arc::clone(&db_pool);
+        tokio::spawn(async move {
+            let help_posts = sqlx::query_as::<_, HelpPost>(FETCH_ALL_PASSED_HELP_POSTS).fetch_all(&*fetch_help).await.unwrap();
+            help_posts
+                .into_par_iter()
+                .for_each(|p| {
+                    let text = p.text();
+                    HELP_BASE.insert(text.0, text.1);
+                });
+        });
+
         Commander { db_pool }
     }
 }
@@ -119,7 +154,7 @@ impl Cmd for Commander {
                     pictures: row.get("pictures"),
                 }
             })
-            .fetch_all(&self.db_pool)
+            .fetch_all(&*self.db_pool)
             .await?;
         trace!("Fetch {} rent posts", rent_posts.len());
 
@@ -150,7 +185,7 @@ impl Cmd for Commander {
                     release_time: row.get("release_time"),
                 }
             )
-            .fetch_all(&self.db_pool)
+            .fetch_all(&*self.db_pool)
             .await?;
         trace!("Fetch {} help posts", help_posts.len());
 
@@ -181,7 +216,7 @@ impl Cmd for Commander {
                         pictures: row.get("pictures"),
                     }
                 )
-                .fetch_all(&self.db_pool)
+                .fetch_all(&*self.db_pool)
                 .await?;
             trace!("Fetch {} rent posts", rent_posts.len());
             trace!("One of fetched: {}", rent_posts[0].pictures.len());
@@ -198,7 +233,7 @@ impl Cmd for Commander {
                         release_time: row.get("release_time"),
                     }
                 )
-                .fetch_all(&self.db_pool)
+                .fetch_all(&*self.db_pool)
                 .await?;
             trace!("Fetch {} help posts", help_posts.len());
 
@@ -210,14 +245,15 @@ impl Cmd for Commander {
         Ok(None)
     }
 
-    async fn search(&self, query: &str) -> Result<Self::Value> {
-        unimplemented!()
+    async fn search(&self, query: &str, index: i32) -> Result<Self::Value> {
+        let mut result = DashSet::<String>::new();
+        todo!()
     }
 
     async fn logout(&self, name: &str) -> Result<()> {
         if let Err(e) = sqlx::query(LOGOUT_USER)
             .bind(name)
-            .execute(&self.db_pool)
+            .execute(&*self.db_pool)
             .await
         {
             error!("{:?}", e);

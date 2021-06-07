@@ -58,6 +58,7 @@ message RefreshReply {
 
 message SearchRequest {
   string query = 1;
+  int32 index = 2;
 }
 
 message SearchReply {

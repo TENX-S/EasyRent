@@ -12,4 +12,3 @@ pub const ACTIVATE_USER: &str = r#"
     SET online = TRUE
     WHERE name = $1;
     "#;
-
