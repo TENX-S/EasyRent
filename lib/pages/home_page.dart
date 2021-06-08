@@ -29,21 +29,21 @@ class _HomePageState extends State<HomePage>
     setState(() {
       rentPosts.addAll(comingPosts.postPackage.rentPosts
           .map((p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
-        ..roomAddr = p.roomAddr
-        ..roomArea = p.roomArea
-        ..roomType = p.roomType
-        ..roomOrientation = p.roomOrientation
-        ..roomFloor = p.roomFloor
-        ..description = p.description
-        ..price = p.price
-        ..restriction = p.restriction
-        ..pictures = p.pictures.map((e) => e as Uint8List).toList()));
+            ..roomAddr = p.roomAddr
+            ..roomArea = p.roomArea
+            ..roomType = p.roomType
+            ..roomOrientation = p.roomOrientation
+            ..roomFloor = p.roomFloor
+            ..description = p.description
+            ..price = p.price
+            ..restriction = p.restriction
+            ..pictures = p.pictures.map((e) => e as Uint8List).toList()));
 
       helpPosts.addAll(comingPosts.postPackage.helpPosts
           .map((p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
-        ..expectedAddr = p.expectedAddr
-        ..expectedPrice = p.expectedPrice
-        ..demands = p.demands));
+            ..expectedAddr = p.expectedAddr
+            ..expectedPrice = p.expectedPrice
+            ..demands = p.demands));
     });
   }
 
@@ -53,21 +53,21 @@ class _HomePageState extends State<HomePage>
       setState(() {
         rentPosts.addAll(comingPosts.postPackage.rentPosts
             .map((p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
-          ..roomAddr = p.roomAddr
-          ..roomArea = p.roomArea
-          ..roomType = p.roomType
-          ..roomOrientation = p.roomOrientation
-          ..roomFloor = p.roomFloor
-          ..description = p.description
-          ..price = p.price
-          ..restriction = p.restriction
-          ..pictures = p.pictures.map((e) => e as Uint8List).toList()));
+              ..roomAddr = p.roomAddr
+              ..roomArea = p.roomArea
+              ..roomType = p.roomType
+              ..roomOrientation = p.roomOrientation
+              ..roomFloor = p.roomFloor
+              ..description = p.description
+              ..price = p.price
+              ..restriction = p.restriction
+              ..pictures = p.pictures.map((e) => e as Uint8List).toList()));
 
         helpPosts.addAll(comingPosts.postPackage.helpPosts
             .map((p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
-          ..expectedAddr = p.expectedAddr
-          ..expectedPrice = p.expectedPrice
-          ..demands = p.demands));
+              ..expectedAddr = p.expectedAddr
+              ..expectedPrice = p.expectedPrice
+              ..demands = p.demands));
         first = false;
       });
     } else {
@@ -279,7 +279,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
-  List<Post>? searchResult;
+  final _cmdClient = CmdClient(serverAddr: '1.116.216.141', serverPort: 8081);
 
   @override
   String get searchFieldLabel => '你想找...';
@@ -316,67 +316,85 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
 
   Future<List<Post>> search(String query) async {
     if (activeIndex == 0) {
-
+      final results = await _cmdClient.onSearch(query, 0);
+      return Future.value(results.postPackage.rentPosts
+          .map((p) => RentPost(p.uuid, p.name, p.phone, p.releaseTime)
+            ..roomAddr = p.roomAddr
+            ..roomArea = p.roomArea
+            ..roomType = p.roomType
+            ..roomOrientation = p.roomOrientation
+            ..roomFloor = p.roomFloor
+            ..description = p.description
+            ..price = p.price
+            ..restriction = p.restriction
+            ..pictures = p.pictures.map((e) => e as Uint8List).toList())
+          .toList());
     } else {
-
+      final results = await _cmdClient.onSearch(query, 1);
+      return Future.value(results.postPackage.helpPosts
+          .map((p) => HelpPost(p.uuid, p.name, p.phone, p.releaseTime)
+            ..expectedAddr = p.expectedAddr
+            ..expectedPrice = p.expectedPrice
+            ..demands = p.demands)
+          .toList());
     }
-    return Future.value(null);
+  }
+
+  Widget notFound() {
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/not_found.png',
+            ),
+            Text(
+              '抱歉，没有找到相关的帖子',
+              style: TextStyle(
+                color: Color.fromRGBO(141, 141, 141, 1.0),
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    if (searchResult != null) {
-      searchResult!.clear();
-    }
-    // searchResult = rentPosts
-    //     .where((element) => element.toString().contains(query))
-    //     .toList();
     return FutureBuilder(
       future: search(query),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if (searchResult!.isEmpty) {
-            return Container(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/not_found.png',
-                    ),
-                    Text(
-                      '非常抱歉，没有找到符合条件的帖子呢',
-                      style: TextStyle(
-                        color: Color.fromRGBO(141, 141, 141, 1.0),
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
+          if (snapshot.data != null) {
+            if ((snapshot.data! as List<Post>).isEmpty) {
+              return notFound();
+            } else {
+              return Container(
+                color: Color.fromARGB(255, 247, 238, 213),
+                child: ListView(
+                  padding: EdgeInsets.only(top: 8, bottom: 8),
+                  scrollDirection: Axis.vertical,
+                  children: List.generate(
+                    (snapshot.data! as List<Post>).length,
+                        (index) =>
+                        (snapshot.data! as List<Post>)[index].buildCard(context),
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           } else {
-            return Container(
-              color: Color.fromARGB(255, 247, 238, 213),
-              child: ListView(
-                padding: EdgeInsets.only(top: 8, bottom: 8),
-                scrollDirection: Axis.vertical,
-                children: List.generate(
-                  (snapshot.data! as List<Post>).length,
-                      (index) => (snapshot.data! as List<Post>)[index].buildCard(context),
-                ),
-              ),
-            );
+            return CircularProgressIndicator();
           }
         } else {
-          showPendingDialog(context);
-          return Container();
+          return Center(child: CircularProgressIndicator());
         }
       },
     );
-
   }
 
   @override

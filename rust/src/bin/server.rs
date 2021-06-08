@@ -46,7 +46,7 @@ async fn main() -> Result<()> {
     Server::builder()
         .add_service(AuthenticateServer::new(UserAuthenticator::new(db_pool.clone())))
         .add_service(EmitServer::new(UserPostManager::new(db_pool.clone())))
-        .add_service(CommandServer::new(Commander::new(db_pool.clone())))
+        .add_service(CommandServer::new(Commander::new(db_pool.clone()).await))
         .serve(addr)
         .await?;
 

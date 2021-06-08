@@ -3,7 +3,6 @@ tonic::include_proto!("easyrent.command");
 use super::RpcResult;
 use crate::model::post::{RentPost, HelpPost,};
 use crate::sql::cmd::*;
-use crate::sql::post::FETCH_ALL_HELP_POSTS;
 use crate::{error::{EasyRentCommandError, Result}, Cmd};
 use command_server::Command;
 use rayon::prelude::*;
@@ -11,48 +10,39 @@ use sqlx::Row;
 use sqlx::{PgPool, postgres::PgRow};
 use tonic::{Request, Response, Status};
 use tracing::*;
-use once_cell::sync::Lazy;
-use dashmap::{DashMap, DashSet};
-use std::sync::Arc;
+use dashmap::DashMap;
 
-static RENT_BASE: Lazy<DashMap<String, String>> = Lazy::new(|| {
-    DashMap::new()
-});
-
-static HELP_BASE: Lazy<DashMap<String, String>> = Lazy::new(|| {
-    DashMap::new()
-});
 
 #[derive(Debug)]
 pub struct Commander {
-    db_pool: Arc<PgPool>,
+    db_pool: PgPool,
+    rent_base: DashMap<String, String>,
+    help_base: DashMap<String, String>,
 }
 
 impl Commander {
-    pub fn new(db_pool: PgPool) -> Self {
-        let db_pool = Arc::new(db_pool);
-        let fetch_rent = Arc::clone(&db_pool);
-        tokio::spawn(async move {
-            let rent_posts = sqlx::query_as::<_, RentPost>(FETCH_ALL_PASSED_RENT_POSTS).fetch_all(&*fetch_rent).await.unwrap();
-            rent_posts
-                .into_par_iter()
-                .for_each(|p| {
-                    let text = p.text();
-                    RENT_BASE.insert(text.0, text.1);
-                });
-        });
-        let fetch_help = Arc::clone(&db_pool);
-        tokio::spawn(async move {
-            let help_posts = sqlx::query_as::<_, HelpPost>(FETCH_ALL_PASSED_HELP_POSTS).fetch_all(&*fetch_help).await.unwrap();
-            help_posts
-                .into_par_iter()
-                .for_each(|p| {
-                    let text = p.text();
-                    HELP_BASE.insert(text.0, text.1);
-                });
-        });
+    pub async fn new(db_pool: PgPool) -> Self {
+        let rent_base = DashMap::new();
+        sqlx::query_as::<_, RentPost>(FETCH_ALL_PASSED_RENT_POSTS)
+            .fetch_all(&db_pool).await
+            .unwrap()
+            .into_par_iter()
+            .for_each(|p| {
+                let text = p.text();
+                rent_base.insert(text.0, text.1);
+            });
 
-        Commander { db_pool }
+        let help_base = DashMap::new();
+        sqlx::query_as::<_, HelpPost>(FETCH_ALL_PASSED_HELP_POSTS)
+            .fetch_all(&db_pool).await
+            .unwrap()
+            .into_par_iter()
+            .for_each(|p| {
+                let text = p.text();
+                help_base.insert(text.0, text.1);
+            });
+
+        Commander { db_pool, rent_base, help_base }
     }
 }
 
@@ -91,15 +81,19 @@ impl RpcResult for RefreshReply {
 }
 
 impl RpcResult for SearchReply {
-    type Value = PostPackage;
+    type Value = Option<PostPackage>;
     type Error = EasyRentCommandError;
 
     fn success(value: Self::Value) -> Self {
-        unimplemented!()
+        SearchReply {
+            post_package: value
+        }
     }
 
-    fn failure(error: Self::Error) -> Self {
-        unimplemented!()
+    fn failure(_error: Self::Error) -> Self {
+        SearchReply {
+            post_package: None
+        }
     }
 }
 
@@ -111,7 +105,7 @@ impl RpcResult for LogoutReply {
         LogoutReply {}
     }
 
-    fn failure(error: Self::Error) -> Self {
+    fn failure(_: Self::Error) -> Self {
         LogoutReply {}
     }
 }
@@ -129,11 +123,10 @@ impl Cmd for Commander {
             WHERE passed = TRUE
             LIMIT 3;"#.to_string();
         } else {
-            let param: String = posts.join(", ");
             r_sql = format!(r#"
             SELECT * FROM rent_posts
             WHERE passed = TRUE AND uuid NOT IN ({})
-            LIMIT 3;"#, param.as_str());
+            LIMIT 3;"#, posts.join(", "));
         }
         trace!("{}", r_sql);
         let rent_posts = sqlx::query(&r_sql)
@@ -154,7 +147,7 @@ impl Cmd for Commander {
                     pictures: row.get("pictures"),
                 }
             })
-            .fetch_all(&*self.db_pool)
+            .fetch_all(&self.db_pool)
             .await?;
         trace!("Fetch {} rent posts", rent_posts.len());
 
@@ -166,11 +159,10 @@ impl Cmd for Commander {
             WHERE passed = TRUE
             LIMIT 3;"#.to_string();
         } else {
-            let param: String = posts.join(", ");
             h_sql = format!(r#"
             SELECT * FROM help_posts
             WHERE passed = TRUE AND uuid NOT IN ({})
-            LIMIT 3;"#, param.as_str());
+            LIMIT 3;"#, posts.join(", "));
         }
         trace!("{}", h_sql);
         let help_posts = sqlx::query(&h_sql)
@@ -185,7 +177,7 @@ impl Cmd for Commander {
                     release_time: row.get("release_time"),
                 }
             )
-            .fetch_all(&*self.db_pool)
+            .fetch_all(&self.db_pool)
             .await?;
         trace!("Fetch {} help posts", help_posts.len());
 
@@ -216,10 +208,9 @@ impl Cmd for Commander {
                         pictures: row.get("pictures"),
                     }
                 )
-                .fetch_all(&*self.db_pool)
+                .fetch_all(&self.db_pool)
                 .await?;
             trace!("Fetch {} rent posts", rent_posts.len());
-            trace!("One of fetched: {}", rent_posts[0].pictures.len());
 
             let help_posts = sqlx::query(LOAD_INIT_HELP_POSTS)
                 .map(|row: PgRow|
@@ -233,7 +224,7 @@ impl Cmd for Commander {
                         release_time: row.get("release_time"),
                     }
                 )
-                .fetch_all(&*self.db_pool)
+                .fetch_all(&self.db_pool)
                 .await?;
             trace!("Fetch {} help posts", help_posts.len());
 
@@ -246,14 +237,99 @@ impl Cmd for Commander {
     }
 
     async fn search(&self, query: &str, index: i32) -> Result<Self::Value> {
-        let mut result = DashSet::<String>::new();
-        todo!()
+        trace!("{:#?}", &self.rent_base);
+        trace!("[SEARCH] : query: {}, index: {}", query, index);
+        let mut result = Vec::new();
+        if index == 0 {
+            self.rent_base.clone().into_iter().for_each(|(u, t)| {
+                if t.contains(query) {
+                    result.push(u);
+                }
+            });
+            trace!("{:#?}", result);
+            let param = result.iter().map(|u| format!(r#"'{}'"#, u)).collect::<Vec<_>>().join(", ");
+            if result.is_empty() {
+                return Ok(None);
+            }
+            let s_sql = format!(r#"
+                SELECT * from rent_posts
+                WHERE uuid IN ({})
+                LIMIT 1;
+            "#, param);
+            trace!("[SEARCH] : {} ", s_sql);
+            let rent_posts = sqlx::query(&s_sql)
+            .map(|row: PgRow| {
+                PassedRentPost {
+                    name: row.get("name"),
+                    phone: row.get("phone"),
+                    room_addr: row.get("room_addr"),
+                    room_area: row.get("room_area"),
+                    room_type: row.get("room_type"),
+                    room_orientation: row.get("room_orientation"),
+                    room_floor: row.get("room_floor"),
+                    description: row.get("description"),
+                    price: row.get("price"),
+                    restriction: row.get("restriction"),
+                    uuid: row.get("uuid"),
+                    release_time: row.get("release_time"),
+                    pictures: row.get("pictures"),
+                }
+            })
+            .fetch_all(&self.db_pool)
+            .await?;
+            trace!("[SEARCH] : Fetch {} rent posts", rent_posts.len());
+            Ok(Some(
+                PostPackage {
+                    rent_posts,
+                    help_posts: vec![],
+                }
+            ))
+        } else if index == 1 {
+            self.rent_base.clone().into_iter().for_each(|(u, t)| {
+                if t.contains(query) {
+                    result.push(u);
+                }
+            });
+            trace!("{:#?}", result);
+            let param = result.iter().map(|u| format!(r#"'{}'"#, u)).collect::<Vec<_>>().join(", ");
+            if result.is_empty() {
+                return Ok(None);
+            }
+            let s_sql = format!(r#"
+                SELECT * from help_posts
+                WHERE uuid IN ({})
+                LIMIT 1;"#, param);
+            trace!("[SEARCH] : {} ", s_sql);
+            let help_posts = sqlx::query(&s_sql)
+            .map(|row: PgRow|
+                PassedHelpPost {
+                    name: row.get("name"),
+                    phone: row.get("phone"),
+                    expected_addr: row.get("expected_addr"),
+                    expected_price: row.get("expected_price"),
+                    demands: row.get("demands"),
+                    uuid: row.get("uuid"),
+                    release_time: row.get("release_time"),
+                }
+            )
+            .fetch_all(&self.db_pool)
+            .await?;
+            trace!("[SEARCH] : Fetch {} help posts", help_posts.len());
+            Ok(Some(
+                PostPackage {
+                    rent_posts: vec![],
+                    help_posts,
+                }
+            ))
+        } else {
+            return Err(anyhow::anyhow!(EasyRentCommandError::Unknown));
+        }
     }
 
     async fn logout(&self, name: &str) -> Result<()> {
         if let Err(e) = sqlx::query(LOGOUT_USER)
             .bind(name)
-            .execute(&*self.db_pool)
+            .execute(&self.db_pool)
             .await
         {
             error!("{:?}", e);
@@ -272,8 +348,8 @@ impl Command for Commander {
             Ok(package) => {
                 Ok(Response::new(LoadReply::success(package)))
             }
-            Err(e) => {
-                Ok(Response::new(LoadReply::failure(EasyRentCommandError::Reason(e.to_string()))))
+            Err(_) => {
+                Ok(Response::new(LoadReply::failure(EasyRentCommandError::Unknown)))
             }
         }
     }
@@ -286,8 +362,8 @@ impl Command for Commander {
             Ok(package) => {
                 Ok(Response::new(RefreshReply::success(package)))
             }
-            Err(e) => {
-                Ok(Response::new(RefreshReply::failure(EasyRentCommandError::Reason(e.to_string()))))
+            Err(_) => {
+                Ok(Response::new(RefreshReply::failure(EasyRentCommandError::Unknown)))
             }
         }
     }
@@ -296,7 +372,11 @@ impl Command for Commander {
         &self,
         request: Request<SearchRequest>,
     ) -> Result<Response<SearchReply>, Status> {
-        unimplemented!()
+        let search = request.into_inner();
+        match self.search(&search.query, search.index).await {
+            Ok(value) => Ok(Response::new(SearchReply::success(value))),
+            Err(_) => Ok(Response::new(SearchReply::failure(EasyRentCommandError::Unknown)))
+        }
     }
 
     async fn on_logout(
@@ -305,7 +385,7 @@ impl Command for Commander {
     ) -> Result<Response<LogoutReply>, Status> {
         match self.logout(&request.into_inner().name).await {
             Ok(_) => Ok(Response::new(LogoutReply::success(()))),
-            Err(e) => Ok(Response::new(LogoutReply::failure(EasyRentCommandError::Reason(e.to_string())))),
+            Err(_) => Ok(Response::new(LogoutReply::failure(EasyRentCommandError::Unknown))),
         }
     }
 }
