@@ -1,48 +1,23 @@
 tonic::include_proto!("easyrent.command");
 
 use super::RpcResult;
-use crate::model::post::{RentPost, HelpPost,};
+use crate::{RENT_BASE, HELP_BASE};
 use crate::sql::cmd::*;
 use crate::{error::{EasyRentCommandError, Result}, Cmd};
 use command_server::Command;
-use rayon::prelude::*;
 use sqlx::Row;
 use sqlx::{PgPool, postgres::PgRow};
 use tonic::{Request, Response, Status};
 use tracing::*;
-use dashmap::DashMap;
-
 
 #[derive(Debug)]
 pub struct Commander {
     db_pool: PgPool,
-    rent_base: DashMap<String, String>,
-    help_base: DashMap<String, String>,
 }
 
 impl Commander {
     pub async fn new(db_pool: PgPool) -> Self {
-        let rent_base = DashMap::new();
-        sqlx::query_as::<_, RentPost>(FETCH_ALL_PASSED_RENT_POSTS)
-            .fetch_all(&db_pool).await
-            .unwrap()
-            .into_par_iter()
-            .for_each(|p| {
-                let text = p.text();
-                rent_base.insert(text.0, text.1);
-            });
-
-        let help_base = DashMap::new();
-        sqlx::query_as::<_, HelpPost>(FETCH_ALL_PASSED_HELP_POSTS)
-            .fetch_all(&db_pool).await
-            .unwrap()
-            .into_par_iter()
-            .for_each(|p| {
-                let text = p.text();
-                help_base.insert(text.0, text.1);
-            });
-
-        Commander { db_pool, rent_base, help_base }
+        Commander { db_pool }
     }
 }
 
@@ -247,11 +222,11 @@ impl Cmd for Commander {
     }
 
     async fn search(&self, query: &str, index: i32) -> Result<Self::Value> {
-        trace!("{:#?}", &self.rent_base);
+        trace!("{:#?}", RENT_BASE);
         trace!("[SEARCH] : query: {}, index: {}", query, index);
         let mut result = Vec::new();
         if index == 0 {
-            self.rent_base.clone().into_iter().for_each(|(u, t)| {
+            RENT_BASE.clone().into_iter().for_each(|(u, t)| {
                 if t.contains(query) {
                     result.push(u);
                 }
@@ -295,7 +270,7 @@ impl Cmd for Commander {
                 }
             ))
         } else if index == 1 {
-            self.rent_base.clone().into_iter().for_each(|(u, t)| {
+            HELP_BASE.clone().into_iter().for_each(|(u, t)| {
                 if t.contains(query) {
                     result.push(u);
                 }

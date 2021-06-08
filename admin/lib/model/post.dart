@@ -134,63 +134,55 @@ class RentPost extends Post {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 0, top: 0, right: 5, bottom: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('姓名: $name'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('手机: $phone'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('地址: $roomAddr'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('面积: $roomArea'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('室型: $roomType'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('朝向: $roomOrientation'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('楼层: $roomFloor'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('月租金: $price'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('支付限制: $restriction'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('其他描述: $description'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text('发布时间: $releaseTime'),
-                  ),
-                  MaterialButton(
-                    onPressed: onVerified,
-                    shape: StadiumBorder(),
-                    color: Color(0xFFfb966e),
-                    elevation: 0,
-                    child: Text('认证通过'),
-                  )
-                ],
-              ),
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('姓名: $name'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('手机: $phone'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('地址: $roomAddr'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('面积: $roomArea'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('室型: $roomType'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('朝向: $roomOrientation'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('楼层: $roomFloor'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('月租金: $price'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('支付限制: $restriction'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('其他描述: $description'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: Text('发布时间: $releaseTime'),
+            ),
+            MaterialButton(
+              onPressed: onVerified,
+              shape: StadiumBorder(),
+              color: Color(0xFFfb966e),
+              elevation: 0,
+              child: Text('认证通过'),
             ),
           ],
         ),

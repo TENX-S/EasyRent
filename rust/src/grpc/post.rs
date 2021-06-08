@@ -1,6 +1,7 @@
 tonic::include_proto!("easyrent.post");
 
 use super::RpcResult;
+use crate::{RENT_BASE, HELP_BASE};
 use crate::model::post::{RentPost, HelpPost};
 use crate::sql::post::*;
 use crate::{error::{EasyRentPostError, Result}, Poster};
@@ -61,6 +62,8 @@ impl Poster for UserPostManager {
             error!("{:?}", e);
             return Err(EasyRentPostError::Unknown);
         }
+        let text = post.text();
+        RENT_BASE.insert(text.0, text.1);
         trace!("Post : {} submit successfully!", post.uuid);
         Ok(())
     }
@@ -81,11 +84,12 @@ impl Poster for UserPostManager {
             error!("{:?}", e);
             return Err(EasyRentPostError::Unknown);
         }
+        let text = post.text();
+        HELP_BASE.insert(text.0, text.1);
         trace!("Post : {} submit successfully!", post.uuid);
         Ok(())
     }
 }
-
 
 #[tonic::async_trait]
 impl Emit for UserPostManager {

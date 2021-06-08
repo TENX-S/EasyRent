@@ -341,6 +341,7 @@ dependencies = [
  "dotenv",
  "faker_rand",
  "futures",
+ "once_cell",
  "prost",
  "rand",
  "rayon",

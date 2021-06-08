@@ -134,13 +134,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget rentPage(BuildContext context) {
+  Widget rentPage() {
     return FutureBuilder(
       future: loadPost(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data != null) {
-            if ((snapshot.data as List<Agent>).isEmpty) {
+            if ((snapshot.data as List<RentPost>).isEmpty) {
               return Center(
                 child: Text('没有待审核的帖子'),
               );
@@ -173,27 +173,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget helpPage(BuildContext context) {
+  Widget helpPage() {
     return FutureBuilder(
       future: loadPost(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data != null) {
-            if ((snapshot.data as List<Agent>).isEmpty) {
+            if ((snapshot.data as List<HelpPost>).isEmpty) {
               return Center(
                 child: Text('没有待审核的帖子'),
               );
             } else {
               return ListView(
                 children: List.generate(
-                  (snapshot.data as List<RentPost>).length,
-                      (index) => (snapshot.data as List<RentPost>)[index].buildPanel(context,
+                  (snapshot.data as List<HelpPost>).length,
+                      (index) => (snapshot.data as List<HelpPost>)[index].buildPanel(context,
                       onVerified: () async {
-                        final result = await _cmdClient.onPassHelpPost((snapshot.data as List<RentPost>)[index].uuid);
+                        final result = await _cmdClient.onPassHelpPost((snapshot.data as List<HelpPost>)[index].uuid);
                         if (result.success) {
                           showTip(msg: '提交成功');
                           setState(() {
-                            (snapshot.data as List<RentPost>).removeAt(index);
+                            (snapshot.data as List<HelpPost>).removeAt(index);
                           });
                         } else {
                           showTip(msg: '提交失败');
@@ -213,15 +213,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> get pages => [
-        rentPage(context),
-        helpPage(context),
+        rentPage(),
+        helpPage(),
       ];
 
   Widget verifyPost(BuildContext context) {
     return FutureBuilder(
       builder: (context, snapshot) {
         return Scaffold(
-          body: Container(),
+          body: Center(
+            child: pages.elementAt(_selectedIndex),
+          ),
           bottomNavigationBar: BottomNavigationBar(
             items: [
               BottomNavigationBarItem(

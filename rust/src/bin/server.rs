@@ -1,5 +1,6 @@
 use anyhow::Result;
 use dirs_next::data_local_dir;
+use easy_rent_sdk::init_search_base;
 use easy_rent_sdk::grpc::auth::authenticate_server::AuthenticateServer;
 use easy_rent_sdk::grpc::auth::UserAuthenticator;
 use easy_rent_sdk::grpc::command::command_server::CommandServer;
@@ -10,6 +11,7 @@ use easy_rent_sdk::utils::set_panic_hook;
 use tonic::transport::Server;
 use tracing::*;
 use tracing_subscriber::{self, fmt, subscribe::CollectExt, EnvFilter};
+
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -41,6 +43,8 @@ async fn main() -> Result<()> {
     )?;
     let addr = dotenv::var("LISTEN_ADDR")?.parse()?;
     let db_pool = sqlx::PgPool::connect(&dotenv::var("DATABASE_URL")?).await?;
+
+    init_search_base(&db_pool).await;
 
     trace!("Start to serve at {}", addr);
     Server::builder()
