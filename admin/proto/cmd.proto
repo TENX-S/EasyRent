@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package easyrent.admin.command;
+
+service Command {
+  rpc LoadUnverifiedAgents(LoadAgentsRequest) returns (Agents) {}
+  rpc LoadUnverifiedRentPosts(LoadRentPostsRequest) returns (RentPosts) {}
+  rpc LoadUnverifiedHelpPosts(LoadHelpPostsRequest) returns (HelpPosts) {}
+  rpc PassAgent(passAgentRequest) returns (passReply) {}
+  rpc PassRentPost(passPostRequest) returns (passReply) {}
+  rpc PassHelpPost(passPostRequest) returns (passReply) {}
+}
+
+message LoadAgentsRequest {}
+message LoadRentPostsRequest {}
+message LoadHelpPostsRequest {}
+
+message passAgentRequest {
+  string name = 1;
+}
+
+message passPostRequest {
+  string uuid = 2;
+}
+
+message passReply {
+  bool success = 1;
+}
+
+message UnverifiedAgent {
+  string corp = 1;
+  string corp_id = 2;
+  string com_regd_addr = 3;
+  string contact = 4;
+  string name = 5;
+}
+
+message UnverifiedRentPost {
+  string name = 1;
+  string phone = 2;
+  string room_addr = 3;
+  int32 room_area = 4;
+  string room_type = 5;
+  string room_orientation = 6;
+  int32 room_floor = 7;
+  string description = 8;
+  int32 price = 9;
+  string restriction = 10;
+  string uuid = 11;
+  string release_time = 12;
+  repeated bytes pictures = 13;
+}
+
+message UnverifiedHelpPost {
+  string name = 1;
+  string phone = 2;
+  string expected_addr = 3;
+  int32 expected_price = 4;
+  string demands = 5;
+  string uuid = 6;
+  string release_time = 7;
+}
+
+message RentPosts {
+  repeated UnverifiedRentPost rent_posts = 1;
+}
+
+message HelpPosts {
+  repeated UnverifiedHelpPost help_posts = 1;
+}
+
+message Agents {
+  repeated UnverifiedAgent agent = 1;
+}

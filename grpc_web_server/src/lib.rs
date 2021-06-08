@@ -4,6 +4,7 @@ pub mod model;
 pub mod sql;
 pub mod utils;
 
+use grpc::cmd::{UnverifiedRentPost, UnverifiedHelpPost};
 use error::{EasyRentAuthError, EasyRentPostError, EasyRentCommandError, Result};
 use model::post::{RentPost, HelpPost};
 use model::agent::Agent;
@@ -28,6 +29,10 @@ pub trait AgencyAuth {
 
 #[tonic::async_trait]
 pub trait AdminCmd {
-    async fn on_load_unverified_agents() -> Result<(), EasyRentCommandError>;
-    async fn on_load_unverified_posts() -> Result<(), EasyRentCommandError>;
+    async fn on_load_unverified_agents(&self) -> Result<Vec<Agent>, EasyRentCommandError>;
+    async fn on_load_unverified_rent_posts(&self) -> Result<Vec<UnverifiedRentPost>, EasyRentCommandError>;
+    async fn on_load_unverified_help_posts(&self) -> Result<Vec<UnverifiedHelpPost>, EasyRentCommandError>;
+    async fn on_pass_agent(&self, name: &str) -> Result<(), EasyRentCommandError>;
+    async fn on_pass_rent_post(&self, uuid: &str) -> Result<(), EasyRentCommandError>;
+    async fn on_pass_help_post(&self, uuid: &str) -> Result<(), EasyRentCommandError>;
 }

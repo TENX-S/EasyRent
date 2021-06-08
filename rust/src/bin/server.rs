@@ -17,8 +17,8 @@ async fn main() -> Result<()> {
     let (non_blocking, _guard) = tracing_appender::non_blocking(tracing_appender::rolling::hourly(
         data_local_dir()
             .expect("Unable to locate local data path")
-            .join("EasyRent"),
-        "EasyRentServer.log",
+            .join("EasyRentMobile"),
+        "EasyRentMobileServer.log",
     ));
 
     tracing::collect::set_global_default(

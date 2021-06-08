@@ -19,21 +19,3 @@ pub const PASS_HELP_POST: &str = r#"
     SET passed = TRUE
     WHERE name = $1;
 "#;
-
-pub const FETCH_ALL_RENT_POSTS: &str = r#"
-    SELECT * FROM rent_posts;
-"#;
-
-pub const FETCH_ALL_HELP_POSTS: &str = r#"
-    SELECT * FROM help_posts;
-"#;
-
-pub const FETCH_ALL_PASSED_RENT_POSTS: &str = r#"
-    SELECT * FROM rent_posts
-    WHERE passed = TRUE;
-"#;
-
-pub const FETCH_ALL_PASSED_HELP_POSTS: &str = r#"
-    SELECT * FROM help_posts
-    WHERE passed = TRUE;
-"#;

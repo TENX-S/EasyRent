@@ -121,12 +121,17 @@ impl Cmd for Commander {
             r_sql = r#"
             SELECT * FROM rent_posts
             WHERE passed = TRUE
-            LIMIT 3;"#.to_string();
+            LIMIT 2;"#.to_string();
         } else {
+            let param: String = posts
+                .iter()
+                .map(|p| format!("'{}'", p))
+                .collect::<Vec<_>>()
+                .join(", ");
             r_sql = format!(r#"
             SELECT * FROM rent_posts
             WHERE passed = TRUE AND uuid NOT IN ({})
-            LIMIT 3;"#, posts.join(", "));
+            LIMIT 2;"#, param.as_str());
         }
         trace!("{}", r_sql);
         let rent_posts = sqlx::query(&r_sql)
@@ -157,12 +162,17 @@ impl Cmd for Commander {
             h_sql = r#"
             SELECT * FROM help_posts
             WHERE passed = TRUE
-            LIMIT 3;"#.to_string();
+            LIMIT 2;"#.to_string();
         } else {
+            let param: String = posts
+                .iter()
+                .map(|p| format!("'{}'", p))
+                .collect::<Vec<_>>()
+                .join(", ");
             h_sql = format!(r#"
             SELECT * FROM help_posts
             WHERE passed = TRUE AND uuid NOT IN ({})
-            LIMIT 3;"#, posts.join(", "));
+            LIMIT 2;"#, param.as_str());
         }
         trace!("{}", h_sql);
         let help_posts = sqlx::query(&h_sql)

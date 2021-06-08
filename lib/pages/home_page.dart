@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'package:easy_rent/utils/pending.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_rent/model/post.dart';
 import 'package:easy_rent/model/client.dart';
@@ -371,14 +370,13 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data != null) {
-            if ((snapshot.data! as List<Post>).isEmpty) {
+            if ((snapshot.data as List<Post>).isEmpty) {
               return notFound();
             } else {
               return Container(
                 color: Color.fromARGB(255, 247, 238, 213),
                 child: ListView(
                   padding: EdgeInsets.only(top: 8, bottom: 8),
-                  scrollDirection: Axis.vertical,
                   children: List.generate(
                     (snapshot.data! as List<Post>).length,
                         (index) =>
@@ -388,7 +386,7 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
               );
             }
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         } else {
           return Center(child: CircularProgressIndicator());
