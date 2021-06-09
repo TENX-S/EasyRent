@@ -79,6 +79,7 @@ class PosterClient extends Client {
 
   Future<SubmitReply> onHelp(HelpPost post) async => await stub.onHelp(HelpRequest(
     name: post.name,
+    phone: post.phone,
     expectedAddr: post.expectedAddr,
     expectedPrice: post.expectedPrice,
     demands: post.demands,
