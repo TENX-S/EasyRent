@@ -93,7 +93,7 @@ class _AuthPageState extends State<AuthPage> {
         onSubmitAnimationCompleted: () =>
             Navigator.of(context).pushReplacementNamed(AppRoutes.mainPage),
         messages: LoginMessages(
-          usernameHint: '用户名',
+          userHint: '用户名',
           passwordHint: '密码',
           confirmPasswordHint: '重复输入密码',
           loginButton: '登录',
@@ -120,7 +120,7 @@ class _AuthPageState extends State<AuthPage> {
             color: Color.fromARGB(255, 247, 238, 213),
           ),
         ),
-        emailValidator: (email) {
+        userValidator: (email) {
           if (!EmailValidator.validate(email!)) {
             return '用户名格式不正确';
           }
