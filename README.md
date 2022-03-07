@@ -23,4 +23,4 @@ cargo run --release --bin json2db # 生成模拟数据并插入数据库
 
 |      |  |
 | ----------- | ----------- |
-| ![1](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/fake_data.png) | ![2](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/log.png) |
+| ![1](./screenshots/fake_data.png) | ![2](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/log.png) |
