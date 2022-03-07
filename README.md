@@ -12,8 +12,15 @@
 | ![7](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/rent.png)   | ![8](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/help-1.png)   | ![9](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/help.png) |
 | ![10](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/user.png) |
 
-## 日志和模拟数据
+## 模拟数据和日志
+
+```shell
+sqlx migrate run # 还原所有的表结构
+cargo run --release --bin json2db # 生成模拟数据并插入数据库
+```
+
+
 
 |      |  |
 | ----------- | ----------- |
-|![1](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/log.png)|![2](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/fake_data.png)|
+| ![1](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/fake_data.png) | ![2](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/log.png) |
