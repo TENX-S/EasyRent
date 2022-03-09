@@ -1,6 +1,6 @@
 # Easy Rent (易租)
 
-大三(2020/04)上学期的课堂大作业
+完结于大三(2020/05)上学期
 
 架构：Flutter + gRPC + tonic + PostgreSQL
 
