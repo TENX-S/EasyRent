@@ -6,11 +6,11 @@
 
 ## UI 界面
 
-| ![1](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/register.png)   | ![2](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/home.png)   | ![3](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/details.png)   |
+| ![1](./screenshots/register.png)   | ![2](./screenshots//home.png)   | ![3](./screenshots/details.png)   |
 |----------------------------------------------------------|----------------------------------------------------------|----------------------------------------------------------|
-| ![4](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/members.png)   | ![5](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/select.png)   | ![6](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/rent-1.png)   |
-| ![7](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/rent.png)   | ![8](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/help-1.png)   | ![9](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/help.png) |
-| ![10](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/user.png) |
+| ![4](./screenshots/members.png)   | ![5](./screenshots/select.png)   | ![6](./screenshots/rent-1.png)   |
+| ![7](./screenshots/rent.png)   | ![8](./screenshots/help-1.png)   | ![9](./screenshots/help.png) |
+| ![10](./screenshots/user.png) |
 
 ## 模拟数据和日志
 
@@ -21,5 +21,5 @@ cargo run --release --bin json2db # 生成模拟数据并插入数据库
 
 
 
-| ![1](./screenshots/fake_data.png) | ![2](https://backup-1257461215.cos.ap-nanjing.myqcloud.com/easyrent/log.png) |
+| ![1](./screenshots/fake_data.png) | ![2](./screenshots/log.png) |
 | ----------- | ----------- |
